@@ -1,0 +1,111 @@
+---
+title: Integrating Google Docs
+description: Step-by-step guide to configuring and authenticating the Google Docs API via OpenInt, with full OAuth credential walkthrough and scopes reference.
+---
+
+# Google Docs Integration: Developer Guide
+
+Integrate Google Docs into your application seamlessly through OpenInt. Follow this guide to enable OAuth authentication, configure the correct OAuth scopes, and connect your users' Google Docs securely using OpenInt's platform.
+
+## Overview
+
+This integration lets your app access and sync Google Docs on behalf of your users. Using OpenInt simplifies managing OAuth flows and ensures you request only the permissions your use case needs.
+
+> For detailed information about Google Docs API and its OAuth scopes, visit the [official Google Docs API OAuth Scopes documentation](https://developers.google.com/workspace/docs/api/auth).
+
+## Prerequisites
+
+- A Google Cloud Platform (GCP) project ([create one here](https://console.cloud.google.com/projectcreate))
+- Google Docs API enabled in your GCP project
+- Consent screen configured (see [OAuth consent screen setup](https://console.cloud.google.com/apis/credentials/consent))
+- OpenInt account with access to configure integrations
+
+## Step 1: Create OAuth Credentials in GCP
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/apis/credentials) and select your project.
+2. Click **Create Credentials > OAuth client ID**.
+3. If prompted, configure the consent screen. Make sure to:
+   - Set an **app name**, **support email**, and developer contact information.
+   - Add the required scopes listed below.
+   - (For production) Publish the consent screen.
+4. Select **Web Application** as the application type.
+5. Set the **Authorized redirect URIs** to match the OpenInt callback endpoint you'll use. This is usually:
+   ```plaintext
+   https://YOUR-OPENINT-DOMAIN/connect/oauth/callback
+   ```
+   Replace `YOUR-OPENINT-DOMAIN` with your actual OpenInt domain.
+6. Click **Create**. Copy the generated **Client ID** and **Client Secret**. You’ll need these in the next step.
+
+<Callout type="warning" title="Common Mistake">
+The Redirect URI **must exactly match** what you later configure in OpenInt and in your Google Cloud project. Any mismatch will result in Google OAuth errors.
+</Callout>
+
+## Step 2: Enable the Google Docs API
+
+1. In the [Google Cloud Console API Library](https://console.cloud.google.com/apis/library/docs.googleapis.com), search for and select **Google Docs API**.
+2. Click **Enable**.
+
+<Callout type="warning" title="Common Mistake">
+Forgetting to enable the API will cause 403/"API not enabled" errors during OAuth or API calls.
+</Callout>
+
+## Step 3: Configure Google Docs Integration in OpenInt
+
+Add the OAuth client credentials from your GCP project into your OpenInt integration settings. Example (pseudo code):
+
+```ts
+{
+  "provider": "google-docs",
+  "client_id": "YOUR_CLIENT_ID_HERE",
+  "client_secret": "YOUR_CLIENT_SECRET_HERE",
+  "redirect_uri": "https://YOUR-OPENINT-DOMAIN/connect/oauth/callback"
+}
+```
+
+By default, OpenInt supports the following scope for Google Docs:
+- `https://www.googleapis.com/auth/documents.currentonly` — <Tooltip text="Provides access only to the currently open Google Docs document (when used with Docs add-ons). Most limited scope for temporary access." />
+
+If your workflow requires additional scopes, contact OpenInt support to discuss enabling broader permissions.
+
+## Supported OAuth Scopes
+
+Below are the OAuth scopes defined by the Google Docs API. Only `documents.currentonly` is currently supported by OpenInt.
+
+| Scope | Supported by OpenInt? | Description |
+|-------|:---------------------:|-------------|
+| [`https://www.googleapis.com/auth/documents`](https://developers.google.com/workspace/docs/api/auth) | ❌ | <Tooltip text="See, edit, create, and delete all your Google Docs documents." /> |
+| [`https://www.googleapis.com/auth/documents.readonly`](https://developers.google.com/workspace/docs/api/auth) | ❌ | <Tooltip text="See all your Google Docs documents." /> |
+| [`https://www.googleapis.com/auth/drive.file`](https://developers.google.com/workspace/docs/api/auth) | ❌ | <Tooltip text="See, edit, create, and delete only the specific Google Drive files you use with this app." /> |
+| [`https://www.googleapis.com/auth/drive.readonly`](https://developers.google.com/workspace/docs/api/auth) | ❌ | <Tooltip text="See and download all your Google Drive files." /> |
+| [`https://www.googleapis.com/auth/drive`](https://developers.google.com/workspace/docs/api/auth) | ❌ | <Tooltip text="See, edit, create, and delete all your Google Drive files." /> |
+| [`https://www.googleapis.com/auth/documents.currentonly`](https://developers.google.com/workspace/docs/api/auth) | ✅ | <Tooltip text="Provides access only to the currently open Google Docs document (when used with Docs add-ons). Most limited scope for temporary access." /> |
+
+> For a full, always up-to-date list of scopes and detailed descriptions, see the [Google Docs API OAuth Scopes documentation](https://developers.google.com/workspace/docs/api/auth).
+
+## OAuth Flow with OpenInt
+
+OpenInt handles the OAuth 2.0 flow with Google. Here’s what happens under the hood:
+
+1. Your user triggers "Connect Google Docs" inside your app (uses OpenInt's embedded UI or API).
+2. OpenInt redirects the user to Google’s OAuth login/consent screen, with the `documents.currentonly` scope.
+3. The user approves consent; Google redirects back to OpenInt with an authorization code.
+4. OpenInt exchanges the code for an access token, storing it securely.
+5. Your app can now access the Google Docs integration via OpenInt's API surface.
+
+## Troubleshooting & Common Pitfalls
+
+- **Redirect URI mismatch**: Make sure the URI in your GCP OAuth client matches what you configure in OpenInt.
+- **Consent screen not published**: For production users outside your domain, Google requires you to publish your OAuth consent screen.
+- **Scopes not enabled**: Only officially supported scopes will work. Contact OpenInt to discuss enabling additional scopes.
+- **API not enabled**: Double-check the Google Docs API is enabled in your GCP project.
+
+<Callout type="info" title="Tip">
+You can check API and OAuth errors in Google Cloud Console under APIs & Services > Credentials and APIs & Services > OAuth consent screen.
+</Callout>
+
+## Further Resources
+
+- [Google Docs API Scopes Reference](https://developers.google.com/workspace/docs/api/auth)
+- [Google Cloud OAuth Client Setup](https://developers.google.com/identity/protocols/oauth2)
+- [OpenInt Integration Overview](/docs/getting-started/integrations)
+
