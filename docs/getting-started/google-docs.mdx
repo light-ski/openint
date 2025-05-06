@@ -1,0 +1,92 @@
+---
+title: Integrating with Google Docs
+slug: /getting-started/google-docs
+---
+
+# Integrating OpenInt with Google Docs
+
+This guide describes how to set up your own Google OAuth application for the OpenInt Google Docs connector. It ensures your integration is secure, up-to-date, and only requests the permissions you need.
+
+> **Reference:** We use a step-by-step format, inspired by [this example article](https://www.2brightsparks.com/resources/articles/gdriveclientid.html).
+
+## 1. Register Your OAuth Application with Google
+
+1. Go to the [Google Cloud Console](https://console.developers.google.com/).
+2. Select (or create) a project using the project selector in the header.
+3. Enable the required APIs:
+    - Go to **APIs & Services > Library**.
+    - Search for **Google Docs API**. Click **Enable**.
+    - (For file-level access) Optionally enable **Google Drive API**.
+
+## 2. Set Up the OAuth Consent Screen
+1. Open **APIs & Services > OAuth consent screen**.
+2. Select **External** (in most cases) and click **Create**.
+3. Fill in the **App name**, **User support email**, and **Developer contact email**. Click **Save and Continue**.
+4. Add the necessary OAuth scopes (next section).
+5. [Optional/Recommended] In development, add your email as a **Test user**.
+6. Click **Save and Continue**.
+
+## 3. Create OAuth Client Credentials
+1. Go to **APIs & Services > Credentials**.
+2. Click **+ Create Credentials** > **OAuth client ID**.
+3. Choose **Web application** as the Application Type (most common for SaaS integrations).
+4. Enter a recognizable name (e.g., "OpenInt Google Docs Connector").
+5. Under **Authorized redirect URIs** add:
+    - For production:
+      ```
+      https://YOUR_OPENINT_DOMAIN.com/api/oauth/callback/google-docs
+      ```
+    - For local development:
+      ```
+      https://localhost:PORT/api/oauth/callback/google-docs
+      ```
+6. Click **Create** and copy both the **Client ID** and **Client Secret**.
+
+## 4. Choose and Add OAuth Scopes
+When prompted for OAuth scopes, add only those required for your use case. [See the full list at Google's docs](https://developers.google.com/workspace/docs/api/auth#docs-scopes):
+
+- `https://www.googleapis.com/auth/documents`<br/>
+  *Full access (see, edit, create, delete) to all Google Docs documents.*
+- `https://www.googleapis.com/auth/documents.readonly`<br/>
+  *Read-only access to all Google Docs documents.*
+- `https://www.googleapis.com/auth/drive.file`<br/>
+  *File-level access: see, edit, create, and delete specific Drive files used with this app.*
+- `https://www.googleapis.com/auth/drive`<br/>
+  *Full Drive file access.*
+- `https://www.googleapis.com/auth/drive.readonly`<br/>
+  *Read-only access to all Drive files.*
+
+> For most integrations, `drive.file` or `documents.readonly` is safer and easier to approve than full access scopes.
+
+## 5. Configure OpenInt with your Google OAuth Credentials
+
+Add the credentials and scopes to your connector configuration (e.g., via the Console, environment variables, or your config file):
+
+```json
+{
+  "provider": "google-docs",
+  "clientId": "YOUR_CLIENT_ID",
+  "clientSecret": "YOUR_CLIENT_SECRET",
+  "scopes": [
+    "https://www.googleapis.com/auth/documents.readonly"
+  ],
+  "redirectUri": "https://YOUR_OPENINT_DOMAIN.com/api/oauth/callback/google-docs"
+}
+```
+
+- Use your chosen and registered redirect URI.
+- Do NOT commit secrets to your repo—use environment variables or a secrets vault.
+
+## Security and Approval Considerations
+- Use the minimum set of OAuth scopes your app requires.
+- Rotate credentials regularly and keep them safe.
+- Make sure all callback URIs use HTTPS.
+- Be aware of Google API verification and quota restrictions, especially for sensitive/restricted scopes—see the [Google API User Data Policy](https://developers.google.com/terms/api-services-user-data-policy).
+
+## Links
+- [Google Docs API Auth Guide](https://developers.google.com/workspace/docs/api/auth)
+- [Google Cloud Console](https://console.developers.google.com/)
+
+---
+
+_Last updated: May 2025._
