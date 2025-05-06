@@ -1,0 +1,81 @@
+---
+title: Connect Google Docs
+description: Learn how to connect your Google Docs account to your Company A account for document sync and automation.
+---
+
+# Connect Google Docs
+
+Easily link your Google Docs account to your Company A account. This allows you to sync, create, and edit documents directly from within Company A, enabling seamless automation across your workflows.
+
+---
+
+## Step 1: Start the Connection
+
+1. Go to the **Integrations** section of your Company A dashboard.
+2. Find **Google Docs** and click **Connect**.
+
+You will be redirected to sign in with your Google account.
+
+---
+
+## Step 2: Authorize Access
+
+You’ll see a consent screen from Google. Review the permissions requested and click **Allow**. This securely connects your Google Docs account with Company A.
+
+---
+
+## Step 3: What Permissions Are Requested?
+
+To help Company A work with your documents, we request access to the following Google Docs and Drive permissions:
+
+| Permission | What it Means |
+| --- | --- |
+| **View and manage your Google Docs documents**<br />(`https://www.googleapis.com/auth/documents`) | Full read and write access to your Google Docs. Allows viewing, creating, editing, and deleting documents. |
+| **View your Google Docs documents**<br />(`https://www.googleapis.com/auth/documents.readonly`) | View-only access to your Google Docs and their metadata. No modifications allowed. |
+| **View and manage Google Drive files and folders that you have opened or created with this app**<br />(`https://www.googleapis.com/auth/drive.file`) | Access to the specific Docs files created or explicitly shared with Company A. This does *not* grant access to all Drive files. |
+| **View the files in your Google Drive**<br />(`https://www.googleapis.com/auth/drive.readonly`) | Read-only access to all of your Google Drive files, but no changes can be made. |
+| **View and manage the files in your Google Drive**<br />(`https://www.googleapis.com/auth/drive`) | Full read and write access to all your Google Drive files, including Docs. Enables Company A to automate or sync data across your Drive. |
+| **Access the currently open Google Docs document**<br />(`https://www.googleapis.com/auth/documents.currentonly`) | Access to only the currently open Docs document (used in certain situations; most limited permission). |
+
+> **Note:** Company A only uses the permissions necessary to deliver the features you enable. You can revoke access at any time from your Google Account settings.
+
+---
+
+## Step 4: Verify the Connection
+
+After allowing access, you’ll be redirected back to Company A. Once connected, you’ll see Google Docs labeled as **Connected** in your Integrations list.
+
+**To test your connection:**
+- Try syncing a document, or
+- Check the integrations status for Google Docs in your dashboard.
+
+---
+
+## Troubleshooting
+
+<MintlifyAlert type="info" title="Having trouble connecting?">
+If you run into issues:
+- Double-check that you logged in with the correct Google account.
+- Ensure pop-ups and redirects are enabled in your browser.
+- If prompted, re-authorize Company A from the Integrations page.
+- Check your Google account permissions at [Google Account Security Settings](https://myaccount.google.com/security).
+
+If problems persist, contact Company A support for assistance.
+</MintlifyAlert>
+
+---
+
+## Frequently Asked Questions
+
+**Can I revoke access later?**
+Yes! At any time, visit your Google Account settings to revoke access for Company A, or disconnect directly from the Company A Integrations page.
+
+**What happens if I switch Google accounts?**
+You’ll need to reconnect using your new Google account following the same steps.
+
+**What if I see a permissions error?**
+Check that you allowed all requested permissions during the Google login process. If not, disconnect and try again, making sure to allow all requested accesses.
+
+---
+
+Connecting Google Docs makes it easy to automate and streamline document tasks right from Company A. If you need any help, check the troubleshooting section or reach out to our support team!
