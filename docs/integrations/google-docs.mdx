@@ -1,0 +1,97 @@
+---
+title: Google Docs Integration
+sidebar_position: 10
+description: How to connect your application to Google Docs using OpenInt.
+---
+
+import { Callout } from "@mintlify/components";
+
+# Integrating Google Docs
+
+OpenInt allows you to quickly connect to Google Docs using OAuth2 authentication. Follow the steps below to create a Google Cloud project, configure OAuth consent, obtain credentials, and use them with OpenInt’s Google Docs connector.
+
+<Callout type="info">
+For reference, this guide follows the style of <a href="https://www.2brightsparks.com/resources/articles/gdriveclientid.html" target="_blank">this Google Drive Client ID tutorial</a>. You can find the full list of Google Docs API OAuth scopes <a href="https://developers.google.com/workspace/docs/api/auth" target="_blank">here</a>.
+</Callout>
+
+## 1. Prerequisites
+
+- A Google account with access to the Google Cloud Console.
+- OpenInt account and access to your integration configuration.
+
+## 2. Create a Google Cloud Project
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Click the project drop-down (top left) and select **New Project**.
+3. Enter a project name and click **Create**.
+
+## 3. Enable the Google Docs API
+
+1. In your new project, search for “Google Docs API” in the top search bar.
+2. Select **Google Docs API** from the results.
+3. Click **Enable**.
+
+## 4. Configure OAuth Consent Screen
+
+1. In the left sidebar, navigate to **APIs & Services → OAuth consent screen**.
+2. Choose **External** for User Type (recommended for most integrations).
+3. Fill out **App Information** (App name, User support email, Developer contact information).
+4. Add your OpenInt application's domain under **Authorized domains**.
+5. Save and continue. You can skip Scopes for now and go back to add them later. Save and continue through the steps until finished.
+
+## 5. Create OAuth Credentials
+
+1. In the left sidebar, go to **APIs & Services → Credentials**.
+2. Click **+ Create Credentials** → **OAuth client ID**.
+3. For **Application type**, select **Web application**.
+4. Enter a name.
+5. Under **Authorized redirect URIs**, add the following URI:
+
+   ```
+   https://console.openint.dev/api/connect/callback/google-docs
+   ```
+   Or, for local development:
+   ```
+   https://localhost:3000/api/connect/callback/google-docs
+   ```
+
+6. Click **Create**. You will see your **Client ID** and **Client Secret**.
+
+## 6. Add Scopes
+
+You can find the list of all available Google Docs API scopes [here](https://developers.google.com/workspace/docs/api/auth). For basic read/write access, request at least:
+
+```
+https://www.googleapis.com/auth/documents
+```
+
+Add any other scopes your use case requires.
+
+## 7. Configure in OpenInt Console
+
+1. Open your OpenInt Console and go to **Connector Configurations**.
+2. Select **Add Connector** or edit your existing configuration for Google Docs.
+3. Input your **Client ID** and **Client Secret** from the credentials above.
+4. Specify all OAuth scopes your app needs (space-separated).
+5. Save your configuration.
+
+## 8. Test the Connection
+
+Use the OpenInt dashboard or API to initiate the connection flow for a test user. You should be redirected to Google's OAuth screen, and, after successful authorization, your app will have API access to Google Docs for the specified scopes.
+
+## Troubleshooting
+
+- Make sure your Google project is in "In production" mode for use with accounts outside your organization.
+- Double-check that **Authorized Redirect URIs** in Google match exactly the callback URI OpenInt expects.
+- If users receive a “scope not allowed” error, verify that all requested scopes are correctly enabled and approved in the Google Cloud Console.
+- For local development, you may need to use a self-signed certificate and serve OpenInt locally over HTTPS.
+
+## Useful Links
+
+- [Google Workspace OAuth Scopes for Docs](https://developers.google.com/workspace/docs/api/auth)
+- [Google Cloud Console](https://console.cloud.google.com/)
+- [OpenInt Integrations Directory](/getting-started/integrations)
+
+---
+
+If you're missing advanced usage examples or encounter issues, reach out to OpenInt support or consult the [Google Docs API docs](https://developers.google.com/docs/api/reference/rest).
