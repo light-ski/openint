@@ -5,86 +5,99 @@ sidebar_position: 1
 
 # Connect Google Docs
 
-Easily link your Google Docs account to Company A to sync and manage your documents—all directly within your Company A workspace.
+Easily link your Google Docs account to Company A and unlock powerful seamless document integration features—without leaving your familiar workspace.
 
 ---
 
-## Why Connect Google Docs?
+## Why connect Google Docs?
 
-Connecting Google Docs allows you to:
-- Import Google Docs into Company A
-- Export created docs or templates back to Google Docs
-- Collaborate seamlessly between platforms
+- Import or sync Google Docs directly into Company A
+- Export or back up Company A content to Google Docs
+- Collaborate, edit, and manage documents in both platforms effortlessly
 
-## How to Connect Your Google Docs Account
+---
+
+## How to connect your Google Docs account
 
 Connecting is quick and secure:
 
-1. Go to the **Integrations** or **Connections** page in your Company A account.
-2. Find **Google Docs** in the list and click **Connect**.
-3. A Google login window will appear. Sign in with the Google account you’d like to connect.
-4. Google will ask you to review permissions. Click **Allow** to proceed.
-5. That’s it! Your Google Docs account is now connected.
+1. Go to **Settings** → **Integrations** (or **Connections**) in Company A.
+2. Find **Google Docs** and click **Connect**.
+3. A Google sign-in window will appear. Log in to the Google account you'd like to connect.
+4. Review the list of requested permissions and click **Allow** to continue.
+5. Success! Your Google Docs account is now connected to Company A.
 
 <Callout type="info">
-You can disconnect or switch accounts anytime from your Company A integration settings.
+You can disconnect or switch Google accounts from this same integrations/settings page anytime.
 </Callout>
 
 ---
 
-## What Permissions Are Requested?
+## What permissions are requested?
 
-When you connect, Company A requests limited permissions from your Google account to enable document syncing and collaboration.
+When connecting Google Docs, Company A will request permissions from your Google account. These let Company A perform actions like syncing, searching, or saving documents on your behalf. Only the **minimum permissions needed** to make your selected features work will be requested.
 
-**Requested permissions include:**
+### Typical permission requested
 
-- **documents.currentonly**
-  - _Access only to the currently open Google Docs document (most limited and secure scope)._ 
+- **Access the currently open Google Docs document only**  
+  (_most limited_)  
+**Scope:** `documents.currentonly`
+  - Allows access to just the open Google Doc for temporary operations.
 
-Depending on your use case and company settings, additional permissions may be requested:
+### Other permissions that may be requested
+Depending on your organization’s settings or the features you use, Company A might also request:
 
-- **documents**
-  - _Full read/write access to all Google Docs (viewing, creating, editing, deleting documents)._
-- **documents.readonly**
-  - _View-only access to your Google Docs documents._
-- **drive.file**
-  - _Access only to files that Company A has created or you’ve specifically chosen to share._
-- **drive.readonly**
-  - _View-only access to all Google Drive files, including Docs._
-- **drive**
-  - _Full access to all files and folders in Google Drive, including Docs._
+- **Read/write all Google Docs**  
+`documents`  
+_Allows viewing, creating, editing, and deleting Google Docs documents._
+
+- **Read-only access to Docs**  
+`documents.readonly`  
+_Only allows viewing docs and their info._
+
+- **Access to files created/shared with the app**  
+`drive.file`  
+_See Google Docs and files created by or specifically shared to Company A._
+
+- **Read-only all Google Drive files**  
+`drive.readonly`  
+_View the contents (but not edit) of everything in Google Drive—including Google Docs._
+
+- **Full access to your Drive files and docs**  
+`drive`  
+_Allows full editing and management of everything in Google Drive, including Google Docs._
 
 <Callout type="warning">
-Company A requests only the minimum permissions required for syncing and collaboration. You can review or change these at any time in your Google account’s app permissions.
+Company A will never ask for more access than is necessary. You can review and manage app permissions at any time from your Google Account security page.
 </Callout>
 
 ---
 
-## Testing Your Connection
+## Testing your connection
 
-After connecting:
-- Try importing a Google Doc into your Company A workspace, or
-- Export a document from Company A to Google Docs.
+To confirm your Google Docs account is connected:
+- Import a Google Doc into Company A or
+- Export a document to Google Docs
 
-If the sync works, your connection is active!
+If you see your docs or your export works as expected, your integration is set up!
 
 ---
 
 ## Troubleshooting & FAQ
 
-**I can’t see my Google Docs or get sync errors. What should I do?**
-- Double-check that you are signed in to the correct Google account.
-- Make sure you approved all necessary permissions during setup.
+**I can't see my Google Docs or get errors syncing. What should I do?**
+- Check that you're signed in with the correct Google account.
+- Ensure you approved all permissions during setup.
 - Try disconnecting and reconnecting the integration.
 
-**The connection was working but now fails. Why?**
-- Your permissions may have changed. Check your Google account’s security settings.
-- Token expiry can require re-authorization. Simply reconnect to refresh access.
+**The connection was working before but now fails.**
+- You may need to re-authorize if your session expired. Simply reconnect via the Integrations page.
+- Ensure app permissions have not been manually revoked in your Google Account settings.
 
 <Callout type="info">
-For additional support, contact Company A’s support team or visit the Help Center.
+For more help, reach out to Company A support or visit our Help Center.
 </Callout>
 
 ---
 
-You’re all set! Enjoy the seamless connection between Company A and Google Docs.
+You’re ready! Enjoy seamless document sync between Company A and Google Docs.
