@@ -1,0 +1,164 @@
+---
+title: Integrating Google Docs
+description: "How to connect your app to Google Docs with OpenInt using OAuth2."
+---
+
+# Google Docs Integration
+
+OpenInt’s Google Docs integration lets your application connect securely to Google Docs using OAuth 2.0. This guide walks you through project setup, OAuth credential configuration, scope selection, and common troubleshooting steps for developers.
+
+> **Stage:** General Availability (GA)
+
+---
+
+## Supported Features and Limitations
+
+OpenInt currently supports connecting to Google Docs using the following scope only:
+
+- `https://www.googleapis.com/auth/documents.currentonly` – Provides access **only to the currently open Google Docs document**. This is the narrowest and most privacy-preserving option. _Editing, reading, or managing documents beyond the current one is **not** supported in OpenInt as of now._
+
+> ❗ **Note:** Broader scopes such as full document or Drive access (see below) are **not** yet supported with OpenInt. See the Scope Reference for details.
+
+---
+
+## Setting Up Google Docs OAuth in Google Cloud
+
+Follow these steps to set up your project in Google Cloud and obtain credentials for OpenInt:
+
+1. **Go to [Google Cloud Console](https://console.cloud.google.com/)** and create or select a project.
+2. In the sidebar, select **APIs & Services > Library**. Search for and enable the **Google Docs API**.
+3. Go to **APIs & Services > Credentials**. Click **CREATE CREDENTIALS > OAuth client ID**.
+4. Select **Web application** as the Application Type.
+5. Under **Authorized redirect URIs**, add the OpenInt redirect URI (ask your OpenInt admin or use your platform default, e.g., `https://app.openint.dev/oauth/callback`).
+6. Click **Create** to get your **Client ID** and **Client Secret**. Save these values—you'll use them in OpenInt.
+7. Make sure you configure the **OAuth consent screen**. For testing, add your email to Test Users.
+8. When specifying scopes, **add only** the following:
+   
+   ```text
+   https://www.googleapis.com/auth/documents.currentonly
+   ```
+
+> 💡 **Common mistakes:**
+>- Redirect URI mismatch (ensure exact URI).
+>- Not enabling the Google Docs API.
+>- Using unsupported scopes (OpenInt supports only `documents.currentonly`).
+>- Consent screen not configured or missing test user (can trigger 403 or consent errors).
+
+---
+
+## Configuring Google Docs in OpenInt
+
+Once you have the OAuth credentials, configure the connector in the OpenInt console or by code:
+
+```js
+const googleDocsConnector = {
+  provider: 'google-docs',
+  clientId: '<GOOGLE_CLIENT_ID>',
+  clientSecret: '<GOOGLE_CLIENT_SECRET>',
+  scopes: ['https://www.googleapis.com/auth/documents.currentonly']
+}
+```
+
+For step-by-step instructions, refer to the [Connector Configuration Guide](../core-concepts-v0/connector-config.mdx).
+
+---
+
+## OAuth Scopes Reference
+
+<Frame>
+  <Table>
+    <thead>
+      <tr>
+        <th>Scope URI</th>
+        <th>Description</th>
+        <th>Sensitivity</th>
+        <th>OpenInt Supported?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/documents</code></td>
+        <td><Tooltip text="Full access to edit, create, and delete all Google Docs. Sensitive scope. Not currently supported by OpenInt." /></td>
+        <td>Sensitive</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/documents.readonly</code></td>
+        <td><Tooltip text="Read-only access to all Google Docs documents. Sensitive scope. Not supported by OpenInt." /></td>
+        <td>Sensitive</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/drive.file</code></td>
+        <td><Tooltip text="File-level access to files opened/created by your app. Non-sensitive. Not supported by OpenInt." /></td>
+        <td>Non-sensitive</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/drive.readonly</code></td>
+        <td><Tooltip text="Read-only access to all Google Drive files. Restricted. Not supported by OpenInt." /></td>
+        <td>Restricted</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/drive</code></td>
+        <td><Tooltip text="Full access to all files in Drive including Docs. Restricted. Not supported by OpenInt." /></td>
+        <td>Restricted</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td><code>https://www.googleapis.com/auth/documents.currentonly</code></td>
+        <td><Tooltip text="Temporary, limited access to the current document only. Only OpenInt-supported scope as of now." /></td>
+        <td>*Not documented*</td>
+        <td>✅</td>
+      </tr>
+    </tbody>
+  </Table>
+</Frame>
+
+For a complete, upstream reference of all scopes and their descriptions, see the [Google Docs API OAuth Scopes documentation](https://developers.google.com/workspace/docs/api/auth).
+
+---
+
+## Embedding Google Docs with OpenInt
+
+Once your connector is configured, OpenInt lets you embed the Connect Widget using your favorite frontend stack. Here’s a minimal example using the React SDK:
+
+```jsx
+import { ConnectEmbed } from '@openint/connect';
+
+// Provided from your backend after authentication:
+return <ConnectEmbed token={token} />;
+```
+Or with vanilla JS:
+```js
+import { connect } from '@openint/connect';
+
+connect.embed({
+  token: 'YOUR_CUSTOMER_TOKEN',
+  containerRef: '#openint-connect-container',
+});
+```
+
+See the [embedding guide](/connect/embed) for more details and advanced customization.
+
+---
+
+## Troubleshooting
+
+**OAuth errors:**
+- Double-check client ID, client secret, and redirect URI values.
+- Make sure the "Google Docs API" is enabled for your Google Cloud project.
+- Only request the supported scope: `https://www.googleapis.com/auth/documents.currentonly`.
+- Ensure the OAuth consent screen is complete and test users are included if necessary.
+- For help debugging, check [Google's OAuth 2.0 error troubleshooting](https://developers.google.com/identity/protocols/oauth2/troubleshoot).
+
+---
+
+## Additional Resources
+
+- [Google Docs API Documentation](https://developers.google.com/docs/api/)
+- [Google Docs API OAuth Scopes](https://developers.google.com/workspace/docs/api/auth)
+- [OpenInt: Connector Configuration](../core-concepts-v0/connector-config)
+- [OpenInt: Embedding Guide](/connect/embed)
+- [Mintlify Tooltip UI Component Reference](https://mintlify.com/docs/custom-components/tooltip)
