@@ -89,6 +89,33 @@ description: Explore our wide range of integrations.
 | **Fs**          |
 | **Spreadsheet** |
 
+## 📄 Document Editors
+
+|                   |
+| ----------------- |
+| **Google Docs**   |
+
+### Google Docs Integration Guide
+
+OpenInt supports direct integration with Google Docs, enabling your application to connect, sync, and manipulate documents on behalf of your users.
+
+**OAuth Setup Requirements:**
+- When setting up the Google Docs integration, you'll need to configure OAuth credentials and specify the appropriate scopes in the Google Developer Console.
+- Refer to the [official list of Google Docs API OAuth scopes](https://developers.google.com/workspace/docs/api/auth) to ensure your application has the permissions it needs.
+
+**Setup Steps:**
+1. Go to your [Google Cloud Console](https://console.cloud.google.com/).
+2. Create or select a project for your app.
+3. Enable the _Google Docs API_ for your project.
+4. Go to _APIs & Services > Credentials_.
+5. Create OAuth 2.0 Client IDs, setting the redirect URI to match your OpenInt deployment.
+6. Add scopes as required for your use case, referencing the scopes documentation above (for example, `https://www.googleapis.com/auth/documents` allows full access to Google Docs documents).
+7. Save your credentials and place the client ID/secret in your OpenInt backend configuration as needed.
+
+For more detail, refer to the [Google Docs API Authentication Guide](https://developers.google.com/workspace/docs/api/auth).
+
+---
+
 ## ☁️ File Storage
 
 |               |
