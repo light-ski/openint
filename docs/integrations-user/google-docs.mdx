@@ -1,0 +1,74 @@
+---
+title: Connect Your Google Docs Account
+description: Learn how to securely connect your Google Docs account to Company A and understand the permissions needed.
+---
+
+import Info from '@mintlify/components/dist/info'
+import Steps from '@mintlify/components/dist/steps'
+import Callout from '@mintlify/components/dist/callout'
+
+# Connect Google Docs to Company A
+
+Easily sync and manage your Google Docs with Company A. Connecting your account only takes a few steps and allows you to view, create, and edit your docs directly within Company A.
+
+<Steps>
+  <li>
+    <b>Start the connection:</b> Click the <b>Connect Google Docs</b> button in your Company A account.
+  </li>
+  <li>
+    <b>Sign in to your Google account:</b> If prompted, log in with your Google account credentials.
+  </li>
+  <li>
+    <b>Review requested permissions:</b> Company A will ask for access to certain features in your Google Docs and (optionally) your Google Drive. See the list of possible permissions below—these let Company A sync and manage your documents on your behalf.
+  </li>
+  <li>
+    <b>Approve access:</b> Click <b>Allow</b> to complete the connection. You will be directed back to Company A.
+  </li>
+</Steps>
+
+<Info>
+We use Google's secure sign-in (OAuth 2.0) to connect your account, so Company A never sees or stores your Google password.
+</Info>
+
+## Permissions Requested
+
+When you connect Google Docs, Company A may request one or more of the following permissions, depending on which features you use:
+
+| Permission                                   | What it Allows                                                           |
+|-----------------------------------------------|-------------------------------------------------------------------------|
+| View & edit your Google Docs (`documents`)    | Full access to view, create, edit, and delete your Google Docs.          |
+| View only your Google Docs (`documents.readonly`) | Read-only access: lets you see document content and details.         |
+| Access Docs you own/open with Company A only (`drive.file`) | Limited to files you create or use with Company A.            |
+| View your Google Drive files (`drive.readonly`) | Lets Company A view your existing Drive files, but not edit them.       |
+| Full Google Drive access (`drive`)            | View and manage all Drive files, including Docs (broadest access).       |
+| Current Doc only (`documents.currentonly`)    | Lets Company A work only with the Doc you're currently editing.          |
+
+<Callout type="info">
+You will always see a confirmation screen letting you approve (or deny) the requested permissions before Company A can access your documents.
+</Callout>
+
+## Confirm the Connection
+
+After approving access, you'll be directed back to Company A. You should now see your Google Docs account marked as <b>Connected</b>.
+
+To test the integration:
+- Try importing or syncing a document from Google Docs within Company A.
+- If documents appear or sync as expected, you're all set!
+
+## Troubleshooting & Common Questions
+
+**Access denied or consent screen blocked?**
+- Make sure you're using the correct Google account and have not denied required permissions.
+- Try disconnecting any previous Google Docs integration from your Company A settings, then reconnect.
+
+**Don’t see your Docs?**
+- Only documents you have access to (per the permissions granted) will appear.
+- If you didn't grant full access, you may need to adjust permissions and reconnect.
+
+**How do I disconnect or change my Google account?**
+- In Company A, go to your integrations or account settings, and click <b>Disconnect</b> next to Google Docs.
+- You can reconnect with another Google account at any time.
+
+<Callout>
+For additional help, please contact Company A support or check the integration Help Center.
+</Callout>
