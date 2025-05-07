@@ -17,32 +17,23 @@ description: Answers to Frequently asked questions about OpenInt
 
   </Accordion>
 
-  <Accordion title="What types of integrations does OpenInt support?">
-    OpenInt supports a wide range of integrations across various categories such as Applicant Tracking Systems (ATS), CRMs, accounting software, and more. These can be managed directly from the OpenInt console.
-  </Accordion>
+<Accordion title="What types of integrations does OpenInt support?">
+  OpenInt supports a wide range of integrations across various categories such
+  as Applicant Tracking Systems (ATS), CRMs, accounting software, and more.
+  These can be managed directly from the OpenInt console.
+</Accordion>
 
-  <Accordion title="How secure is my data with OpenInt?">
-    OpenInt prioritizes data security by enabling direct synchronization with your own database, significantly minimizing data exposure and enhancing privacy.
-  </Accordion>
+<Accordion title="How secure is my data with OpenInt?">
+  OpenInt prioritizes data security by enabling direct synchronization with your
+  own database, significantly minimizing data exposure and enhancing privacy.
+</Accordion>
 
   <Accordion title="How can OpenInt streamline user onboarding and integration management?">
     OpenInt provides magic links—secure URLs—to simplify user onboarding and integration setup. These links facilitate quick sharing and embedding, enhancing user experience and reducing integration friction.
   </Accordion>
-  
-  <Accordion title="How do I integrate Google Docs via OpenInt?">
-    To add Google Docs as an integration, you must first register a Google Cloud project, configure OAuth2 credentials, and set up the connector within OpenInt. Follow the step-by-step instructions in the [Google Docs Integration Guide](/integrations/google-docs) for sample configuration and a full setup walkthrough.
+
+  <Accordion title="What Google Docs features and scopes does the OpenInt connector support?">
+    The Google Docs connector in OpenInt currently supports only the limited <code>documents.currentonly</code> OAuth scope. This gives your app access specifically to the document that a user is currently editing during the OAuth flow, rather than global access to all Docs or Drive files in the account. For broader access, such as full document listing or Drive-wide file management, see <a href="/integrations/google-docs">Google Docs developer integration</a> for limitations and possible workarounds.
   </Accordion>
 
-  <Accordion title="Why can't my app access all Google Docs in a connected account?">
-    OpenInt's Google Docs connector currently supports only the `documents.currentonly` scope, which limits access to the single document that is open or being edited at the time of authentication. Broader document access (full read/write or drive-wide permissions) is not available through OpenInt as of now. See [Supported OAuth Scopes](/integrations/google-docs#step-2-supported-oauth-scopes) for technical details and potential roadmap notes.
-  </Accordion>
-
-  <Accordion title="What permissions does the Google Docs connector support?">
-    As of v1, the Google Docs integration with OpenInt supports only the custom scope <code>https://www.googleapis.com/auth/documents.currentonly</code>. This means only the currently open Google Docs document can be synced or managed through OpenInt. For further information and security implications, review the [Permissions Table in our docs](/integrations/google-docs#step-2-supported-oauth-scopes).
-  </Accordion>
-
-  <Accordion title="Where can I find troubleshooting steps for Google Docs integration?">
-    The [Google Docs Integration Guide](/integrations/google-docs#common-issues--troubleshooting) has a comprehensive troubleshooting section, including common OAuth problems, redirect URI mismatches, and permissions issues. For end-user help, direct users to the [user-facing Google Docs connection guide](/integrations-user/google-docs).
-  </Accordion>
 </AccordionGroup>
-
