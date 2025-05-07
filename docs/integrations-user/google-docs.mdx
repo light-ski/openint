@@ -1,71 +1,79 @@
 ---
-displayName: Connect Google Docs
-sidebar_label: Google Docs
+title: Connect Google Docs Integration
+description: Learn how to connect your Google Docs account to Company A for a seamless document experience.
 ---
 
-# Connect Your Google Docs Account
+## Google Docs Integration Guide
 
-Easily link your Google Docs account to your Company A profile to enable seamless syncing and management of your documents. With this integration, you’ll be able to view, edit, and manage your Google Docs content directly from Company A (with your permission).
+Connect your Google Docs account to Company A to sync, manage, and collaborate on your documents directly from your Company A workspace.
+
+---
 
 ## How to Connect Google Docs
 
-1. **Go to the Integrations page** in your Company A account settings.
-2. Find **Google Docs** in the list of available integrations.
-3. Click **Connect**.
-4. A new window will open prompting you to sign in to your Google account. Select the Google account you’d like to connect.
-5. Review the permissions requested and click **Allow** to grant access.
-6. After authorization, you’ll return to Company A and see a confirmation message that your Google Docs account is connected.
+Setting up the Google Docs integration is quick and secure. Follow these steps:
 
-<MintlifyCallout type="info">
-Google will prompt you to review and grant permissions to Company A for accessing your Google Docs and Drive files. These permissions are required for Company A to sync and display your Google Docs content.
-</MintlifyCallout>
+1. **Go to your Integrations page** in your Company A dashboard.
+2. Locate **Google Docs** in the list of available integrations.
+3. Click **Connect** or **Add Google Docs**.
+4. A Google login window will open. Sign in with the Google account you wish to connect.
+5. Review the requested permissions.
+6. Click **Allow** to authorize access.
+7. When the process completes, you’ll be redirected back to Company A. Your account should now be linked!
 
-## What Permissions Are Required?
-
-When you connect your Google Docs account, Company A will ask for specific permissions. Here’s what’s requested and why:
-
-- **View and manage your Google Docs documents**  (`https://www.googleapis.com/auth/documents`)
-  - Lets Company A display your document list, read document content, and allow you to edit or create Docs within the platform.
-- **View your Google Docs documents** (`https://www.googleapis.com/auth/documents.readonly`)
-  - Allows Company A to display your document list and let you read but not edit documents.
-- **Access files created by Company A or specifically shared with it** (`https://www.googleapis.com/auth/drive.file`)
-  - Restricts Company A’s access to only files necessary for integrations or new Docs you create from Company A.
-- **View Google Drive files**  (`https://www.googleapis.com/auth/drive.readonly`)
-  - Lets Company A read (but not change) both Docs and Drive files that you have access to.
-- **View and manage Google Drive files** (`https://www.googleapis.com/auth/drive`)
-  - Enables full read/write access for Docs you want integrated deeply between platforms, including uploading or syncing Docs.
-- **Access the currently open Google Doc only (for limited use cases)** (`https://www.googleapis.com/auth/documents.currentonly`)
-  - The most limited permission: only allows access to a specific document when authorized for it.
-
-<MintlifyCallout type="warning">
-**Privacy Tip:**
-You’re always in control. Company A will only access the documents you authorize and use the permissions strictly for syncing, viewing, and managing your Google Docs as described above.
-</MintlifyCallout>
-
-## How to Verify the Connection
-
-After connecting:
-
-- Go to your Company A dashboard and check if your Google Docs are visible or synced.
-- Try editing, creating, or syncing a document from Company A and confirm the changes appear in your Google Docs account.
-- If you encounter an error, see the troubleshooting tips below.
-
-## Troubleshooting
-
-- **Didn’t see the Google prompt?**
-  - Ensure your browser allows pop-ups from Company A.
-- **Consent screen denied or closed?**
-  - Try connecting again and make sure to grant all the requested permissions.
-- **Wrong Google account?**
-  - Disconnect and reconnect with the correct account.
-- **Permissions error?**
-  - Double-check that you granted all permissions during the Google sign-in. You can always remove access in your Google Account settings and reconnect.
-- **General error or connection failed?**
-  - Refresh the page and try again, or contact Company A support for further help.
-
-## Disconnecting the Integration
-You can disconnect your Google Docs account at any time from the Integrations page in your Company A settings. Revoking access will immediately stop data syncing between Company A and Google Docs.
+> **Tip:** You can disconnect or manage your integration anytime from the Integrations page.
 
 ---
 
-<small>Google Docs integration is powered by secure Google OAuth2 authentication. For more information on data privacy or handling, refer to Company A's privacy policy or contact support.</small>
+## Permissions & Why They Are Needed
+
+When you connect Google Docs, Company A requests certain permissions to enable document features. You will see a summary of these during the Google sign-in process. Here’s what we may request and why:
+
+- **View and manage your Google Docs documents**
+  - Allows reading, creating, editing, and deleting Google Docs as needed for features such as syncing, importing, and exporting documents.
+- **Read-only access to your Google Docs**
+  - Lets Company A display your files and document details, without making changes.
+- **Access only files created or selected with Company A**
+  - Limits access to documents initiated or explicitly shared during usage.
+- **Read-only access to Google Drive**
+  - Supports importing or listing Docs stored in your Drive, while preventing any modifications.
+- **Full access to Google Drive** (if requested)
+  - Enables the broadest features, such as organizing or managing Docs files across all folders for full sync and automation.
+- **Temporary access to the currently open document only**
+  - Used for situations where only one document needs to be accessed during a session.
+
+> We only request permissions needed for the requested features. You always have control over what you share with Company A.
+
+---
+
+## Testing Your Integration
+
+After connecting, you can verify that your Google Docs account is successfully linked by:
+
+- Importing or opening a document from within Company A
+- Creating or exporting a document to your Google Docs account
+- Checking the Integrations page for a "Connected" status next to Google Docs
+
+Any problems linking your account will usually be displayed directly in the dashboard.
+
+---
+
+## Troubleshooting Common Issues
+
+**Having trouble connecting? Try these solutions:**
+
+- **"Authorization Failed" or "Access Denied"**
+  - Make sure you are signed into the correct Google account.
+  - Double-check that you clicked **Allow** for the permissions prompt.
+  - Google Workspace administrators may restrict integrations—check your organizational policies if you see a permissions error.
+- **Google Docs features aren’t working**
+  - Try disconnecting and reconnecting the integration.
+  - Ensure you granted all the necessary permissions during setup.
+- **Revoking Access**
+  - You can manage or revoke Company A's access anytime from your Google Account's security settings (https://myaccount.google.com/permissions).
+
+If you run into other issues, visit the Help section in Company A or contact support for further assistance.
+
+---
+
+Integrate smarter by linking your Google Docs account and unlock seamless cross-platform collaboration!
