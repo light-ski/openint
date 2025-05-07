@@ -39,9 +39,20 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
   </Step>
   <Step title="Ready to Connect!">
     You are now ready to connect to your Greenhouse account using a [Magic
-    Links](/core-concepts/magic-link).
+    Link](/core-concepts/magic-link).
   </Step>
 </Steps>
+
+## Connector-Specific Settings & OAuth Scopes
+
+Some connectors (especially cloud document providers, like **Google Docs**) require additional configuration for OAuth 2.0 and the definition of required API scopes when connecting accounts. For example, to integrate with **Google Docs**, you must:
+
+- Create OAuth credentials in your Google Cloud Project.
+- Specify the OAuth scopes your use case requires (see the [full guide](/integrations/google-docs) for detailed instructions).
+
+Consult each provider's integration guide for full instructions on required credentials, permitted scopes, and testing procedures.
+
+> For a step-by-step Google Docs configuration walkthrough, see our [Google Docs Integration Guide](/integrations/google-docs).
 
 ## Benefits of Using Connectors
 
