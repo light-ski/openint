@@ -1,0 +1,100 @@
+---
+title: Connecting Google Docs
+description: Guide to connecting your Google Docs account to Company A so you can sync, import, and collaborate on documents seamlessly.
+---
+
+import { Steps, Callout, Table } from 'mintlify/components'
+
+# Connect Google Docs to Company A
+
+Easily link your Google Docs account with Company A to sync documents, import content, or automate workflows. This guide walks you through the connection process, explains permissions, and helps you troubleshoot common problems.
+
+<Steps>
+  <Step title="Go to Integrations in Company A">
+    Open Company A and navigate to the **Settings** or **Integrations** section of your account.
+  </Step>
+  <Step title="Select Google Docs">
+    Find "Google Docs" in the list of available integrations and click **Connect** (or "Add").
+  </Step>
+  <Step title="Authorize Company A to Access Google Docs">
+    When prompted, log in with your Google account (if not already logged in).
+    <br /><br />
+    Review the list of permissions Google will display. To continue, click **Allow** to grant Company A the necessary access to your Google Docs.
+  </Step>
+  <Step title="Connection Complete">
+    After authorizing, you’ll be returned to Company A. Your Google Docs integration is now enabled!
+  </Step>
+</Steps>
+
+## Permissions Explained
+
+When you connect your Google Docs account, Company A requests access to specific parts of your Google Docs and Drive so it can sync, import, or manage your documents as needed. The permissions you’re asked to grant may include:
+
+<Table>
+  <thead>
+    <tr>
+      <th>Permission</th>
+      <th>What It Allows</th>
+      <th>Why Company A Needs It</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>documents</code>: Full Google Docs access</td>
+      <td>View, create, edit, and delete your Google Docs documents</td>
+      <td>Needed if you wish to edit or sync documents directly via Company A</td>
+    </tr>
+    <tr>
+      <td><code>documents.readonly</code>: Read-only access</td>
+      <td>View document content and metadata, but cannot modify anything</td>
+      <td>For viewing or importing documents, without editing</td>
+    </tr>
+    <tr>
+      <td><code>drive.file</code>: Specific Drive file access</td>
+      <td>View and manage only those files Company A creates or is granted access to</td>
+      <td>Minimizes access to just the docs you select for Company A</td>
+    </tr>
+    <tr>
+      <td><code>drive.readonly</code>: Google Drive read-only</td>
+      <td>View all of your Drive files, including Docs (no editing)</td>
+      <td>Supports importing/selecting documents from Drive</td>
+    </tr>
+    <tr>
+      <td><code>drive</code>: Full Drive access</td>
+      <td>Full read, write, and manage access to all Drive documents and files</td>
+      <td>Needed for features that involve broader management of your documents via Company A</td>
+    </tr>
+    <tr>
+      <td><code>documents.currentonly</code></td>
+      <td>Temporary access to just the currently open Google Doc</td>
+      <td>Only used for limited, in-the-moment actions; most restrictive permission</td>
+    </tr>
+  </tbody>
+</Table>
+
+<Callout type="info">
+Company A will always request the minimum permissions required for the features you use. You can review and manage these permissions in your Google Account settings at any time.
+</Callout>
+
+## Testing the Connection
+
+Once connected, you can confirm everything is working by:
+
+- Viewing your connected accounts under **Settings** → **Integrations** in Company A
+- Trying to sync, import, or use a Google Docs-based feature in Company A
+- Looking for a confirmation or "Connected" status next to Google Docs
+
+If you see your documents or are able to interact with Google Docs as expected, your connection is live and active!
+
+## Troubleshooting & Common Issues
+
+**Having trouble connecting? Try these tips:**
+
+- **Did you grant all requested permissions?** If not, disconnect and try connecting again, making sure to accept all permission prompts.
+- **Wrong Google account?** Disconnect, log out of Google, and reconnect using the correct account.
+- **Pop-up blocked?** Ensure your browser allows pop-ups for Company A, as the Google sign-in uses a pop-up window.
+- **Connection expired or revoked?** Your connection can expire if permissions change or are revoked on Google's end. Disconnect and re-connect to restore access.
+
+<Callout type="warning">
+If you continue to experience problems, please reach out to Company A support for assistance. Provide any error message you see to help us resolve the issue quickly.
+</Callout>
