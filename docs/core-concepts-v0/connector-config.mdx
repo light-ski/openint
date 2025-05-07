@@ -30,6 +30,30 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
     <Frame>
       <img src="/images/connector-form.png" alt="Connector Form" />
     </Frame>
+    
+    ---
+    
+    ### Example: Google Docs Connector
+    
+    If you wish to add support for Google Docs, here's an example of how your configuration might look. Note that unlike most connectors, the Google Docs integration currently only supports the non-standard `documents.currentonly` scope:
+    
+    ```json title="Google Docs Connector Config"
+    {
+      "provider": "google-docs",
+      "client_id": "YOUR_GOOGLE_CLIENT_ID",
+      "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
+      "redirect_uri": "https://app.openint.dev/oauth/callback",
+      "scopes": ["https://www.googleapis.com/auth/documents.currentonly"]
+    }
+    ```
+    
+    - See full integration details and setup steps in the [Google Docs Integration Guide](/integrations/google-docs).
+    - For supported scopes and why full document/drive access is not yet available, see [Supported OAuth Scopes](/integrations/google-docs#step-2-supported-oauth-scopes).
+    
+    <Callout type="warning">
+    Not all OpenInt connectors support the full suite of permissions or OAuth scopes offered by their underlying service. For instance, Google Docs currently supports only per-document access (`documents.currentonly`). Always consult the [integration's documentation](/integrations) for details.
+    </Callout>
+    
   </Step>
   <Step title="Verify Connector">
     You should see the new connector in the available connectors table.
@@ -38,8 +62,7 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
     </Frame>
   </Step>
   <Step title="Ready to Connect!">
-    You are now ready to connect to your Greenhouse account using a [Magic
-    Links](/core-concepts/magic-link).
+    You are now ready to connect to your Greenhouse account (or any other) using [Magic Links](/core-concepts/magic-link).
   </Step>
 </Steps>
 
@@ -60,3 +83,4 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
 ---
 
 > Streamline your integration process and enhance your app's capabilities with minimal effort using connectors.
+
