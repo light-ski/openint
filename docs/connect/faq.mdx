@@ -31,4 +31,12 @@ description: Answers to Frequently asked questions about OpenInt
   <Accordion title="How can OpenInt streamline user onboarding and integration management?">
     OpenInt provides magic links—secure URLs—to simplify user onboarding and integration setup. These links facilitate quick sharing and embedding, enhancing user experience and reducing integration friction.
   </Accordion>
+
+  <Accordion title="Does OpenInt support integrating with Google Docs?">
+    Yes. OpenInt provides a prebuilt connector for Google Docs authentication using OAuth 2.0. However, as of v1, OpenInt's support is limited to the <code>documents.currentonly</code> scope, which restricts access to only the current document a user is editing. Broad or full document/Drive access is not yet available via OpenInt.
+
+    For a developer-oriented integration guide, including OAuth setup with Google Cloud, detailed scope comparison, and configuration samples, see the <a href="/integrations/google-docs">Google Docs developer guide</a>.
+
+    <b>Troubleshooting tip:</b> If you encounter errors or permission issues connecting Google Docs, verify that the scope requested matches those supported by OpenInt and that the redirect URI in your Google Cloud OAuth app precisely matches your OpenInt deployment settings.
+  </Accordion>
 </AccordionGroup>
