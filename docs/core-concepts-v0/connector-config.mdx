@@ -43,6 +43,76 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
   </Step>
 </Steps>
 
+---
+
+## ⚡ Google Docs Connector: OAuth Configuration Guide
+
+Setting up the Google Docs connector in OpenInt requires a valid Google OAuth 2.0 Client and appropriate scopes. This step-by-step guide follows the style of trusted integration guides, ensuring a smooth setup process.
+
+### 1. Create a Google Cloud Project
+
+- Visit the [Google Cloud Console](https://console.cloud.google.com/).
+- Click **Select project** > **New Project**. Enter a name (e.g., `OpenInt Integrations`) and click **Create**.
+
+### 2. Enable the Google Docs API
+
+- With your project selected, go to **APIs & Services > Library**.
+- Search for "Google Docs API" and click **Enable**.
+
+### 3. Configure OAuth Consent Screen
+
+- In the side menu, open **APIs & Services > OAuth consent screen**.
+- Set the user type (usually "External").
+- Enter an app name, support email, and authorized domain (e.g., `openint.dev`).
+- Fill in required fields and save.
+
+> **Do not click “Publish App” or go through sensitive scope verification unless you require Google verification for production.**
+
+### 4. Create OAuth 2.0 Credentials
+
+- Go to **APIs & Services > Credentials**.
+- Click **Create Credentials > OAuth client ID**.
+- Choose "Web application", name it (e.g., `OpenInt Docs Connector`).
+- Set authorized redirect URIs:
+  - Get the correct URI from your OpenInt dashboard, e.g.
+    - `https://app.openint.dev/oauth/callback`
+    - (Or your own deployment URI for self-hosted OpenInt)
+- Click **Create** and save your **Client ID** and **Client Secret**.
+
+### 5. Set Required OAuth Scopes
+
+Google Docs integrations require explicit permission via OAuth scopes. For most OpenInt use cases, these are the most relevant scopes ([full reference](https://developers.google.com/workspace/docs/api/auth#docs-scopes)):
+
+| Scope                                                   | Description                                  |
+|---------------------------------------------------------|----------------------------------------------|
+| `https://www.googleapis.com/auth/documents.readonly`    | Read Google Docs                             |
+| `https://www.googleapis.com/auth/documents`             | Full read/write access to Google Docs        |
+| `https://www.googleapis.com/auth/drive.file`            | Access to files created or opened by the app |
+| `https://www.googleapis.com/auth/drive.readonly`        | Read files in user's Drive                   |
+| `https://www.googleapis.com/auth/drive`                 | Full Drive access (USE WITH CAUTION)         |
+
+Use the minimum scopes needed; prefer `documents.readonly` and `drive.file` for maximum privacy and security.
+
+> ℹ️ Some scopes (such as `drive` or `documents`) are considered sensitive/restricted and may require Google app verification and/or security review to access in production. [Google’s scope policy](https://support.google.com/cloud/answer/13461325)
+
+### 6. Configure the Connector in OpenInt
+
+- In your OpenInt dashboard, create or edit a connector for Google Docs.
+- Enter the following information in the configuration form:
+  - **Client ID** (from Google Cloud OAuth credentials)
+  - **Client Secret** (from Google Cloud OAuth credentials)
+  - **Scopes** (comma-separated list; see above for recommended options)
+  - **Redirect URI** (must match your credentials and OpenInt instance)
+- Click **Create** (or **Update**) to save the connector.
+
+### 7. Connect Accounts and Test
+
+- Trigger authentication using your app’s Connect flow or Magic Link.
+- Go through the Google consent screen and approve requested scopes.
+- Upon successful connection, OpenInt can access docs and files within the permissions you allowed.
+
+---
+
 ## Benefits of Using Connectors
 
 <CardGroup>
