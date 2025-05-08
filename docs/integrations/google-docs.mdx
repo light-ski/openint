@@ -1,0 +1,168 @@
+---
+title: Google Docs Integration
+sidebar_position: 2
+description: "How to connect your app to Google Docs using OpenInt with OAuth2, required setup, supported scopes, and common troubleshooting."
+---
+
+# Google Docs Integration via OpenInt
+
+Connect, read, and (limited) interact with Google Docs from your application using OpenInt. This guide covers step-by-step configuration for adding OAuth-based Google Docs integration, key limitations, and troubleshooting for engineering teams embedding OpenInt.
+
+> ℹ️ **Status**: This connector is **general availability (GA)**, but only supports access to the _current Google Docs document_ via OAuth scope `documents.currentonly`. Broader features (such as listing or editing all Docs) require broader scopes, not yet available via OpenInt.
+
+---
+
+## Prerequisites
+
+- Google Account
+- Access to [Google Cloud Console](https://console.developers.google.com/)
+- OpenInt dashboard/API access
+
+---
+
+## Step 1: Create OAuth Credentials in Google Cloud
+
+To interact with a user's Google Docs via OAuth2, your integration needs a valid OAuth **Client ID** and **Client Secret**. Follow this process (adapted from [2BrightSparks guide](https://www.2brightsparks.com/resources/articles/gdriveclientid.html)):
+
+<Steps>
+  <Step title="Select or Create your Google Cloud Project">
+    Go to [Google API Console](https://console.developers.google.com/) and sign in. Use the project selector—create a _new project_ if needed. Name it clearly (e.g., "Company Integration").
+  </Step>
+
+  <Step title="Enable Google Docs and Google Drive APIs">
+    In the sidebar, click <b>APIs & Services > Enabled APIs & services</b>. Use "+ ENABLE APIS AND SERVICES" to search for and enable 
+- <b>Google Docs API</b>
+- <b>Google Drive API</b> (required for scope compatibility)
+  </Step>
+  
+  <Step title="Configure the OAuth Consent Screen">
+    Go to <b>OAuth consent screen</b>. For most use-cases select <b>External</b>, then click <b>Create</b>.<br/>
+    Fill out <b>App name</b>, <b>User support email</b>, and <b>Developer contact info</b>. Follow prompts, save.
+    Add test users (your developer email) for non-production or testing environments.
+  </Step>
+  
+  <Step title="Create OAuth Client Credentials">
+    Go to <b>Credentials</b> in the sidebar.<br/>
+    Click <b>+ CREATE CREDENTIALS</b> → <b>OAuth client ID</b>.
+    Choose <b>Web application</b> (for web apps), or <b>Desktop app</b> as appropriate.
+    - Set the correct <b>Authorized redirect URIs</b> <br/>(see your OpenInt dashboard for the correct redirect URI)
+    - Name the credentials (e.g. "OpenInt Google Docs Connector")
+    Save: you will be shown your <b>Client ID</b> and <b>Client Secret</b> — copy these securely.
+  </Step>
+
+  <Step title="(Optional) Publish or Prepare for Verification">
+    If you plan to go live to external users, return to the <b>OAuth consent screen</b> and click <b>Publish app</b>.<br/>
+    <Callout type="warning">Do not initiate "Prepare for Verification" unless you require broader scopes and intend public launch—Google reviews are strict and can take time.</Callout>
+  </Step>
+</Steps>
+
+---
+
+## Step 2: Configure OpenInt
+
+Provide your Google OAuth2 **Client ID** and **Client Secret** in your OpenInt dashboard or configuration as required.
+
+<CodeGroup>
+```json OpenInt Connector Config
+{
+  "provider": "google-docs",
+  "client_id": "YOUR_GOOGLE_CLIENT_ID",
+  "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
+  "scopes": [
+    "https://www.googleapis.com/auth/documents.currentonly"
+  ]
+}
+```
+</CodeGroup>
+
+- <b>Supported scope:</b> Only `https://www.googleapis.com/auth/documents.currentonly` is supported at this time. This scope grants access ONLY to the currently open Google Document (typically via a Docs add-on or specific user gesture):
+  - Most restrictive; does <i>not</i> allow listing, editing, or accessing other Docs or Drive files.
+- For product roadmap or broader access, contact OpenInt support or track this page.
+
+---
+
+## Step 3: Authentication Flow
+
+1. OpenInt will generate an OAuth2 authorization link for the user.
+2. User consents, authenticates via Google’s prompt ("consent" always set).
+3. Google redirects back to OpenInt's configured redirect URI with an auth code.
+4. OpenInt exchanges the code for an access (and if needed, refresh) token for just the allowed scope.
+5. You may now use the OpenInt API or SDK to interact (in a limited way) with the authorized Google Doc session.
+
+---
+
+## Supported OAuth Scopes: Google Docs vs. OpenInt
+
+Below is the canonical list of Google Docs/Drive scopes. OpenInt currently supports only <b>one</b> (marked in green). See [Google’s latest scope documentation](https://developers.google.com/workspace/docs/api/auth) for details.
+
+<Table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+<th>Scope Type</th>
+<th>OpenInt Support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><Tooltip content="Full access to create, edit, read, and delete ALL Google Docs documents."><code>https://www.googleapis.com/auth/documents</code></Tooltip></td>
+<td>Full read/write access to all Google Docs docs.</td>
+<td>Sensitive</td>
+<td>❌ Not Supported</td>
+</tr>
+<tr>
+<td><Tooltip content="Read-only access to view all Google Docs documents."><code>https://www.googleapis.com/auth/documents.readonly</code></Tooltip></td>
+<td>Read-only access to Docs.</td>
+<td>Sensitive</td>
+<td>❌ Not Supported</td>
+</tr>
+<tr>
+<td><Tooltip content="Access to specific Google Drive files opened or created by your app."><code>https://www.googleapis.com/auth/drive.file</code></Tooltip></td>
+<td>Read/write access to user-granted Drive files.</td>
+<td>Non-sensitive<br/>(Recommended)</td>
+<td>❌ Not Supported</td>
+</tr>
+<tr>
+<td><Tooltip content="Full read/write access to ALL Drive files (including Docs)."><code>https://www.googleapis.com/auth/drive</code></Tooltip></td>
+<td>Full access to all Drive files.</td>
+<td>Restricted</td>
+<td>❌ Not Supported</td>
+</tr>
+<tr>
+<td><Tooltip content="Read-only access to ALL Drive files, including Docs."><code>https://www.googleapis.com/auth/drive.readonly</code></Tooltip></td>
+<td>Read-only Drive access.</td>
+<td>Restricted</td>
+<td>❌ Not Supported</td>
+</tr>
+<tr>
+<td><Tooltip content="Access only to the currently open Docs document (used by add-ons)."><code>https://www.googleapis.com/auth/documents.currentonly</code></Tooltip></td>
+<td>Current Doc only<br/>(most restrictive)</td>
+<td>Non-sensitive</td>
+<td>✅ Supported</td>
+</tr>
+</tbody>
+</Table>
+
+- See [Google Docs API OAuth2 scopes](https://developers.google.com/workspace/docs/api/auth) for updates and policy changes.
+- If you need broader access, contact OpenInt or watch the product roadmap.
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+- <b>Redirect URI mismatch:</b> Ensure your Google Cloud Console OAuth client’s redirect URI <i>exactly</i> matches the one OpenInt provides in settings.
+- <b>Wrong scopes:</b> If you request any scope except `documents.currentonly`, authorization will fail.
+- <b>Unverified app:</b> If your consent screen is not published, only test users can proceed. For production, you may require verification; follow <a href="https://developers.google.com/workspace/guides/verification">Google OAuth verification guide</a>.
+- <b>Client Secret in frontend:</b> Never embed secrets in client-side code—handle tokens on the server or use OpenInt’s backend integration.
+- <b>Consent screen warnings:</b> Warnings about unverified scopes are expected if using anything but the minimal scope—stick with supported scopes while in OpenInt.  
+
+---
+
+## Further Resources
+
+- [Google Docs API Auth documentation](https://developers.google.com/workspace/docs/api/auth)
+- [Official Google Cloud Console](https://console.developers.google.com/)
+- [2BrightSparks OAuth setup guide (with screenshots)](https://www.2brightsparks.com/resources/articles/gdriveclientid.html)
+- [Google OAuth Consent Screen Verification](https://developers.google.com/workspace/guides/verification)
+- [OpenInt Getting Started](../getting-started/quickstart)
