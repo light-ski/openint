@@ -1,0 +1,83 @@
+---
+title: Google Docs Integration Guide
+description: Connect your Google Docs account to Company A to sync documents, enable collaboration, and enhance your workflow.
+---
+
+# Connect Your Google Docs Account
+
+Easily link your Google Docs with Company A to seamlessly sync files and improve productivity. This guide walks you through connecting your account, the permissions involved, and how to troubleshoot common issues.
+
+---
+
+## What Permissions Will Be Requested?
+
+When you connect Google Docs, Company A asks you for permission to access certain files in your Google account via Google’s secure sign-in process. Here’s what each of the permissions ("scopes") means:
+
+| Permission | What Does This Enable? |
+|---|---|
+| **View and edit your Google Docs**  <br/>[`https://www.googleapis.com/auth/documents`] | View, create, modify, and delete any of your Google Docs documents. |
+| **View your Google Docs**  <br/>[`https://www.googleapis.com/auth/documents.readonly`] | See all your Google Docs content, but not make changes. |
+| **View and edit only the active Doc**  <br/>[`https://www.googleapis.com/auth/documents.currentonly`] | Access and edit just the document you’re working on now. |
+| **View, edit, or delete specific Google Drive files**  <br/>[`https://www.googleapis.com/auth/drive.file`] | Limited to only the Google Drive files you interact with in Company A, or files that Company A creates for you. |
+| **View all Google Drive files**  <br/>[`https://www.googleapis.com/auth/drive.readonly`] | See (but not change) everything in your Google Drive, including Docs. |
+| **View and edit all Google Drive files**  <br/>[`https://www.googleapis.com/auth/drive`] | Full access: view, edit, create, or delete anything in your Google Drive. |
+
+> **Tip:** You’re always shown a summary of the requested permissions by Google before you approve access.
+
+---
+
+## How to Connect Google Docs
+
+1. **Open Company A Integrations**  
+   Go to the “Integrations” or “Connected Apps” area inside your Company A account.
+2. **Start Google Docs Connection**  
+   Find Google Docs and click **Connect** or **Sign in with Google**.
+3. **Sign In to Google**  
+   Log in with your Google account (or pick the right one if prompted).
+4. **Review and Approve Permissions**  
+   Google will list what access Company A is asking for (see the table above); click **Allow** to continue.
+5. **Finish Setup**  
+   You’ll be returned to Company A and your Google Docs integration will be active.
+
+---
+
+## How to Test Your Connection
+
+- Open Company A and try to create, sync, or access a Google Doc.
+- If the integration worked, you’ll see your docs appear or be able to use Google Docs features inside Company A.
+- Edits made in either Company A or Google Docs will sync once connected.
+
+:::tip
+If you can’t see your documents or features aren’t available, check that you granted all requested permissions and are using the correct Google account.
+:::
+
+---
+
+## Troubleshooting Common Issues
+
+- **Pop-up blocked or sign-in screen not showing?**  
+  Disable browser pop-up blockers temporarily, or try a different browser.
+
+- **Accidentally denied permissions?**  
+  Disconnect Google Docs in Company A and reconnect, making sure to approve all permissions.
+
+- **Google shows a security warning?**  
+  Ensure you’re signing in to the intended account and trust Company A to access your files.
+
+- **Sync isn’t working or files seem missing?**  
+  Double-check permissions, your logged-in Google account, and try disconnecting and reconnecting.
+
+If issues persist, visit Company A support or contact their help team.
+
+---
+
+## Manage and Revoke Access Any Time
+
+- You stay in control: to disconnect, simply remove the integration in Company A settings.
+- You can also revoke Company A’s access through your Google Account’s [security permissions](https://myaccount.google.com/permissions).
+
+> Company A can only access documents and files if you approve access. You can remove this at any time for full privacy and control.
+
+---
+
+Ready to get started? Connect your Google Docs account and boost your productivity with seamless sync!
