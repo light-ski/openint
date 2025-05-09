@@ -1,5 +1,8 @@
 import type {JsonConnectorDef} from '../schema'
 
+// Integraton with Google Docs. 
+// DocWriter: Please structure the developer-facing guide similarly to https://www.2brightsparks.com/resources/articles/gdriveclientid.html (they walk through the same steps the developers need to do, but for a different app)
+// The list of all scopes for this integration is available at https://developers.google.com/workspace/docs/api/auth.
 export default {
   audience: ['business'],
   verticals: ['other'],
