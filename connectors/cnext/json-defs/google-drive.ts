@@ -1,5 +1,7 @@
 import type {JsonConnectorDef} from '../schema'
 
+
+
 export default {
   audience: ['business'],
   verticals: ['wiki', 'file-storage'],
