@@ -1,0 +1,112 @@
+---
+title: Connect Google Docs
+description: How to link your Google Docs account to Company A and manage permissions
+---
+
+# Connect Google Docs to Company A
+
+Easily sync and collaborate with your Google Docs files directly from Company A by connecting your Google account. Follow the steps below to securely integrate your files and manage what data you share.
+
+## Prerequisites
+
+- You need a Google account with access to Google Docs.
+- Make sure you are signed in to the correct Google account in your browser before connecting.
+
+## How to Connect
+
+<Steps>
+  <Step title="Open the Integrations Page in Company A">
+    Go to your account dashboard in Company A and navigate to the **Integrations** section. Locate **Google Docs** in the list.
+  </Step>
+
+  <Step title="Click 'Connect'">
+    Click the <b>Connect</b> button next to Google Docs. A pop-up window will appear prompting you to sign in with your Google account.
+  </Step>
+
+  <Step title="Review & Grant Permissions">
+    Review the permissions requested by Company A. Click <b>Allow</b> to grant access.
+  </Step>
+  <Step title="Return to Company A">
+    Once you approve, you’ll be redirected back to Company A and your Google Docs integration will be activated.
+  </Step>
+</Steps>
+
+## What Permissions Are Requested?
+
+When you connect Google Docs, you may be asked to grant access to one or more of the following permissions:
+
+<Table>
+<thead>
+  <tr>
+    <th>Permission</th>
+    <th>What it means</th>
+    <th>Why it's needed</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><code>See, edit, create, and delete your Google Docs documents</code><br/>(<code>https://www.googleapis.com/auth/documents</code>)</td>
+    <td>Full access to read, create, edit, and delete any Google Docs in your account.</td>
+    <td>Needed for full-featured sync: lets you import, export, update, or remove documents through Company A.</td>
+  </tr>
+  <tr>
+    <td><code>See and download your Google Docs documents</code><br/>(<code>https://www.googleapis.com/auth/documents.readonly</code>)</td>
+    <td>Read-only access to your Google Docs, with no changes allowed.</td>
+    <td>Needed if you only want to sync/read Google Docs content into Company A, without updating them.</td>
+  </tr>
+  <tr>
+    <td><code>See, edit, create, and delete only the specific Google Drive files you use with this app</code><br/>(<code>https://www.googleapis.com/auth/drive.file</code>)</td>
+    <td>Access limited to files explicitly opened or created with Company A.</td>
+    <td>Only allows interaction with documents you link through Company A—not your entire Drive.</td>
+  </tr>
+  <tr>
+    <td><code>See and download all your Google Drive files</code><br/>(<code>https://www.googleapis.com/auth/drive.readonly</code>)</td>
+    <td>View any file on your Google Drive, including Google Docs, without editing or deleting.</td>
+    <td>Allows Company A to pull in any document for viewing/sync (read-only).</td>
+  </tr>
+  <tr>
+    <td><code>See, edit, create, and delete all your Google Drive files</code><br/>(<code>https://www.googleapis.com/auth/drive</code>)</td>
+    <td>Full access to all documents and files on your Google Drive.</td>
+    <td>Required for workflows that operate on any file in your Drive, such as bulk sync or organization-wide operations.</td>
+  </tr>
+  <tr>
+    <td><code>Access only the currently open Google Docs document</code><br/>(<code>https://www.googleapis.com/auth/documents.currentonly</code>)</td>
+    <td>Temporarily access just the Google Doc you’re actively using.</td>
+    <td>Most restricted permission; only used for certain in-app actions or add-ons.</td>
+  </tr>
+</tbody>
+</Table>
+
+<Callout type="info">
+You can choose to grant only the permissions required for your use case. Company A will never access more than what you approve during the connection process.
+</Callout>
+
+## Test Your Connection
+
+To confirm your integration is working:
+
+1. Go to any feature in Company A that uses Google Docs (e.g., document syncing, import).
+2. Try syncing or viewing a Google Doc.
+3. If the document loads successfully, your connection is active.
+
+If you have any issues, try disconnecting and reconnecting Google Docs, or see troubleshooting below.
+
+## Troubleshooting & Common Issues
+
+<Callout type="warning">
+**Pop-up blocked:** If nothing happens when you click <b>Connect</b>, your browser may have blocked the sign-in window. Enable pop-ups for Company A and try again.
+</Callout>
+
+<Callout type="warning">
+**Wrong Account:** If you connect the wrong Google account, disconnect and repeat the process with the desired account.
+</Callout>
+
+<Callout type="warning">
+**Permission denied:** If you didn’t grant all requested permissions or see an error stating access was denied, disconnect and reconnect, ensuring you approve the required permissions.
+</Callout>
+
+If you continue to have trouble, contact Company A’s support team for help.
+
+---
+For more about Google account permissions, see the
+[Google Docs API authorization guide](https://developers.google.com/workspace/docs/api/auth).
