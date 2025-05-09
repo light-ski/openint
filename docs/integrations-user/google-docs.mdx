@@ -1,7 +1,75 @@
 ---
 title: Connecting Google Docs
 sidebarLabel: Google Docs
+# Connecting Google Docs
 
+Effortlessly sync your Google Docs with Company A so you can create, view, and manage your documents right from your Company A dashboard.
+
+---
+
+## How to Connect Google Docs
+
+Follow these steps to securely connect your Google Docs account:
+
+1. **Go to Integrations:** In the Company A dashboard, navigate to the Integrations section.
+2. **Select Google Docs:** Find Google Docs and click on **Connect**.
+3. **Sign in to Google:** A secure Google login popup will appear. Choose the Google Account you want to connect.
+4. **Grant Permissions:** Review and approve the permissions (see below). Click **Allow** to proceed.
+5. **Finishing up:** You’ll return to Company A, and your Google Docs connection will be ready!
+
+<Callout type="info">
+You can disconnect Google Docs from Company A at any time from the integrations page in your dashboard.
+</Callout>
+
+---
+
+## What Permissions Are Requested?
+
+When connecting, Company A only requests the permissions necessary for syncing documents and features you activate. You will see a summary in Google’s popup before allowing access.
+
+| Permission | Purpose |
+|------------|---------|
+| **View and manage Google Docs documents**<br />(`https://www.googleapis.com/auth/documents`) | Lets Company A view, create, edit, and delete your Google Docs documents. Required for full sync, editing, and document management. |
+| **View Google Docs documents only**<br />(`https://www.googleapis.com/auth/documents.readonly`) | Allows Company A to read your document contents and metadata without making changes. |
+| **Access only specific Drive files**<br />(`https://www.googleapis.com/auth/drive.file`) | Grants access only to the Google Docs you’ve created via Company A (or explicitly selected), not your entire Google Drive. |
+| **View all Google Drive files (read-only)**<br />(`https://www.googleapis.com/auth/drive.readonly`) | Allows Company A to list and read your Drive files, including Docs, but without any changes. |
+| **View and manage all Google Drive files**<br />(`https://www.googleapis.com/auth/drive`) | Grants the broadest access: Company A may view, create, modify, and delete any file in your Drive (including Docs). Only used for advanced features. |
+| **Only current document access**<br />(`https://www.googleapis.com/auth/documents.currentonly`) | Restricts Company A to just the Google Docs file you’re actively working on. Limited-use for document add-ons. |
+
+<Callout type="warning">
+For your security, you should only grant permissions you’re comfortable with. Company A will only use the minimum necessary to provide the requested features.
+</Callout>
+
+---
+
+## Test Your Connection
+
+After connecting:
+
+- Open your document list in Company A and verify your Google Docs appear.
+- Try creating a new doc—check if it shows up in your Google Drive.
+- Open, update, or view a Docs file from within the dashboard.
+
+If these work, you’re all set!
+
+---
+
+## Troubleshooting
+
+If you have trouble connecting:
+
+- **Wrong account?** Log out of extra Google accounts in your browser. Try the connection again with only your preferred Google Account signed in.
+- **Permissions denied?** The integration only works if you accept the requested permissions. If you missed a step, disconnect and try again.
+- **Popup not showing?** Browser popups must be enabled for Company A. Check your browser's popup settings.
+- **General issues?** Try refreshing your browser, or sign out and back in to both Google and Company A.
+
+<Callout type="info">
+Still having trouble? Contact Company A support or visit your dashboard’s Help section for more assistance.
+</Callout>
+
+---
+
+*Updated: May 2025*
 # Connect Google Docs to Company A
 
 Sync your Google Docs account with Company A to unlock powerful document integration features—like viewing, creating, and editing documents directly through Company A.
