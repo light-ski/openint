@@ -25,11 +25,49 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
     </Frame>
   </Step>
   <Step title="Configure a Connector">
-    Set up the desired connector for your integration. For this example we will
-    setup Greenhouse, fill in the required fields and click on **Create**.
+    Set up the desired connector for your integration. For this example we will setup Greenhouse, fill in the required fields and click on **Create**.
     <Frame>
       <img src="/images/connector-form.png" alt="Connector Form" />
     </Frame>
+
+    ---
+
+    ### Example: Google Docs (OAuth2 Connector)
+
+    To configure Google Docs as a connector, you must set up OAuth2 credentials in Google Cloud. Follow these general steps (modeled after the [standard Google OAuth setup process](https://www.2brightsparks.com/resources/articles/gdriveclientid.html)):
+
+    <Steps>
+      <Step title="Create a Google Cloud Project">
+        Go to the <a href="https://console.cloud.google.com/">Google Cloud Console</a> and create (or select) your project.
+      </Step>
+      <Step title="Enable the Google Docs API">
+        On the left menu, click <b>APIs & Services → Library</b>. Search for "Google Docs API" and click <b>Enable</b>.
+      </Step>
+      <Step title="Configure OAuth consent screen">
+        Go to <b>APIs & Services → OAuth consent screen</b>. Fill in required information (app name, support email, developer contact info, and add test users as needed).
+      </Step>
+      <Step title="Create OAuth client ID">
+        Under <b>APIs & Services → Credentials</b>, click <b>Create Credentials → OAuth client ID</b>.
+        <ul>
+          <li>Select <b>Web application</b>.</li>
+          <li>Set an appropriate name (such as <b>OpenInt Google Docs Integration</b>).</li>
+          <li>Add your callback URI in Authorized redirect URIs (e.g. <code>https://your-app-domain.com/api/openint/oauth/callback/google-docs</code>—adjust for your deployment domain).</li>
+        </ul>
+        Save and note the <b>Client ID</b> and <b>Client Secret</b>.
+      </Step>
+      <Step title="Configure Scopes">
+        Add the scopes required by your workflow. See the <a href="https://developers.google.com/workspace/docs/api/auth">Google Docs OAuth Scopes documentation</a>. Example minimum scope:
+        <CodeBlock>https://www.googleapis.com/auth/documents.readonly</CodeBlock>
+        Grant only the least privilege your use case requires.
+      </Step>
+      <Step title="Enter Credentials in OpenInt">
+        In the OpenInt dashboard’s Connector Configs, choose Google Docs and enter the Client ID, Client Secret, and scopes from above. Save.
+      </Step>
+      <Step title="Verify Connector & Test the Flow">
+        Google Docs should now appear as available. Test with the Magic Link or Connect UI to complete OAuth and ensure correct permissions.
+      </Step>
+    </Steps>
+    <Alert type="info">For more detail on each Google OAuth step, see <a href="https://www.2brightsparks.com/resources/articles/gdriveclientid.html">this Google Drive OAuth tutorial</a> (substitute with OpenInt URLs and select Google Docs API and scopes).</Alert>
   </Step>
   <Step title="Verify Connector">
     You should see the new connector in the available connectors table.
