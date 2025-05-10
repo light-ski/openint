@@ -16,28 +16,56 @@ Follow these steps to link your Google Drive:
 4. Review the permissions requested and click **Allow** to grant access.
 5. After authorization, you’ll be redirected back to Company A. That’s it! Your Google Drive is now connected.
 
+
 ## What Permissions Are Requested?
 
-When connecting your account, Company A will request certain permissions so it can function properly with your Google Drive data. You will see these explained during the Google consent screen. Here’s what they mean:
+When connecting Google Drive, Company A typically requests only the most limited access it needs to work with your Drive data. The default permission required is:
 
-### Requested Permissions
-
-<details>
+<details open>
 <summary><strong>View file metadata only (<code>drive.metadata.readonly</code>)</strong></summary>
-Allows Company A to view the names, folders, and properties of your Google Drive files, but not the content itself. This is typically used to display your Drive’s folder structure and file lists, without accessing the files themselves.
+Allows Company A to see the names, folders, and other properties about your files—but never the file’s actual content. This is used, for example, to display your Drive’s folder structure or list your files and locations.
+</details>
+
+If you enable optional features, you may see additional permissions requested. These could include:
+
+<details>
+<summary><strong>View file metadata (<code>drive.metadata</code>)</strong></summary>
+Allows Company A to see read-only metadata for all the files in your Drive (such as names, locations, and properties), but not file content.
 </details>
 
 <details>
-<summary><strong>View your files (<code>drive.readonly</code>)</strong></summary>
-Allows Company A to view the contents and metadata of all the files in your Drive (for example, to preview or search through documents from within Company A). No files can be changed or deleted with this permission.
+<summary><strong>View all files (<code>drive.readonly</code>)</strong></summary>
+Allows Company A to view both the contents and properties of all files in your Drive. No changes can be made to your files with this permission.
 </details>
 
 <details>
-<summary><strong>Edit, upload, and organize files (<code>drive.file</code> or <code>drive</code>)</strong></summary>
-Allows Company A to create or edit files on your behalf, or organize folders. Only requested if you opt to enable write/change features.
+<summary><strong>Create, edit, or delete all Drive files (<code>drive</code>)</strong></summary>
+Allows Company A to read, modify, create, and delete any file and file metadata in your Google Drive, including shared files. This broad permission is only requested if you specifically enable features that require making these types of changes.
 </details>
 
-You are always in control—only grant the permissions described on the consent screen. Company A requests only the minimal access necessary to provide its features.
+<details>
+<summary><strong>Create or open files (<code>drive.file</code>)</strong></summary>
+Allows Company A access only to files and folders that you have created or opened with the app (or chosen via a file picker). It cannot access existing files unless you select them, and cannot see or change other files in your Drive.
+</details>
+
+<details>
+<summary><strong>Application-specific Drive data (<code>drive.appdata</code>)</strong></summary>
+Permits access to a special app folder in your Drive that stores integration-specific configuration. These files are hidden from you and other apps by default.
+</details>
+
+<details>
+<summary><strong>View your Drive photos (<code>drive.photos.readonly</code>)</strong></summary>
+Allows Company A to view your Google Photos that are stored in Drive (e.g., for displaying image previews, if supported by the integration).
+</details>
+
+<details>
+<summary><strong>Manage Google Apps Script projects (<code>drive.scripts</code>)</strong></summary>
+Allows Company A to create, access, or run Google Apps Script projects saved in your Drive (relevant only for automations, if supported).
+</details>
+
+<Callout type="info">
+You’re always in control. Only the permissions described above are requested, and only when necessary for features you've enabled. You can review and approve access during the Google sign-in process, and revoke permissions at any time in your Google Account settings.
+</Callout>
 
 ---
 **Tip:** You can read more about Google Drive permissions [here](https://developers.google.com/workspace/drive/api/guides/api-specific-auth).
