@@ -35,16 +35,20 @@ You will be automatically redirected back to Company A. The integration is now c
 
 When you connect your Google Docs account, you’ll be asked to grant certain permissions to Company A. Here’s a summary of what’s requested and why:
 
-| Permission | Why This is Needed |
+| Permission | What Company A can do |
 | --- | --- |
-| **View and manage your Google Docs documents**<br/>(`https://www.googleapis.com/auth/documents`) | Allows Company A to display, create, edit, and delete documents on your behalf. |
-| **View only your Google Docs documents**<br/>(`https://www.googleapis.com/auth/documents.readonly`) | Lets Company A access and display document contents without making changes. |
-| **Access files created or specifically shared with Company A**<br/>(`https://www.googleapis.com/auth/drive.file`) | Allows use of documents/files the app creates or you explicitly grant access to—limiting exposure of your other files. |
-| **View all your Google Drive files (read-only)**<br/>(`https://www.googleapis.com/auth/drive.readonly`) | Lets Company A view, but not change, all files in your Drive, including Docs files. |
-| **View and manage all your Google Drive files**<br/>(`https://www.googleapis.com/auth/drive`) | Enables full access to all Drive files to support advanced document workflows. |
-| **Access only the currently open Google Docs document**<br/>(`https://www.googleapis.com/auth/documents.currentonly`) | Restricts access to only the Docs file you’re currently working on for temporary or limited actions. |
+| **See, edit, create, and delete all your Google Docs documents**<br/>(`https://www.googleapis.com/auth/documents`) | Full access for viewing, editing, creating, and deleting all Google Docs documents. Used for workflows that need management of your Docs across the platform. |
+| **See all your Google Docs documents**<br/>(`https://www.googleapis.com/auth/documents.readonly`) | Allows viewing the content and metadata of your Docs, without any editing or changes. Useful for integrations that only need to display documents. |
+| **See, edit, create, and delete only the specific Drive files you use with Company A**<br/>(`https://www.googleapis.com/auth/drive.file`) | Access is limited only to the files you create with Company A or explicitly share with the app. No access to other Drive files. |
+| **See and download all your Google Drive files**<br/>(`https://www.googleapis.com/auth/drive.readonly`) | Allows viewing and downloading all files in your Drive, including your Docs. No editing or deleting allowed. |
+| **See, edit, create, and delete all your Google Drive files**<br/>(`https://www.googleapis.com/auth/drive`) | Full access to all Drive files for advanced document workflows, including bulk imports or exports. |
+| **Access only the currently open Google Docs document**<br/>(`https://www.googleapis.com/auth/documents.currentonly`) | Allows actions only on the Docs document you have open right now (temporary, limited access). |
 
-You may be prompted to accept one or more of these permissions depending on the features you use in Company A. Granting access allows Company A to sync, read, or update documents as required for your workflow. See Google’s [official permission guide](https://developers.google.com/workspace/docs/api/auth) for further details.
+You may be prompted to accept one or more of these permissions depending on the features you use in Company A. Granting access allows Company A to sync, read, or update documents as required for your workflow. For further details, see Google’s [official permission guide](https://developers.google.com/workspace/docs/api/auth).
+
+<Callout type="warning">
+Some permissions are labeled "sensitive" or "restricted" by Google. Company A only requests what’s necessary for its features. You can review all requested permissions before approving. Your data is never accessed beyond what you've allowed. For details, see Google's [API data policy](https://developers.google.com/terms/api-services-user-data-policy).
+</Callout>
 
 ## How to Verify and Use Your Connection
 
