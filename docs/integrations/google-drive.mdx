@@ -1,135 +1,99 @@
-import { Tooltip } from "@mintlify/components";
+# Google Drive Integration (GA)
 
-# Google Drive Integration
+Integrate Google Drive with your app using OpenInt's native OAuth 2.0 flow. This guide shows you how to register your app on Google Cloud, configure OAuth for Drive, and connect securely for metadata access, following Google Workspace best practices.
 
-Integrate Google Drive into your application via OpenInt to enable secure, read-only access to user Drive metadata. This connector leverages Google OAuth 2.0 for authentication and currently supports **read-only file metadata** access only, subject to the supported scope described below.
+> **Stage:** General Availability (GA)
 
-> **Note:** This integration is intended for engineering teams seeking to embed document and file metadata synchronization into their platform. For details on OpenInt's architectural approach, see the [core integration guide](/docs/getting-started/integrations).
+## Prerequisites
 
----
+- Google Cloud Platform (GCP) account with permissions to manage APIs and OAuth consent.
+- Your OpenInt deployment configured and reachable.
+- Access to the [Google API Console](https://console.developers.google.com/).
 
-## Supported and Available Scopes
+## 1. Register Your Application in Google Cloud Console
 
-OpenInt's Google Drive connector currently supports the most restrictive read-only scope: `drive.metadata.readonly`. All other Google Drive scopes are listed below for completeness.
+1. **Sign in** to [Google API Console](https://console.developers.google.com/).
+2. Click the **Select a project** dropdown and choose an existing project or **Create a new project**.
+3. In the left sidebar, go to **APIs & Services > Enabled APIs & services**, then click **+ ENABLE APIS AND SERVICES**.
+4. Search for `Drive`, click on **Google Drive API**, then click **Enable**.
 
-<table>
-  <thead>
-    <tr>
-      <th>Scope</th>
-      <th>Description</th>
-      <th>OpenInt Supported?</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive</code></td>
-      <td><Tooltip content="Full, permissive access to all files and metadata; read/write/delete.">Full access</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.file</code></td>
-      <td><Tooltip content="Access only the files the app created or opened; requires explicit user selection. Cannot access other files.">App's files</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.appdata</code></td>
-      <td><Tooltip content="Access to application-specific hidden data in the appdata folder.">Appdata folder</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.metadata</code></td>
-      <td><Tooltip content="Read-only access to file metadata, but cannot view or download file content.">File metadata read</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.metadata.readonly</code></td>
-      <td><Tooltip content="Most restrictive: read-only file metadata (titles, parents, properties) without content access.">Metadata only</Tooltip></td>
-      <td>✅</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.photos.readonly</code></td>
-      <td><Tooltip content="Read-only access to Google Photos media in Drive.">Photos readonly</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.readonly</code></td>
-      <td><Tooltip content="Read-only access to all user files and metadata including content.">Files + metadata readonly</Tooltip></td>
-      <td>❌</td>
-    </tr>
-    <tr>
-      <td><code>https://www.googleapis.com/auth/drive.scripts</code></td>
-      <td><Tooltip content="Access and manage Google Apps Script projects stored in Drive.">Scripts access</Tooltip></td>
-      <td>❌</td>
-    </tr>
-  </tbody>
-</table>
+## 2. Configure the OAuth Consent Screen
 
-See Google’s [official Drive OAuth scopes documentation](https://developers.google.com/identity/protocols/oauth2/scopes#drive) for further details.
+1. In the sidebar, open **APIs & Services > OAuth consent screen**.
+2. Choose **External**, click **Create**.
+3. Fill in the **App name**, **User support email**, and **Developer contact information**. Other fields are optional.
+4. Click **Save and Continue**.
+5. On the **Scopes** page, you may add desired scopes (see Supported Scopes below), but with OpenInt, begin with `https://www.googleapis.com/auth/drive.metadata.readonly` for metadata-only access. Click **Save and Continue**.
+6. Add yourself or your testers as **Test users** to allow account linking.
+7. Continue and **Publish App** when ready. If you see a "Prepare for verification" prompt, skip it unless publishing to all users.
+
+## 3. Create OAuth 2.0 Credentials
+
+1. In the sidebar, go to **APIs & Services > Credentials**.
+2. Click **+ CREATE CREDENTIALS > OAuth client ID**.
+3. Select **Web application**.
+4. Set a recognizable name (e.g., `OpenInt Google Drive Integration`).
+5. Add an **Authorized redirect URI** pointing to your OpenInt instance's callback endpoint; e.g.,
+
+    ```
+    https://<YOUR_OPENINT_HOST>/api/oauth/callback
+    ```
+6. Click **Create**. Google will show your **Client ID** and **Client Secret** — copy both and store securely.
+
+## 4. Configure OpenInt for Google Drive
+
+1. In your OpenInt configuration or dashboard, select "Google Drive" as a connector.
+2. Enter the **Client ID** and **Client Secret** you generated above.
+3. Set the scope to `https://www.googleapis.com/auth/drive.metadata.readonly` (default and currently supported by OpenInt).
+4. Save your connection settings.
+
+## 5. Test Your Connection
+
+Initiate a connection from OpenInt. You should be redirected to Google’s OAuth consent screen, see your configured app name, and be prompted to grant metadata access to Google Drive. Upon success, OpenInt will redirect back to your app and securely store the tokens.
+
+> **Note:** If you encounter errors such as `redirect_uri_mismatch`, double-check that your callback URI in Google and OpenInt match exactly. All parameters (including trailing slashes and protocols) must align.
 
 ---
 
-## Authenticating with Google Drive (OAuth 2.0)
+## Supported Google Drive Scopes
 
-To connect OpenInt with Google Drive, you must set up an OAuth 2.0 client on your Google Cloud project. This provides the credentials necessary for the OpenInt connector to request tokens on behalf of your users.
+Below is a summary of relevant Google Drive scopes. OpenInt currently exposes `drive.metadata.readonly`; additional scopes may be available in the future. For the full, up-to-date list, see the [official Google API scope documentation](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes).
 
-### Step-by-Step: Register OAuth 2.0 Client Credentials
+| Scope | Supported by OpenInt? | Description |
+|--|--|--|
+| <Tooltip text="Full, permissive scope to access all of a user's Drive files.">https://www.googleapis.com/auth/drive</Tooltip> | ❌ | Full access to all files (create, modify, delete, metadata). *Restricted* |
+| <Tooltip text="Access only to files created or opened by the app; the user must select files.">https://www.googleapis.com/auth/drive.file</Tooltip> | ❌ | App-specific file access. *Recommended/Non-sensitive* |
+| <Tooltip text="Access to the appdata folder for storing configuration/config files.">https://www.googleapis.com/auth/drive.appdata</Tooltip> | ❌ | Only appdata folder (hidden). *Recommended/Non-sensitive* |
+| <Tooltip text="Read/write Drive file metadata, no content.">https://www.googleapis.com/auth/drive.metadata</Tooltip> | ❌ | Metadata read/write. *Restricted* |
+| <Tooltip text="Read-only Drive file metadata (titles, properties, no content).">https://www.googleapis.com/auth/drive.metadata.readonly</Tooltip> | ✅ | Metadata read-only (supported, default). *Restricted* |
+| <Tooltip text="Read-only access to user's Photos/Videos in Drive.">https://www.googleapis.com/auth/drive.photos.readonly</Tooltip> | ❌ | Read-only Google Photos. *Restricted* |
+| <Tooltip text="Read-only access to all Drive files, including content and metadata.">https://www.googleapis.com/auth/drive.readonly</Tooltip> | ❌ | All files, read-only (content & metadata). *Restricted* |
+| <Tooltip text="Modify Apps Script projects in Drive.">https://www.googleapis.com/auth/drive.scripts</Tooltip> | ❌ | Apps Script modification. *Restricted* |
 
-1. **Go to the [Google Cloud API Credentials page](https://console.cloud.google.com/apis/credentials)**.
-2. Select or create a Google Cloud project.
-3. **Enable the Google Drive API** for your project ([API Library](https://console.cloud.google.com/apis/library/drive.googleapis.com)).
-4. Click **Create Credentials** > **OAuth client ID**.
-5. Set the application type to **Web application**.
-6. **Add your OpenInt redirect URI** (provided by your OpenInt hosting/deployment) to the "Authorized redirect URIs" field. E.g., `https://yourapp.com/openint/oauth/callback`.
-7. Save and record your **Client ID** and **Client Secret**. Download them if needed.
-8. [Configure the OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent) for your project to reflect the requested scopes and ensure your branding is displayed properly. With only `drive.metadata.readonly`, no Google verification is required, but broader scopes (such as `drive` or `drive.readonly`) would trigger extra audits.
+**Legend:**
+- ✅ Supported by OpenInt
+- ❌ Not yet supported by OpenInt
 
-Refer to Google's [web server OAuth 2.0 flow documentation](https://developers.google.com/identity/protocols/oauth2/web-server) for in-depth guidance.
-
----
-
-## OpenInt Connector Configuration
-
-Add your credential information to the OpenInt connector configuration. Only `drive.metadata.readonly` is currently supported. Example config:
-
-```typescript
-{
-  provider: 'google-drive',
-  client_id: '<YOUR GOOGLE OAUTH CLIENT ID>',
-  client_secret: '<YOUR GOOGLE OAUTH CLIENT SECRET>',
-  scopes: ['https://www.googleapis.com/auth/drive.metadata.readonly'],
-  redirect_uri: '<YOUR REGISTERED REDIRECT URI>',
-}
-```
-
-See [/docs/core-concepts-v0/connector-config.mdx](/docs/core-concepts-v0/connector-config) for the general connector config and options. The `redirect_uri` **must exactly match** the value registered in your Google Cloud project.
-
-To embed the connector or UI in your app, see [embedding documentation](/docs/connect/embed).
+> For scope details and requirement levels (sensitive/restricted), see Google’s [full scope list](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes).
 
 ---
 
 ## Common Issues & Troubleshooting
 
-- **redirect_uri_mismatch**: Ensure the redirect URI in your OpenInt config matches the one registered in Google Cloud *exactly*, including scheme and trailing slashes.
-- **OAuth consent screen not configured**: Before requesting scopes, Google requires a filled consent screen. Complete this in the API Console.
-- **Admin restrictions / policies**: Google Workspace managers can limit app access to Drive. Check for `admin_policy_enforced` errors and confirm your OAuth client is whitelisted in Workspace admin settings.
-- **No refresh token returned**: If you don’t receive a refresh token, ensure `access_type=offline` and `prompt=consent` are set in your OAuth initiation URL/config (OpenInt defaults to this per standard best practices). Users may also need to grant consent again if previously denied.
-- **Insufficient permissions**: The supported scope (`drive.metadata.readonly`) is highly restrictive. If your app needs to read or write content or manage files, OpenInt currently does **not** support those actions for Google Drive.
-- **App not verified**: If the consent screen reports the app as unverified, you may be requesting sensitive scopes (not currently supported by OpenInt). Stay within the allowed scope for a seamless experience.
-- **State/CSRF mismatch**: Ensure state management is correct according to [Google's best practices](https://developers.google.com/identity/protocols/oauth2/web-server#state).
+<Callout type="warning" title="OAuth Errors">
+**redirect_uri_mismatch:** Callback URLs must match exactly in OpenInt and Google Cloud Console.<br/>
+**invalid_client:** Incorrect Client ID/Secret – verify and re-enter from Google.
+**unverified_app:** App is not published; add test users or publish for general access. See [OAuth consent screen docs](https://developers.google.com/workspace/guides/configure-oauth-consent).
+**insufficient_scope:** Only `drive.metadata.readonly` is currently supported; update requested scopes in OpenInt.
+</Callout>
 
-For more OpenInt-specific troubleshooting and advanced scenarios, refer to [the OpenInt FAQ](/docs/connect/faq) and [data flow documentation](/docs/connect/data-flow).
+<Callout type="info" title="Quota or API Limit Errors">
+Every Google Cloud project has per-app and per-user quota limits. If you see errors like `403: User rate limit exceeded`, consider creating dedicated OAuth credentials per integration and avoid sharing credentials across user bases.
+</Callout>
 
----
+## Helpful Resources
 
-## References & Further Reading
-
-- Google: [Drive OAuth Scopes](https://developers.google.com/identity/protocols/oauth2/scopes#drive)
-- Google: [OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
-- [OpenInt Core Connector Config](/docs/core-concepts-v0/connector-config)
-- [OpenInt Embedding Integrations](/docs/connect/embed)
-- [OpenInt Integration FAQ](/docs/connect/faq)
-- [OpenInt Getting Started: Integrations](/docs/getting-started/integrations)
-
----
-
-This page is maintained by OpenInt. Please file feedback or open an issue for documentation updates.
+- [Google Drive API Scopes (official)](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes)
+- [Google OAuth Consent Screen configuration](https://developers.google.com/workspace/guides/configure-oauth-consent)
+- [General Google OAuth 2.0 information](https://developers.google.com/identity/protocols/oauth2)
+- [OpenInt Getting Started](../getting-started/quickstart)
