@@ -23,7 +23,7 @@ Integrate Google Drive with your app using OpenInt's native OAuth 2.0 flow. This
 2. Choose **External**, click **Create**.
 3. Fill in the **App name**, **User support email**, and **Developer contact information**. Other fields are optional.
 4. Click **Save and Continue**.
-5. On the **Scopes** page, you may add desired scopes (see Supported Scopes below), but with OpenInt, begin with `https://www.googleapis.com/auth/drive.metadata.readonly` for metadata-only access. Click **Save and Continue**.
+5. On the **Scopes** page, you **must** add only `https://www.googleapis.com/auth/drive.metadata.readonly` for metadata-only access. OpenInt currently ignores or returns an error (`insufficient_scope`) for any other Drive scopes added here. [See all Google Drive scopes.](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes) Click **Save and Continue**.
 6. Add yourself or your testers as **Test users** to allow account linking.
 7. Continue and **Publish App** when ready. If you see a "Prepare for verification" prompt, skip it unless publishing to all users.
 
@@ -33,10 +33,11 @@ Integrate Google Drive with your app using OpenInt's native OAuth 2.0 flow. This
 2. Click **+ CREATE CREDENTIALS > OAuth client ID**.
 3. Select **Web application**.
 4. Set a recognizable name (e.g., `OpenInt Google Drive Integration`).
-5. Add an **Authorized redirect URI** pointing to your OpenInt instance's callback endpoint; e.g.,
+5. Add an **Authorized redirect URI** pointing to your OpenInt instance's callback endpoint (URI **must match exactly**, including HTTPS, trailing slashes, and case). E.g.:
 
     ```
     https://<YOUR_OPENINT_HOST>/api/oauth/callback
+    > **Tip:** [Google's redirect URI requirements](https://developers.google.com/identity/protocols/oauth2/web-server#redirect-uri-validation) are strict. If you see a `redirect_uri_mismatch` error, check both Google Console and OpenInt are identical.
     ```
 6. Click **Create**. Google will show your **Client ID** and **Client Secret** — copy both and store securely.
 
@@ -44,7 +45,7 @@ Integrate Google Drive with your app using OpenInt's native OAuth 2.0 flow. This
 
 1. In your OpenInt configuration or dashboard, select "Google Drive" as a connector.
 2. Enter the **Client ID** and **Client Secret** you generated above.
-3. Set the scope to `https://www.googleapis.com/auth/drive.metadata.readonly` (default and currently supported by OpenInt).
+3. Set the scope to `https://www.googleapis.com/auth/drive.metadata.readonly` (this is the **only** Drive scope currently supported by OpenInt; requests for others are ignored or rejected).
 4. Save your connection settings.
 
 ## 5. Test Your Connection
@@ -70,11 +71,12 @@ Below is a summary of relevant Google Drive scopes. OpenInt currently exposes `d
 | <Tooltip text="Read-only access to all Drive files, including content and metadata.">https://www.googleapis.com/auth/drive.readonly</Tooltip> | ❌ | All files, read-only (content & metadata). *Restricted* |
 | <Tooltip text="Modify Apps Script projects in Drive.">https://www.googleapis.com/auth/drive.scripts</Tooltip> | ❌ | Apps Script modification. *Restricted* |
 
+
 **Legend:**
 - ✅ Supported by OpenInt
 - ❌ Not yet supported by OpenInt
 
-> For scope details and requirement levels (sensitive/restricted), see Google’s [full scope list](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes).
+> **Note:** OpenInt does **not** require `userinfo.email` or `userinfo.profile` for this integration—only metadata scope is supported at this time. For details and requirement levels (sensitive/restricted), see Google’s [full Drive scope list](https://developers.google.com/workspace/drive/api/guides/api-specific-auth#drive-scopes).
 
 ---
 
