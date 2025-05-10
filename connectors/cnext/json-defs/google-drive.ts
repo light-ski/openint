@@ -1,5 +1,6 @@
 import type {JsonConnectorDef} from '../schema'
 
+
 // Integraton with Google Drive. 
 // Write it similarly to the Google Docs documentation that already exists.
 // DocWriter: Please structure the developer-facing guide similarly to https://www.2brightsparks.com/resources/articles/gdriveclientid.html (they walk through the same steps the developers need to do, but for a different app)
