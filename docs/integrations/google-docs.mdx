@@ -7,7 +7,7 @@ description: Guide for integrating Google Docs with your app via OpenInt (OAuth2
 
 This guide describes how to connect your app to Google Docs through OpenInt using OAuth2 authentication. We'll walk through obtaining credentials from Google, configuring the integration in OpenInt, listing all relevant OAuth scopes, and highlighting important troubleshooting steps. This documentation is intended for engineers integrating Google Docs on behalf of their end users.
 
-> **Note:** As of now, OpenInt supports access only to the [documents.currentonly](https://developers.google.com/workspace/docs/api/auth) scope. Broader Google Docs and Drive scopes are not yet implemented in OpenInt.
+> **Note:** As of now, OpenInt supports only <code>https://www.googleapis.com/auth/documents.currentonly</code>.<br/>Support for broader Google Docs or Drive scopes may be added in the future. If you plan to extend access, be aware that <b>many scopes require additional Google verification</b> depending on their sensitivity.
 
 ## Prerequisites
 
@@ -66,49 +66,84 @@ Refer to [OpenInt’s integration guide](/docs/getting-started/integrations) for
 
 ## Supported and Available OAuth Scopes
 
-Below is a list of Google Docs (and related Drive) OAuth scopes. <Badge type="tip">As of now, OpenInt only supports <code>documents.currentonly</code>. Support for broader scopes may be added in the future.</Badge>
+Below is a list of Google Docs (and related Drive) OAuth scopes. <Badge type="tip">As of now, OpenInt only supports <code>https://www.googleapis.com/auth/documents.currentonly</code>. If you need broader access, review the sensitivity requirements below.</Badge>
 
 <Table>
   <thead>
     <tr>
-      <th>Scope</th>
+      <th>Scope URI</th>
       <th>Description</th>
+      <th>Sensitivity</th>
       <th>OpenInt Supported?</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><Tooltip text="Provides access only to the currently open Google Docs document (when used with Docs add-ons). Most limited scope for temporary access.">documents.currentonly</Tooltip></td>
-      <td>Access to current document only</td>
+      <td>
+        <Tooltip text="Provides access only to the currently open Google Docs document (when used with Docs add-ons). Most limited scope for temporary access.">
+          <code>https://www.googleapis.com/auth/documents.currentonly</code>
+        </Tooltip>
+      </td>
+      <td>Access to the currently open Google Docs doc (for add-ons only)</td>
+      <td>Non-sensitive</td>
       <td><Badge type="success">Yes</Badge></td>
     </tr>
     <tr>
-      <td><Tooltip text="Provides full read/write access to Google Docs documents. Allows viewing, creating, editing, and deleting documents.">documents</Tooltip></td>
-      <td>Full read/write to all Docs</td>
+      <td>
+        <Tooltip text="Provides full read/write access to Google Docs documents. Allows viewing, creating, editing, and deleting all Docs documents.">
+          <code>https://www.googleapis.com/auth/documents</code>
+        </Tooltip>
+      </td>
+      <td>Full read/write access to all Docs</td>
+      <td>Sensitive</td>
       <td><Badge type="danger">No</Badge></td>
     </tr>
     <tr>
-      <td><Tooltip text="Provides read-only access to Google Docs documents. Allows viewing document content and metadata but no modifications.">documents.readonly</Tooltip></td>
+      <td>
+        <Tooltip text="Provides read-only access to Google Docs documents. Allows viewing document content and metadata but no modifications.">
+          <code>https://www.googleapis.com/auth/documents.readonly</code>
+        </Tooltip>
+      </td>
       <td>Read-only Docs access</td>
+      <td>Sensitive</td>
       <td><Badge type="danger">No</Badge></td>
     </tr>
     <tr>
-      <td><Tooltip text="Provides access to Google Docs files the app has created or explicitly has access to. Limited to specific files rather than all documents.">drive.file</Tooltip></td>
-      <td>Limited Drive file access</td>
+      <td>
+        <Tooltip text="Provides access to Drive files that the app has created or explicitly has access to. Limited to specific files—recommended if you do not need all-user data.">
+          <code>https://www.googleapis.com/auth/drive.file</code>
+        </Tooltip>
+      </td>
+      <td>Access to specific Drive files used with app</td>
+      <td>Non-sensitive</td>
       <td><Badge type="danger">No</Badge></td>
     </tr>
     <tr>
-      <td><Tooltip text="Provides full read/write access to all Google Drive files including Docs. The broadest permission for Docs/Drive operations.">drive</Tooltip></td>
+      <td>
+        <Tooltip text="Provides full read/write access to all Drive files including Docs. The broadest permission for Docs/Drive operations. Use with care.">
+          <code>https://www.googleapis.com/auth/drive</code>
+        </Tooltip>
+      </td>
       <td>Full read/write to all Drive/Docs</td>
+      <td>Restricted</td>
       <td><Badge type="danger">No</Badge></td>
     </tr>
     <tr>
-      <td><Tooltip text="Provides read-only access to all Google Drive files including Docs, but no modifications allowed. Wider access than drive.file but limited to viewing.">drive.readonly</Tooltip></td>
-      <td>Read-only Drive/Docs access</td>
+      <td>
+        <Tooltip text="Provides read-only access to all Drive files including Docs, but no modifications allowed. Wider access than drive.file but limited to viewing.">
+          <code>https://www.googleapis.com/auth/drive.readonly</code>
+        </Tooltip>
+      </td>
+      <td>Read-only access to all Drive/Docs</td>
+      <td>Restricted</td>
       <td><Badge type="danger">No</Badge></td>
     </tr>
   </tbody>
 </Table>
+
+If you anticipate needing broader Google Docs or Drive access in the future, review [sensitive and restricted scope requirements](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes):
+- <b>Sensitive</b> scopes require additional Google app verification.
+- <b>Restricted</b> scopes require security assessment and strict data policy compliance.
 
 For additional details and latest scope information, refer to the [official Google Docs API authorization documentation](https://developers.google.com/workspace/docs/api/auth).
 
