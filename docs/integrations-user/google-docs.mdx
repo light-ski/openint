@@ -1,0 +1,62 @@
+---
+title: Connect Google Docs to Your Account
+description: How to connect and manage your Google Docs integration
+---
+
+# Connect Google Docs
+
+Easily link your Google Docs account to Company A so you can sync documents, collaborate, and automate workflows directly from one place.
+
+---
+
+## 1. Connect Your Google Docs Account
+
+1. Click the **Connect** or **Sign in with Google** button on the integration page in your Company A settings.
+2. If prompted, select the Google account you want to connect.
+3. Review the list of permissions (see below) and click **Allow** to give permission.
+
+---
+
+## 2. Review the Permissions Requested
+
+To connect, you’ll be asked to approve access to your Google Docs and Google Drive. These permissions ensure Company A can sync your files and automate document workflows. Here’s what the integration may request:
+
+| Permission | Why It's Needed |
+|------------|-----------------|
+| **See, edit, create, and delete all your Google Docs documents** (`https://www.googleapis.com/auth/documents`) | Allows Company A to read, update, create, or remove any Docs as needed for document syncing and management. |
+| **See all your Google Docs documents** (`https://www.googleapis.com/auth/documents.readonly`) | Allows Company A to display your Docs, but not change them. |
+| **See, edit, create, and delete only the specific Google Drive files you use with this app** (`https://www.googleapis.com/auth/drive.file`) | Restricts access so Company A can only see or manage files you select or create through the app. |
+| **See and download all your Google Drive files** (`https://www.googleapis.com/auth/drive.readonly`) | Lets Company A display or sync Docs/Drive files without making changes. |
+| **See, edit, create, and delete all your Google Drive files** (`https://www.googleapis.com/auth/drive`) | Allows full access for maximum automation with Docs/Drive files. |
+
+**Note:** You’ll always see a detailed list of permissions before approval. Some permissions may cause Google to show a warning or extra consent screen for your security.
+
+---
+
+## 3. Confirm Successful Connection
+
+After you approve access, you’ll see a confirmation message or a status like **Google Docs Connected**. You are ready to use features that interact with your documents.
+
+---
+
+## 4. Test Your Integration
+
+- Try syncing a Google Docs file, or open the integration dashboard to ensure documents are listed.
+- If you can’t see your Docs or get an error, check the troubleshooting section below.
+
+---
+
+## 5. Troubleshooting & FAQ
+
+**Having trouble connecting your Google Docs account?**
+
+- **Make sure you’re signed into the correct Google account.** If you use multiple Google accounts, be sure the right one is selected during the connection process.
+- **Enable pop-ups and third-party cookies.** The Google login prompt opens in a new window. If it doesn’t appear, check your browser settings.
+- **Approve all requested permissions.** Denying any permission will prevent the integration from working.
+- **App not verified?** If Google warns, “This app isn’t verified,” it means the app is still going through Google’s review for these permissions.
+- **Revoke and retry connection.** Go to [Google Account Permissions](https://myaccount.google.com/permissions), remove access for Company A, and try connecting again.
+- **Persistent errors?** Contact Company A’s support team and include a screenshot and details about the error.
+
+---
+
+For more info on how your data is used or about Google’s security, visit [Google Docs API Authorization](https://developers.google.com/workspace/docs/api/auth).
