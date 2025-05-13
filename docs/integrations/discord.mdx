@@ -1,0 +1,99 @@
+---
+title: Discord Integration
+---
+# Discord Integration
+**Status:** General Availability (GA) · OAuth2 Supported · [Official Discord OAuth2 Documentation](https://discord.com/developers/docs/topics/oauth2)
+
+Integrate Discord authentication into your application using OpenInt. This guide walks you through the setup, supported OAuth2 scopes, and notes common pitfalls when building Discord integrations for your end users.
+
+---
+
+## Quickstart
+
+Follow these steps to add Discord OAuth to your app using OpenInt:
+
+1. **Register a Developer Application on Discord**
+   Go to [Discord Developer Portal](https://discord.com/developers/applications) and create a new application for your product.
+2. **Obtain the Client ID and Client Secret**
+   Under your application's "OAuth2" (or "General Information") settings, copy the `CLIENT ID` and `CLIENT SECRET`.
+3. **Configure Redirect URI**
+   In the Discord Developer Portal, add your OpenInt redirect URI to the list of Redirects.
+   - For local development, ensure it matches your test environment URL.
+4. **Configure OpenInt**
+   Set `provider = "discord"` and add the client credentials in your OpenInt connection config. The minimum supported scope is `identify`.
+
+```json
+{
+  "provider": "discord",
+  "client_id": "YOUR_DISCORD_CLIENT_ID",
+  "client_secret": "YOUR_DISCORD_CLIENT_SECRET",
+  "scopes": ["identify"],
+  "redirect_uri": "YOUR_REGISTERED_REDIRECT_URI"
+}
+```
+
+5. **Embed/OpenInt Connection**
+   Embed the OpenInt connect flow in your app, or invoke the OAuth2 authorization URL as directed by OpenInt.
+
+---
+
+## How to Find Your Discord OAuth2 Client Credentials
+
+1. Visit the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Click "New Application", set the name, and create the application.
+3. In the sidebar, go to **OAuth2** > **General** to find the `CLIENT ID` and generate a `CLIENT SECRET`.
+4. Under **OAuth2** > **Redirects**, add your OpenInt redirect URL (e.g., `https://yourapp.com/oauth/callback`).
+
+For detailed instructions, see the [Discord OAuth2 docs](https://discord.com/developers/docs/topics/oauth2#registering-an-application).
+
+---
+
+## OAuth2 Flow
+
+OpenInt uses the standard OAuth2 Authorization Code flow for Discord. The following endpoints are used:
+
+- **Authorization URL:**
+  `https://discord.com/api/oauth2/authorize`
+- **Token Exchange URL:**
+  `https://discord.com/api/oauth2/token`
+
+When a user authenticates with Discord through OpenInt, OpenInt requests the desired scopes and handles token exchange/refresh under the hood. For more details, see the [Authorization Code Grant section](https://discord.com/developers/docs/topics/oauth2#authorization-code-grant).
+
+---
+
+## Supported Scopes
+
+Below is a list of relevant Discord OAuth2 scopes. Only `identify` is currently supported via OpenInt; others are listed for future reference. For the full set of Discord scopes, see [Discord OAuth2 Scopes documentation](https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes).
+
+| Scope | Description | Supported by OpenInt? |
+|-------|-------------|:--------------------:|
+| <Tooltip tip="Allows fetching the user's basic info (ID, username, avatar, etc.).">identify</Tooltip> | Basic user info (required by OpenInt for Discord connections). | Yes |
+| <Tooltip tip="Access to the user's email address (requires identify).">email</Tooltip> | User's email address | No |
+| <Tooltip tip="Allows access to user's connected third-party accounts.">connections</Tooltip> | Connected external accounts (Steam, Battle.net, etc.) | No |
+| <Tooltip tip="Provides read-only access to the list of servers the user is in (server IDs and basic info).">guilds</Tooltip> | List of servers/guilds user belongs to | No |
+| <Tooltip tip="Allows your app to join servers on the user's behalf.">guilds.join</Tooltip> | Join servers for user (write) | No |
+| <Tooltip tip="Allows joining group DMs on the user's behalf.">gdm.join</Tooltip> | Join group DMs (write) | No |
+| <Tooltip tip="Allows reading messages in private channels (DMs and group DMs) the user has access to.">messages.read</Tooltip> | Access to private DMs and group DMs messages | No |
+| <Tooltip tip="Standard bot scope used for bot authorization. When used with bot permissions, can grant extensive access to servers.">bot</Tooltip> | Standard bot authorization: add bots to guilds | No |
+| <Tooltip tip="Allows generating webhook URLs for a channel, enabling posting messages as the webhook.">webhook.incoming</Tooltip> | Webhook creation (write in channels) | No |
+
+For a complete list and detailed descriptions, see the [Discord scopes reference](https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes).
+
+---
+
+## Common Mistakes & Troubleshooting
+
+- **Invalid Redirect URI**: The redirect URI configured in the Discord Developer Portal **must** exactly match the URI passed to OpenInt. This is the most frequent source of OAuth errors.
+- **Incorrect Client ID/Secret**: Ensure you use the correct credentials. Regenerate if unsure.
+- **Missing Scopes**: OpenInt will request only supported scopes (currently `identify`). Attempting to request unsupported scopes will result in a failure.
+- **Token Not Refreshed**: Tokens expire after a set period. Ensure your OpenInt backend handles token refresh appropriately (automatic with OpenInt's flow).
+- **Permissions Issues**: Trying to use features requiring additional scopes will fail until those scopes are supported/added in OpenInt.
+- **Discord rate limits or downtime**: Authentication may fail if Discord’s API is rate-limited or experiencing an incident. Check [Discord Status](https://discordstatus.com/).
+
+---
+
+## References
+
+- [Discord OAuth2 Documentation](https://discord.com/developers/docs/topics/oauth2)
+- [Discord Scopes List](https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes)
+- [Registering a Discord Application](https://discord.com/developers/applications)
