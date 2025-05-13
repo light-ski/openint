@@ -1,0 +1,60 @@
+---
+title: Connecting Google Calendar
+---
+
+# Connect Your Google Calendar
+
+You can connect your Google Calendar to {{APP_NAME}} to sync your events, manage your schedule, and streamline your workflows.
+
+## How to Connect
+
+Follow these steps to securely connect your Google Calendar:
+
+1. **Navigate to Integrations**: Go to the *Integrations* or *Connected Apps* section of your {{APP_NAME}} account.
+2. **Select Google Calendar**: Choose **Google Calendar** from the list of available integrations.
+3. **Click "Connect"**: Press the **Connect** button.
+4. **Sign in to Google**: A pop-up will prompt you to sign in to your Google account (if you aren't already signed in).
+5. **Review Permissions**: Review the permissions requested.
+6. **Grant Access**: Accept and grant access to complete the connection.
+7. **Done!** You will be redirected back to {{APP_NAME}} and your Google Calendar will be connected.
+
+## Permissions Explained
+
+When you connect Google Calendar, {{APP_NAME}} requests the following permissions:
+
+| Permission | Why It's Needed |
+| --- | --- |
+| **Full calendar access**<br/>(`https://www.googleapis.com/auth/calendar`) | Allows full read/write access to your calendars and events so {{APP_NAME}} can sync, create, and update calendar data. |
+| **Manage events**<br/>(`https://www.googleapis.com/auth/calendar.events`) | Lets {{APP_NAME}} create and modify calendar events directly. |
+| **View events**<br/>(`https://www.googleapis.com/auth/calendar.events.readonly`) | Lets {{APP_NAME}} show your events (no changes made). |
+| **View calendars**<br/>(`https://www.googleapis.com/auth/calendar.readonly`) | Lets {{APP_NAME}} see your calendars and their events, but NOT change them. |
+| **View settings**<br/>(`https://www.googleapis.com/auth/calendar.settings.readonly`) | Lets {{APP_NAME}} read your calendar settings like time zone, for seamless scheduling. |
+
+{{APP_NAME}} only requests the access required to power the features you use. You can always review and revoke these permissions in your Google Account settings.
+
+## Test Your Connection
+
+After connecting:
+
+- Create or update an event in {{APP_NAME}} and confirm it appears in your Google Calendar.
+- Or, create an event in Google Calendar and verify it syncs back to {{APP_NAME}}.
+
+If you experience issues with syncing or data appearing, try disconnecting and reconnecting the integration.
+
+## Troubleshooting & Common Issues
+
+> **Tip**: Most problems are resolved by disconnecting and reconnecting your Google Calendar.
+
+- **Pop-up Blocked:** Ensure your browser allows pop-ups from {{APP_NAME}} for Google sign-in to work.
+- **Wrong Account:** Double-check that you're connecting the correct Google account.
+- **Denied Permissions:** If you accidentally deny permissions, you must repeat the connection process.
+- **Revoked Access:** If you revoke access in your Google Account, you will need to reconnect.
+
+If you still have trouble, please reach out to {{APP_NAME}} support.
+
+## Disconnecting Google Calendar
+
+You can disconnect your Google Calendar anytime from the *Integrations* or *Connected Apps* page in {{APP_NAME}}.
+
+---
+*Google Calendar is a product of Google LLC. {{APP_NAME}} is not affiliated with or endorsed by Google.*
