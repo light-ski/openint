@@ -1,0 +1,64 @@
+---
+title: Connect Google Docs
+---
+
+# Connect Google Docs to Your App
+
+Connecting your Google Docs account enables your app to access and sync your documents seamlessly—for example, allowing you to view, edit, or import content from your Google Docs directly within the app.
+
+## How to Connect Google Docs
+
+1. **Go to Integrations:** In your app’s settings, open the “Integrations” or “Connected Accounts” section.
+2. **Choose Google Docs:** Click on “Connect Google Docs” (or similar wording).
+3. **Sign in to Google:** A new window will appear asking you to sign in with your Google Account. Enter your credentials if prompted.
+4. **Grant Permissions:** Review the list of permissions requested (see below), then click “Allow” to grant access. Your password is never shared with the app—integration is handled securely by Google.
+5. **Complete Connection:** After authorizing, you’ll be redirected back and see a confirmation that Google Docs is connected.
+
+<Info>Authentication with Google Docs happens securely through Google’s own sign-in page. Your app never sees your Google password.</Info>
+
+## What Permissions Will Be Requested?
+
+Depending on your app’s features, connecting Google Docs may prompt you to approve access to one or more of the following permissions:
+
+| Permission | What It Means |
+| --- | --- |
+| **View and manage your Google Docs documents** <br/>(`https://www.googleapis.com/auth/documents`) | Full access to read, create, edit, and delete your documents. |
+| **View your Google Docs documents** <br/>(`https://www.googleapis.com/auth/documents.readonly`) | Read-only access to view the content and details of your documents. No editing or deleting. |
+| **View and manage Google Drive files that your app has access to** <br/>(`https://www.googleapis.com/auth/drive.file`) | Manage only files you’ve created with or shared to the app—not your entire Drive. |
+| **View your Google Drive files** <br/>(`https://www.googleapis.com/auth/drive.readonly`) | Read-only access to your Drive, including Docs—used for importing or referencing files. |
+| **View and manage all of your Google Drive files** <br/>(`https://www.googleapis.com/auth/drive`) | Full access to all files and folders in your Google Drive, including Docs. Used for advanced sync features. |
+| **View the currently open Google Docs document** <br/>(`https://www.googleapis.com/auth/documents.currentonly`) | Limited, temporary access to the Doc you have open—used for some add-on features. |
+
+<Note>The exact permissions requested depend on which features your app uses. Only the minimum necessary permissions will be requested.</Note>
+
+## How Do I Know It Worked?
+
+Once connected:
+
+- You should see Google Docs listed as “Connected” in your app’s integrations area.
+- Try to import, sync, or view a Google Doc within the app to verify the connection.
+- If there are sync or content issues, see troubleshooting below.
+
+<Check>If you can view or take action on your Google Docs from within the app, your connection is working!</Check>
+
+## Troubleshooting & Common Issues
+
+<Tip>Still having trouble? Make sure you’re signed into the correct Google account and have allowed all requested permissions.</Tip>
+
+- **Canceled the sign-in?** Simply restart the connection process from your app.
+- **Pop-up/redirect blocked?** Enable pop-ups for your app’s website, or try again in a different browser.
+- **Wrong Google account?** Disconnect (see below), then reconnect and sign in with the intended account.
+- **Did not grant permissions?** You must accept the requested permissions for the connection to work. Disconnect and try again if you accidentally denied access.
+- **“Permission Denied” error?** Double-check you allowed all permissions, and try reconnecting. 
+
+### How to Disconnect
+
+To disconnect your Google Docs account:
+
+1. Go to the “Integrations” or “Connected Accounts” section of your app.
+2. Find “Google Docs” and click “Disconnect” or “Remove”.
+3. You may also manage access in your [Google Account app permissions](https://myaccount.google.com/permissions).
+
+## Need Help?
+
+If you continue to have issues, contact your app’s support team or use the in-app help for further assistance.
