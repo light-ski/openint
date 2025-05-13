@@ -1,0 +1,94 @@
+---
+title: SharePoint Integration
+description: Developer integration guide for using SharePoint with OpenInt
+---
+
+# SharePoint Integration (Microsoft Graph API)
+
+Leverage the OpenInt SharePoint connector to white-label file and site collection access directly into your product using Microsoft's secure OAuth2 integration via Microsoft Graph API.
+
+## Quickstart: Setting Up SharePoint with OpenInt
+
+Follow these steps to configure OpenInt to access SharePoint on behalf of your users:
+
+1. **Register your app in Microsoft Entra/Azure Active Directory**
+   - Go to the [Microsoft Entra admin center](https://entra.microsoft.com/).
+   - Navigate to **Identity → Applications → App registrations → New registration**.
+   - Enter an app name and select appropriate supported account type (usually Single Tenant or Multi-Tenant according to your scenario).
+   - **Redirect URI**: Enter the URI provided by your OpenInt deployment or refer to your receiving endpoint. You can add additional URIs later if needed.
+   - Complete registration and note the **Application (client) ID** and **Directory (tenant) ID**.
+   - [Full step-by-step guide](https://learn.microsoft.com/en-us/graph/auth-register-app-v2).
+2. **Create a client secret**
+   - In your app registration, go to **Certificates & secrets → Client secrets → New client secret**.
+   - Add a description, set an expiration, and create the secret. Copy the value somewhere secure—this value will not be displayed again!
+3. **Assign Microsoft Graph permissions**
+   - Under your app's **API permissions**, add the required [delegated Graph permissions](https://learn.microsoft.com/en-us/graph/permissions-reference) (see Scopes table below).
+   - Grant admin consent if required (OpenInt only needs delegated scopes for user-level access—see table).
+4. **Configure your OpenInt connector**
+   - Save the client ID, client secret, and tenant ID in your OpenInt configuration as shown below.
+
+```ts
+// Example OpenInt SharePoint connector config
+{
+  provider: 'sharepoint',
+  clientId: '<your-client-id>',
+  clientSecret: '<your-client-secret>',
+  tenantId: '<your-tenant-id>',
+  redirectUri: '<your-openint-callback-uri>',
+  scopes: ['offline_access', 'openid'] // Add more scopes as they are supported
+}
+```
+
+## Supported OAuth2 Flows & Endpoints
+
+- **Authorization endpoint:** `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`
+- **Token endpoint:** `https://login.microsoftonline.com/common/oauth2/v2.0/token`
+- **Auth flow:** Authorization Code Grant with PKCE is supported and recommended.
+
+## Permissions/Scopes
+
+OpenInt currently requests the following Microsoft Graph OAuth2 delegated scopes when connecting to SharePoint:
+
+| Scope           | Supported in OpenInt | Description                          |
+|-----------------|---------------------|--------------------------------------|
+| <Tooltip tip="Allows the application to request refresh tokens, so it can continue to access resources even when the user is not using the app.">offline_access</Tooltip> | Yes                 | Maintain access to data you have given it access to, even when users are not actively using the app. |
+| <Tooltip tip="Enables user authentication and ID tokens; allows the app to receive a unique identifier for the user.">openid</Tooltip>         | Yes                 | Required for OpenID Connect authentication; provides basic identity info. |
+
+The above scopes let OpenInt establish a persistent, authenticated user session for delegated access. For most file and site-level operations, additional Microsoft Graph scopes must be requested and subsequently implemented in OpenInt:
+
+| Scope                        | Supported in OpenInt | Description                                                        |
+|------------------------------|---------------------|--------------------------------------------------------------------|
+| <Tooltip tip="Read files in all site collections the signed-in user can access.">Files.Read.All</Tooltip>     | No (not yet)        | Allows reading all files the user can access across all sites.      |
+| <Tooltip tip="Edit or delete items in all site collections the signed-in user can access.">Files.ReadWrite.All</Tooltip> | No (not yet)        | Allows full read/write to files in SharePoint/OneDrive.             |
+| <Tooltip tip="Read items in all site collections.">Sites.Read.All</Tooltip>           | No (not yet)        | Allows read access to items in all site collections.                |
+| <Tooltip tip="Create, edit, and delete items and lists in all site collections.">Sites.ReadWrite.All</Tooltip>    | No (not yet)        | Allows full CRUD on items and lists in all site collections.        |
+
+You are encouraged to reference the [full list of available SharePoint/Microsoft Graph permissions](https://learn.microsoft.com/en-us/graph/permissions-reference) for future custom implementations or to request additional support in OpenInt.
+
+<Tip>
+For minimal-permission, least-privilege integration, consider `Sites.Selected` (not yet implemented in OpenInt). This lets admins grant access only to selected SharePoint sites directly.
+</Tip>
+
+---
+
+## Common Integration Pitfalls
+
+- **Redirect URI mismatch**: Ensure your Azure app registration's redirect URIs exactly match what OpenInt provides and your frontend/backend callback URLs.
+- **Consent issues**: Scopes requested by OpenInt must be admin-approved in your tenant. Make sure admin consent is granted when needed.
+- **Missing client secret**: The client secret is only displayed once; if lost, generate a new one and update your OpenInt config.
+- **Incorrect tenant/account type**: If using a multi-tenant app, users from multiple organizations must be supported and registered appropriately.
+- **Insufficient permissions**: If you later extend OpenInt to support more scopes, they must be explicitly added to the Azure app API permissions list.
+
+### Troubleshooting
+- Use the [Graph Explorer](https://developer.microsoft.com/graph/graph-explorer) to validate permissions manually.
+- Double-check for typos in client ID/secret or redirect URIs.
+- Verify user/admin consent in Azure:
+    - Azure portal: **Enterprise applications → Your App → Permissions**
+- Inspect the error returned in the OpenInt OAuth dialog for actionable details.
+
+---
+
+## Resources
+- [Register an application in Microsoft Entra/Azure AD](https://learn.microsoft.com/en-us/graph/auth-register-app-v2)
+- [Microsoft Graph permissions reference (upstream scopes)](https://learn.microsoft.com/en-us/graph/permissions-reference)
+- [OpenInt Core Authentication Concepts](/docs/core-concepts-v0/connector-config.mdx)
