@@ -1,0 +1,98 @@
+---
+title: Connecting Google Docs
+description: Learn how to link your Google Docs account and securely share documents with Company A.
+---
+
+# Connect Google Docs to Your Account
+
+Connect your Google Docs account to Company A to enable document sharing, syncing, or workflow automation. This process is secure and uses Google's official sign-in (OAuth2) flow—you never share your password with us.
+
+## How to Connect Google Docs
+
+1. **Start the Connection**: In your Company A dashboard, go to **Integrations** → **Google Docs** and click **Connect**.
+2. **Sign in to Google**: A secure pop-up will appear. Sign in with your Google account if prompted.
+3. **Review Permissions**: You'll be asked to approve access to your Google Docs or Drive.
+4. **Grant Access**: Click **Allow** to complete the connection.
+5. **Finish**: You'll be redirected back to Company A. The integration is now active.
+
+<Info>We use the official Google sign-in. Your credentials are never shared with Company A.</Info>
+
+## What Permissions Are Requested?
+Depending on Company A's features, you may be asked for one or more of the following permissions. Here is what they mean and why they are needed:
+
+<Card title="Manage All Google Docs" icon="file-text">
+**Full Docs Access**<br/>
+View, create, edit, and delete all your Google Docs documents (<code>https://www.googleapis.com/auth/documents</code>).
+<br/><br/>
+<strong>Why?</strong> Needed for advanced workflows, like bi-directional document sync.
+</Card>
+
+<Card title="Read Google Docs Only" icon="eye">
+**Read-Only Docs Access**<br/>
+View all your Google Docs documents without making any changes (<code>https://www.googleapis.com/auth/documents.readonly</code>).
+<br/><br/>
+<strong>Why?</strong> Needed if Company A should only read or list your documents.
+</Card>
+
+<Card title="Manage Created Docs" icon="file-plus">
+**Drive File Access**<br/>
+View and manage only Docs files that Company A has created or you have explicitly shared with it (<code>https://www.googleapis.com/auth/drive.file</code>).
+<br/><br/>
+<strong>Why?</strong> For the most secure experience—limits access to specific files.
+</Card>
+
+<Card title="Read-Only Google Drive" icon="folder-open">
+**Drive Read-Only Access**<br/>
+View all your Google Drive files, including Docs, but cannot make changes (<code>https://www.googleapis.com/auth/drive.readonly</code>).
+<br/><br/>
+<strong>Why?</strong> To power read-only integrations or reporting.
+</Card>
+
+<Card title="Full Google Drive Access" icon="database">
+**Full Drive Access**<br/>
+View, create, edit, and delete any file in your Google Drive (<code>https://www.googleapis.com/auth/drive</code>).
+<br/><br/>
+<strong>Why?</strong> Needed if workflows require working with all Drive contents.
+</Card>
+
+<Card title="Current Document Only" icon="file-search">
+**Current Docs Session Access**<br/>
+Access only the currently open document (used in some add-on features) (<code>https://www.googleapis.com/auth/documents.currentonly</code>).
+<br/><br/>
+<strong>Why?</strong> Needed for very limited, single-document flows.
+</Card>
+
+<Note>Exact permissions requested depend on your workflow. You can review and revoke app access from your Google Account security settings at any time.</Note>
+
+## How to Test the Integration
+
+Once you've connected Google Docs:
+
+- Open the Integration settings page in Company A and confirm Google Docs is **Connected**.
+- Try syncing or importing a document—Company A should show your docs list or a sync status.
+- If you see any errors, check the Troubleshooting section below.
+
+## Troubleshooting & Common Questions
+
+<Accordion title="I denied permissions. How do I reconnect?">
+Go back to **Integrations → Google Docs** in Company A and click **Connect** again. This will repeat the Google sign-in process and let you grant permissions.
+</Accordion>
+
+<Accordion title="The integration is not working after connecting.">
+Try disconnecting and reconnecting your Google Docs account. Make sure you granted all requested permissions in the Google sign-in prompt. If the issue remains, try signing out of your Google account and signing in again.
+</Accordion>
+
+<Accordion title="How do I remove Company A's access to my Google Docs?">
+Go to <a href="https://myaccount.google.com/permissions" target="_blank">Google Account Permissions</a>, find "Company A" in the list, and click **Remove Access**.
+</Accordion>
+
+<Accordion title="What should I do if I see a permissions error or can't see my documents?">
+Check which Google account you are signed in with, and ensure it's the one linked to Company A. If the problem continues, repeat the connection process and accept all requested permissions.
+</Accordion>
+
+<Accordion title="Who can I contact for support?">
+If you continue having trouble, please contact Company A Support through the Help menu or Support page of your dashboard.
+</Accordion>
+
+---
+For more details about Google Docs security and permissions, see Google’s <a href="https://developers.google.com/workspace/docs/api/auth" target="_blank">official documentation</a>.
