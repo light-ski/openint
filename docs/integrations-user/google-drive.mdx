@@ -1,0 +1,50 @@
+---
+title: Connect Google Drive
+description: Learn how to securely connect your Google Drive account to your [AppName] workspace for seamless file integration.
+---
+
+# Connecting Google Drive to [AppName]
+
+Easily link your Google Drive account to [AppName] so you can view and work with your files directly within the platform.
+
+## How to Connect
+
+1. In [AppName], navigate to the section where you can link a file storage service or select “Connect Google Drive.”
+2. Click the “Connect Google Drive” button.
+3. You’ll be redirected to a secure Google sign-in page. Select the Google account you wish to use.
+4. Review the permissions requested and click **Allow**.
+5. After allowing access, you’ll be taken back to [AppName]. The integration is now complete.
+
+## Permissions Requested
+
+When you connect Google Drive, [AppName] requests specific permissions so it can securely access your files and information. These permissions are required for the following features:
+
+| Permission                            | Why It’s Needed                                                                 |
+|----------------------------------------|-------------------------------------------------------------------------------|
+| View your Google Drive metadata        | To show information about your files and folders (names, locations, etc.).   |
+| View your Google Drive files (read-only) | If enabled, to allow reading file contents to display or sync them in-app.     |
+| Access files/folders opened or created by [AppName] | To work only with documents you specifically select or create.                  |
+| Access application-specific data       | To store app-specific settings or data in Drive, if required by [AppName].    |
+| Access your Google Photos in Drive (read-only) | If the app includes features related to Google Photos.                          |
+| Access Google Apps Script projects     | If [AppName] interacts with custom scripts stored in your Drive.              |
+
+Depending on your organization's settings, not all permissions above may be required by your workspace. [AppName] will only request the minimum needed.
+
+## How to Verify Your Connection
+
+- After connecting, go to your [AppName] dashboard or integration settings and look for Google Drive listed under Connected Accounts.
+- Try viewing, searching, or syncing files from Google Drive to confirm everything is working.
+
+If you encounter issues, try refreshing the integration or reconnecting your account.
+
+## Common Issues & Troubleshooting
+
+> **Tip**: If your integration doesn’t work as expected, most issues can be resolved by retrying the connection or checking your Google permissions.
+
+- **Wrong Google Account**: Make sure you select the correct account during sign-in. Disconnect and reconnect if needed.
+- **Permission Not Granted**: If you did not grant all requested permissions, integration features may not work. Try reconnecting and approving all requested access.
+- **Revoked Permissions**: If you remove [AppName]'s access from your Google Account, reconnect through [AppName] to restore integration.
+- **Files Not Showing Up**: [AppName] can only display files you have granted access to. To access more files, you may need to update your permission settings during reconnection.
+- **Google Security Checks**: If prompted for additional verification, follow the instructions from Google to continue securely.
+
+If you continue to have trouble, consult [AppName] support for further assistance.
