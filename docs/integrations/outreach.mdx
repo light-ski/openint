@@ -1,0 +1,112 @@
+---
+title: Outreach Integration (OAuth2)
+description: Technical setup guide for integrating Outreach (OAuth2) via OpenInt including scopes and troubleshooting.
+---
+
+# Outreach Integration
+
+**Stage:** General Availability (`ga`)
+
+**Audience:** Business SaaS (developer-facing)
+
+OpenInt enables your application to integrate with the Outreach platform using OAuth2. This guide describes how to configure the Outreach connector, manage scopes, and handle common pitfalls, aligning with both OpenInt’s and Outreach’s technical requirements.
+
+---
+
+## Quickstart: Add Outreach as an Integration
+
+1. **Ensure you have client credentials for Outreach** (see section below for obtaining credentials).
+2. In your OpenInt configuration, add the Outreach connector. Example (TypeScript):
+
+```ts
+import outreachDef from 'openint/connectors/cnext/json-defs/outreach'
+// Register Outreach integration
+dispatch(registerConnector(outreachDef))
+```
+
+3. Configure OAuth2 in your frontend to redirect to OpenInt’s Connect Portal, passing your Outreach Client ID/Secret and scopes as registered (see below).
+4. Follow the OAuth2 authentication flow for end users:
+    - User clicks “Connect Outreach” in your app
+    - User is redirected to Outreach’s OAuth2 consent screen
+    - After consent, user is redirected back (to your registered URI) with code
+    - OpenInt exchanges the code for an access token (see below)
+
+---
+
+## How to Register Your Outreach OAuth2 Application
+
+<Note>
+Unlike some providers, Outreach does NOT provide a self-service developer portal. You must email Outreach to register your integration.
+</Note>
+
+**To provision an OAuth app for Outreach:**
+
+1. Email [platform@outreach.io](mailto:platform@outreach.io) with:
+    - **Application Name:** (shown to users during consent)
+    - **Redirect URI(s):** (all OAuth callbacks used by your app)
+    - **Scope list:** (see available values in the scopes table below)
+2. Await Outreach review/approval. You will receive a **Client ID** and **Client Secret** via the Outreach team.
+3. Add these credentials (securely) in your backend or environment for OpenInt to use.
+4. If you later need more scopes, you must request Outreach to update your application.
+5. For details, see the [official Outreach OAuth2 doc](https://github.com/getoutreach/outreach-platform-sdk/blob/master/documentation/authorization/oauth.md#provision-an-application).
+
+---
+
+## OAuth2 Endpoints & Parameter Details
+
+| Endpoint Type       | URL                                             |
+|--------------------|-------------------------------------------------|
+| Authorization      | https://api.outreach.io/oauth/authorize         |
+| Token              | https://api.outreach.io/oauth/token             |
+
+**Parameters set by OpenInt:**
+- `response_type=code` (for auth)
+- `grant_type=authorization_code` (for token exchange)
+- `scope` is space-delimited (URL-encoded)
+
+See [OAuth2 docs](https://github.com/getoutreach/outreach-platform-sdk/blob/master/documentation/authorization/oauth.md) for an end-to-end protocol walk-through.
+
+---
+
+## Outreach Scopes: Supported vs. Available
+
+<Tip>
+Each scope defines the permissions OpenInt (and your application) can request from Outreach users. For most integrations, register the minimal set of scopes you need—see the table and tooltips for details.
+</Tip>
+
+| Scope                | Description                                                                       | Supported by OpenInt? |
+|----------------------|-----------------------------------------------------------------------------------|-----------------------|
+| <Tooltip tip="Allows read-only access to basic user profile information (name, email, etc.)">read:user</Tooltip>         | Allows read-only access to basic user profile information (name, email, etc.)   | ✅ Yes                 |
+| <Tooltip tip="Provides read access to prospect data including contact information and engagement history">read:prospects</Tooltip>    | Read access to prospect data                                                  | ❌ No                  |
+| <Tooltip tip="Allows creating and updating prospect records in the Outreach platform">write:prospects</Tooltip>         | Write/create/update prospects                                                  | ❌ No                  |
+| <Tooltip tip="Grants read access to sequence data including steps and templates">read:sequences</Tooltip>           | Read Outreach sequences                                                        | ❌ No                  |
+| <Tooltip tip="Allows creating and modifying email sequences and templates">write:sequences</Tooltip>         | Write/update sequences                                                         | ❌ No                  |
+| <Tooltip tip="Provides full administrative access to all Outreach data and functions">admin:all</Tooltip>              | Full admin access to Outreach                                                  | ❌ No                  |
+
+<Note>
+  Outreach offers additional standard scopes such as `create_prospects`, `read_sequences`, `update_sequences`, and others. Only `read:user` is currently supported by OpenInt. To see all available Outreach scopes, visit the <a href="https://github.com/getoutreach/outreach-platform-sdk/blob/master/documentation/authorization/oauth.md#provision-an-application">official Outreach OAuth documentation</a>.
+</Note>
+
+---
+
+## Common Mistakes & Troubleshooting
+
+<Warning>
+OAuth2 integrations with Outreach are sensitive to redirect URI mismatches, scope restrictions, and application provisioning delays.
+</Warning>
+
+- **Redirect URI mismatch:** Outreach will reject authorization if your redirect URI is not _exactly_ in the whitelist registered via email.
+- **Incorrect/missing scopes:** If your scope value does not match what’s whitelisted, authorization will fail. Double-check scope spelling and values.
+- **Approval delays:** Outreach must approve each new/changed application configuration. This can result in waiting periods.
+- **Outreach admin-only registration:** If you attempt self-service registration, your request will not be provisioned; always use email workflow.
+- **Role & Permissions:** End users must have correct Outreach permissions to grant access to requested scopes.
+- **Client Secret exposure:** Never expose `client_secret` in client-side code or public repositories.
+
+---
+
+## References & Useful Links
+
+- [Outreach OAuth2 Setup & Docs](https://github.com/getoutreach/outreach-platform-sdk/blob/master/documentation/authorization/oauth.md)
+- [Outreach API Reference](https://api.outreach.io/api/v2/docs)
+- [Contact Outreach: platform@outreach.io](mailto:platform@outreach.io) (OAuth app registration)
+- [OpenInt OAuth2 Integration Basics](/docs/connect/embed.mdx)
