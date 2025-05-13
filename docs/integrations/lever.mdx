@@ -1,0 +1,155 @@
+---
+title: Lever Integration (Developer Guide)
+description: Guide to integrating Lever with your application using OpenInt
+---
+
+# Lever Integration: Developer Guide
+
+Leverage OpenInt to offer powerful ATS (Applicant Tracking System) integration with Lever directly within your product. This integration lets your users securely sync, read, and potentially write their firm's recruiting data from Lever into your white-labeled experience.
+
+This guide covers how to register your OAuth application with Lever, configure scopes, complete OpenInt setup, and handle common implementation pitfalls.
+
+## Prerequisites
+
+- An OpenInt account and workspace.
+- Admin access to your organization's Lever account (**Super Admin** required to register OAuth apps).
+- Your own application to embed OpenInt and receive OAuth callbacks.
+
+## How Lever Integration Works in OpenInt
+
+OpenInt acts as an OAuth2 client for Lever. When your downstream user wants to connect Lever, OpenInt walks them through authentication and then requests the supported scopes on your behalf. Your backend can then interact with Lever data, subject to granted permissions.
+
+OpenInt currently focuses on the `read:applications` scope for Lever—read-only access to applications and related data. See [Scopes](#scopes) below for broader possibilities.
+
+## Quickstart: Setting Up Lever OAuth Integration
+
+1. **Register an OAuth App on Lever**
+    - Go to [Lever Integrations & API settings](https://hire.lever.co/settings/integrations) as a Super Admin.
+    - Find the section to register a new integration (OAuth App).
+    - Provide:
+      - **Integration name**: e.g. `MyApp - OpenInt Integration`.
+      - **Description**: Between 20-140 chars.
+      - **Callback URL**: Your OpenInt-embedded app's OAuth redirect URL(s). You can register additional URLs via Lever support if needed (for prod/staging/dev).
+      - **Logo URL**: Square image (150x150px recommended), not on Google Drive.
+      - **Required OAuth Scopes**: See below for selection guidance.
+    - Once registered, Lever provides your **Client ID** and **Client Secret**. Save these securely.
+    - Reference Lever's official docs: [Lever OAuth App Setup](https://hire.lever.co/developer/oauth#getting-set-up-with-oauth)
+
+2. **Configure the Lever Integration in OpenInt**
+
+   In your OpenInt connector configuration, set Lever as an OAuth provider:
+
+   ```javascript
+   // Example: openint-connector-config.js
+   lever: {
+     client_id: '<YOUR_CLIENT_ID>',
+     client_secret: '<YOUR_CLIENT_SECRET>',
+     redirect_uri: 'https://yourapp.com/openint/oauth/callback',
+     scope: 'read:applications', // Supported by OpenInt
+     auth_url: 'https://auth.lever.co/authorize',
+     token_url: 'https://auth.lever.co/oauth/token',
+     audience: 'https://api.lever.co/v1',
+   }
+   ```
+   
+   You may use the built-in OpenInt UI components to power the frontend consent and capture the callback.
+
+3. **Test the OAuth Flow**
+   - Initiate the connection as your test user through your OpenInt-embedded frontend.
+   - Complete the Lever OAuth flow, review the scopes presented, and confirm the experience.
+   - Ensure access tokens are received and test syncing applications using OpenInt's API or dashboard.
+
+4. **Go Live**
+   - Be sure to register all production redirect URIs with Lever.
+   - Verify app permissions and ensure users understand what data will sync.
+
+---
+
+## Scopes
+
+Lever's API supports a broad set of permissions—called "scopes"—that control data access. You should request the minimum necessary for your integration. OpenInt currently implements and exposes only a subset for integrations, as shown below:
+
+> **Reference:** Full Lever OAuth scope list: [Lever Documentation – Scopes](https://hire.lever.co/developer/documentation#scopes)
+
+| Scope                   | Description \[hover/tap for info\] | Supported by OpenInt? |
+|-------------------------|------------------------------------|----------------------|
+| `read`                  | <Tooltip text="Allows read-only access to all data in Lever, including candidates, postings, opportunities, and more. Does not permit any modifications.">General read-only access</Tooltip> | ❌ |
+| `write`                 | <Tooltip text="Allows read and write access to all data in Lever, including creating, updating, and deleting candidates, postings, opportunities, etc.">General read and write access</Tooltip> | ❌ |
+| `admin`                 | <Tooltip text="Provides full administrative access, including read/write permissions for all data and the ability to modify account settings and configurations.">Admin access</Tooltip> | ❌ |
+| `offline_access`        | <Tooltip text="Allows the application to obtain refresh tokens for long-term access to Lever's API without requiring user re-authentication.">Request refresh tokens</Tooltip> | ❌ |
+| `read:applications`     | <Tooltip text="Provides read-only access to job applications and related data, but no access to other candidate or posting information.">Read-only applications</Tooltip> | ✅ |
+| `read:candidates`       | <Tooltip text="Provides read-only access to candidate profiles and related data, but no access to postings or opportunities.">Read candidates</Tooltip> | ❌ |
+| `write:candidates`      | <Tooltip text="Allows read and write access to candidate profiles and related data, including creating and updating candidates.">Read/write candidates</Tooltip> | ❌ |
+
+See Lever's [official documentation for a full list & details](https://hire.lever.co/developer/documentation#scopes).
+
+### How the Scope Impacts API Access
+Only APIs that fall under the granted scope are reachable:
+- With `read:applications`, you can list and read job application records, but *cannot* access candidate, posting, or admin objects.
+- To access other resources, coordinate with OpenInt support to prioritize additional scopes.
+
+## Performing the OAuth Flow (Lever)
+
+**OAuth2 flow overview:**
+1. Your user initiates the connection from your app.
+2. User is redirected to Lever's OAuth screen (hosted at `https://auth.lever.co/authorize`).
+3. User reviews and approves the requested scopes.
+4. Lever redirects back to your application's registered callback URI with an auth code.
+5. OpenInt exchanges the code for an access token at `https://auth.lever.co/oauth/token`.
+
+**Critical parameters in the authorization request:**
+
+```text
+GET https://auth.lever.co/authorize
+  ?client_id=YOUR_CLIENT_ID
+  &redirect_uri=YOUR_REDIRECT_URI
+  &response_type=code
+  &state=RANDOM_TOKEN
+  &audience=https://api.lever.co/v1/
+  &scope=read:applications
+  &prompt=consent
+```
+
+**Common mistakes:**
+- **Redirect URI mismatch**: The callback URL in your request MUST match one of those registered on Lever. Wildcards are not supported.
+- **Missing 'audience' parameter**: Always set `audience=https://api.lever.co/v1/`
+- **Wrong scopes**: Extra whitespace or requesting unsupported scopes will result in a failed auth.
+- **Production requires HTTPS redirect URIs**: Only localhost can use HTTP in dev/sandbox. Register all your intended prod domains in Lever.
+- **State parameter required**: Always set a random `state` token and verify it on callback (for CSRF protection).
+
+---
+
+## Example: OpenInt Integration Configuration
+
+Here is the minimum viable connector config for OpenInt with Lever:
+
+```javascript
+// openint-connector-config.js
+import { LeverConnector } from 'openint';
+
+export default LeverConnector({
+  client_id: process.env.LEVER_CLIENT_ID,
+  client_secret: process.env.LEVER_CLIENT_SECRET,
+  redirect_uri: 'https://yourapp.com/openint/oauth/callback',
+  scopes: ['read:applications'],
+  // Optional: config depending on OpenInt version & abstraction
+});
+```
+
+## Data Flow
+
+Refer to the [OpenInt data flow guide](/connect/data-flow) for details on token management and user experience.
+
+## Pitfalls & Troubleshooting
+
+- **Invalid client credentials**: Double-check your Client ID and Secret from Lever.
+- **Not a Super Admin**: Only Lever Super Admins can register new OAuth applications.
+- **403/401 errors**: Usually permissions or scope issues—ensure scope matches, and check that the user has properly accepted on the Lever consent screen.
+- **Only one scope?**: OpenInt may not expose every Lever scope; contact OpenInt support if additional data access is needed.
+- **Token expires too soon**: Use `offline_access` scope to obtain refresh tokens if needed (not enabled by default in OpenInt as of this writing).
+
+## References
+
+- [Lever OAuth Setup Guide](https://hire.lever.co/developer/oauth)
+- [Lever API Scopes Documentation](https://hire.lever.co/developer/documentation#scopes)
+- [OpenInt Data Flow](../connect/data-flow.mdx)
