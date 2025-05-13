@@ -1,0 +1,59 @@
+---
+title: Connecting GitHub to Your Account
+description: Learn how to securely connect your GitHub account to {{APP_NAME}} to enable seamless data sync and collaboration.
+---
+
+# Connect Your GitHub Account
+
+You can securely connect your GitHub account to {{APP_NAME}} to unlock powerful collaboration and automation features. Connecting is quick and safe, and you can control what information is shared.
+
+## How to Connect
+
+1. **Go to your Integrations page** in {{APP_NAME}}.
+2. Select **GitHub** from the integration options.
+3. Click **Connect GitHub**. You will be redirected to GitHub’s secure login page.
+4. Log in to GitHub (if you aren’t already logged in).
+5. Review the permissions requested by {{APP_NAME}} and click **Authorize** to complete the connection.
+
+Your account will return to {{APP_NAME}}, and setup will complete automatically. That’s it — your GitHub account is now linked!
+
+## What Permissions Are Needed (and Why)
+
+When connecting, {{APP_NAME}} requests the following permissions from GitHub. These are required for various integration features (such as syncing, automation, or reporting):
+
+| Permission | Why It’s Needed |
+|------------|---------------------------------------------------------------------------------------------------|
+| **user:email**    | View your email addresses to associate activity with your account, and send notifications. |
+| **read:user**     | Access your public profile to personalize your experience in {{APP_NAME}}.                    |
+| **repo**          | Full access to code, issues, and repo settings, enabling deeper collaboration and automation. |
+| **repo:status**   | Update repository commit status, e.g., marking CI tests as passing or failing.                |
+| **admin:org**     | Manage organization settings if you choose to connect at the org level.                       |
+| **write:discussion** | Read or create team discussions directly from {{APP_NAME}}.                               |
+| **workflow**      | Manage GitHub Actions workflows for CI/CD automations.                                       |
+
+*You can always review or revoke these permissions within your GitHub account settings.*
+
+## How to Test That the Connection Works
+
+Once you’ve connected GitHub:
+
+- You will see a **Connected** status next to GitHub in your integrations list.
+- Try syncing data, creating an issue, or viewing repository info from {{APP_NAME}} — it should work instantly.
+
+If actions succeed, your integration is active!
+
+## Common Issues & Troubleshooting
+
+Most users connect on the first try, but here are a few things to watch for:
+
+- **Authorization Denied:** If you decline permissions on GitHub, the connection will not complete. You can restart from the integration screen.
+- **Insufficient Permissions:** If you only grant partial permissions, some features (e.g., organization or repo actions) may not work.
+- **Organization Admin Approval Needed:** For org-wide integrations, an organization owner may need to approve access.
+- **Connection Revoked:** If you revoke permissions in GitHub, reconnect from the Integrations page to restore functionality.
+- **Stale Session:** If your GitHub login has expired, simply log in again when prompted.
+
+If you still have trouble, check your GitHub account settings under **Applications** or contact {{APP_NAME}} support for help.
+
+---
+
+By connecting your GitHub account, you unlock seamless collaboration and automation in {{APP_NAME}}. You stay in control of your data and permissions at all times.
