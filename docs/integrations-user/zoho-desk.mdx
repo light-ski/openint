@@ -1,0 +1,52 @@
+# Connect Zoho Desk to Your Account
+
+Easily link your Zoho Desk workspace with {ProductName} to manage tickets and contacts seamlessly. Follow the steps below to connect your Zoho Desk account and begin syncing your support data.
+
+## What You’ll Need
+
+- Access to your Zoho Desk account with the appropriate permissions (admin or integration rights recommended).
+- The correct Zoho Desk region/domain for your account (e.g., zoho.com, zoho.eu, etc.).
+
+## How to Connect Zoho Desk
+
+1. Go to the **Integrations** or **Connections** page within {ProductName}.
+2. Find and select **Zoho Desk** from the list of available integrations.
+3. If prompted, select your Zoho Desk domain/region to match your Zoho account (e.g., `zoho.com`, `zoho.eu`).
+4. Click **Connect Zoho Desk**. You will be redirected to the Zoho Desk sign-in page.
+5. Sign in with your Zoho Desk credentials if not already logged in.
+6. Review the permissions requested and click **Allow** to grant access.
+7. You will be returned to {ProductName}, and your Zoho Desk connection will be established.
+
+## Permissions Explained
+
+The following permissions are requested to enable full synchronization between Zoho Desk and {ProductName}:
+
+| Permission                        | Description                                                      |
+|-----------------------------------|------------------------------------------------------------------|
+| ZohoDesk.tickets.READ             | Read your tickets in Zoho Desk                                   |
+| ZohoDesk.tickets.CREATE           | Create new tickets                                               |
+| ZohoDesk.tickets.UPDATE           | Update existing tickets                                          |
+| ZohoDesk.tickets.DELETE           | Delete tickets                                                   |
+| ZohoDesk.tickets.ALL              | Full access (create, read, update, delete) to tickets            |
+| ZohoDesk.contacts.READ            | Read access to contacts in your helpdesk                         |
+| ZohoDesk.basic.READ               | Basic account information                                        |
+| ZohoDesk.settings.READ            | Read account settings                                            |
+| ZohoDesk.accounts.READ            | Read-only access to account information                          |
+
+These permissions allow {ProductName} to sync tickets and contacts, and to display relevant support data from your Zoho Desk account.
+
+## Test Your Connection
+
+Once connected, you should see your Zoho Desk tickets or contacts start appearing in {ProductName}. For a quick test:
+
+1. Navigate to the area in {ProductName} where Zoho Desk data should be displayed.
+2. If you do not see your data, try refreshing the page.
+3. Optionally, create a new ticket in Zoho Desk and check that it appears in {ProductName} after syncing.
+
+## Troubleshooting & Common Issues
+
+- **Wrong account or region.** If you see an error after authentication, double-check the Zoho Desk region/domain you selected matches your Zoho account (e.g., `zoho.com`, `zoho.eu`).
+- **Authentication failed.** Ensure your Zoho Desk username and password are correct. If you use Single Sign-On (SSO), make sure it’s configured properly.
+- **Permission denied.** If you declined any permissions during the connection process, try reconnecting and ensure all requested permissions are granted.
+- **No data is syncing.** After connecting, if your tickets or contacts do not appear, try disconnecting and reconnecting the integration. Make sure you have the necessary privileges (admin or integration access) in Zoho Desk.
+- **Still having trouble?** Contact {ProductName} support for personalized help.
