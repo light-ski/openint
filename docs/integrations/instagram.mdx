@@ -1,0 +1,71 @@
+---
+title: Instagram Integration
+---
+
+# Instagram Integration (Business)
+
+Integrate Instagram (business accounts) into your product via OpenInt, allowing your users to connect, sync, and access Instagram business data securely. This guide explains how to add Instagram as a connector using OpenInt, details on configuration and OAuth, the supported scopes, and common pitfalls when working with the Instagram Graph API.
+
+## Quickstart Setup
+
+1. **Register a Meta (Facebook) developer account** if you haven't already: [Register as a Meta Developer](https://developers.facebook.com/docs/development/register/)
+
+2. **Create a new Meta App:**
+   - Go to the [Meta App Dashboard](https://developers.facebook.com/apps) and select `Create App`.
+   - Choose **Business** as the app type to add the Instagram product ([official Meta docs](https://developers.facebook.com/docs/instagram-platform/create-an-instagram-app/#step-4--select-your-app-type)).
+   - Enter your app name and contact details.
+   - **Connect a verified Meta Business** to your app. ([Learn more](https://developers.facebook.com/docs/development/release/business-verification/))
+
+3. **Add the Instagram product:**
+   - In your app dashboard, scroll to **Instagram** and click `Set up`.
+   - Choose `API setup with Instagram login` if your users will log in with Instagram directly, or `API setup with Facebook login` for Instagram creator/business accounts linked to Facebook Pages.
+
+4. **Configure OAuth credentials:**
+   - In your app's dashboard, go to **Settings > Basic** to find your `App ID` and `App Secret` (these are your OAuth client ID/secret).
+   - Under **Instagram > Business Login Settings**, add your OAuth Redirect URI as provided by OpenInt in your developer console.
+   - Set up any required deauthorize or data deletion callback URLs as needed.
+
+5. **Configure OpenInt:**
+   - In your OpenInt dashboard or config, add a new connector with the client ID and client secret from your Meta app.
+   - Ensure you specify the required scope (`instagram_basic`).
+   - The authorization request URL is: `https://api.instagram.com/oauth/authorize`
+   - The token request URL is: `https://api.instagram.com/oauth/access_token`
+
+6. **Test the connection** with Instagram accounts that are public and have at least one media object.
+
+For full, authoritative step-by-step, refer to [Create an App for Instagram Platform](https://developers.facebook.com/docs/instagram-platform/create-an-instagram-app/).
+
+## Supported OAuth Scopes
+
+OpenInt currently supports the minimum Instagram business scope—`instagram_basic`. Other Instagram scopes are not yet available via OpenInt, but are listed here for completeness:
+
+| Scope | Description |
+|-------|-------------|
+| <Tooltip tip="Provides basic access to a user's profile information, username, and profile picture. This is the most limited scope.">instagram_basic</Tooltip> | **Supported by OpenInt** |
+| <Tooltip tip="Provides access to the user's profile information including username, profile picture, and account type (Business or Personal).">user_profile</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Provides access to the user's media (photos and videos) including metadata, captions, and comments.">user_media</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Provides access to the list of Instagram Pages a user manages. Required for accessing Page-related features.">pages_show_list</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Allows the app to publish content (photos and videos) on behalf of the user.">instagram_content_publish</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Allows the app to read and manage comments on the user's media.">instagram_manage_comments</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Provides access to business account insights and metrics.">instagram_manage_insights</Tooltip> | *Not yet supported* |
+| <Tooltip tip="Provides access to manage ads and campaigns for Instagram business accounts.">ads_management</Tooltip> | *Not yet supported* |
+
+For the full list of available Instagram permissions (OAuth scopes), and their definitions, see [Meta Permissions Reference](https://developers.facebook.com/docs/permissions#i).
+
+## Common Mistakes & Troubleshooting
+
+- **Incorrect app type or missing business verification:** Instagram integration requires a *Business* type Meta app connected to a verified Meta Business account.
+- **Missing allowed redirect URI:** The OAuth redirect URI configured in Meta must _exactly_ match the one provided by OpenInt, otherwise authentication will fail.
+- **Personal Instagram accounts are not supported:** Only business or creator accounts are supported for API access.
+- **Insufficient scopes:** Make sure `instagram_basic` is requested. Extra scopes not supported by OpenInt will not be granted.
+- **App review requirements:** For production access and elevated scopes, your app must pass Meta's App Review, including screencasts showing permission use.
+- **Account has no media:** Test accounts must have at least one public media object for full API access.
+- **Token or authentication failures:** Double-check your client ID/secret, scope, and that your app is in development mode with correct test users assigned.
+
+## References
+
+- [Create an App for Instagram Platform](https://developers.facebook.com/docs/instagram-platform/create-an-instagram-app/)
+- [Permissions Reference (Instagram OAuth scopes)](https://developers.facebook.com/docs/permissions#i)
+- [Instagram Platform Overview](https://developers.facebook.com/docs/instagram-platform/overview/)
+
+---
