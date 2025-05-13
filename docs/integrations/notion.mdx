@@ -1,0 +1,108 @@
+---
+title: Notion Integration
+---
+
+# Notion Integration (Developer Guide)
+
+This guide explains how to connect Notion to your application using OpenInt via OAuth 2.0. It includes Notion app registration, OAuth setup, supported scopes (capabilities), and common configuration pitfalls.
+
+## Overview
+
+OpenInt supports integrating Notion using the [OAuth 2.0](https://oauth.net/2/) public integration flow. At present, only the `user:read` capability is supported (see [Scopes](#notion-scopes-capabilities)).
+
+**Status:** General Availability (GA)
+
+**Vertical:** Wiki / Collaboration
+
+**OAuth Type:** Public (Authorization Code Flow)
+
+---
+
+## Quickstart
+
+Follow these steps to get up and running:
+
+### 1. Register a Public Integration in Notion
+
+1. Visit the [Notion integrations dashboard](https://www.notion.so/my-integrations) and click **+ New integration**.
+2. Choose **Public** integration. Fill in your information.
+3. Add your OpenInt callback URL as a **Redirect URI** (`redirect_uri`).
+4. Submit. Copy the generated **Client ID** and **Client Secret**.
+
+See: [Create a Notion Integration](https://developers.notion.com/docs/create-a-notion-integration)
+
+### 2. Configure OpenInt Notion Connector
+
+```json title="Sample OpenInt Notion Connector Configuration"
+{
+  "auth": {
+    "type": "OAUTH2",
+    "authorization_request_url": "https://api.notion.com/v1/oauth/authorize",
+    "token_request_url": "https://api.notion.com/v1/oauth/token",
+    "scope_separator": " ",
+    "params_config": {"authorize": {"response_type": "code", "owner": "user"}},
+    "client_id": "<your-client-id>",
+    "client_secret": "<your-client-secret>",
+    "redirect_uri": "<your-redirect-uri>",
+    "scopes": ["user:read"]
+  }
+}
+```
+
+Replace `client_id`, `client_secret`, and `redirect_uri` with your values from Notion. The redirect URI **must** exactly match your Notion configuration.
+
+---
+
+## OAuth 2.0 Flow
+
+OpenInt implements Notion’s public OAuth flow:
+
+1. **Send user to the authorization URL:**
+
+    ```text
+    https://api.notion.com/v1/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&owner=user
+    ```
+2. **User selects pages to share with your integration in the Notion prompt.**
+3. **On approval, Notion redirects to your URI** with a `code` parameter.
+4. **Exchange code for a token** at [`/v1/oauth/token`](https://developers.notion.com/docs/authorization#step-3-send-the-code-in-a-post-request-to-the-notion-api) using your client credentials.
+5. **Store the resulting access token** for use in API calls for that user.
+
+See full flow: [Authorization Guide](https://developers.notion.com/docs/authorization#public-integration-auth-flow-set-up).
+
+---
+
+## Notion Scopes (Capabilities)
+
+Notion controls access via integration "capabilities" (scopes). **Currently, OpenInt supports only `user:read`.**
+
+See [official capabilities list](https://developers.notion.com/reference/capabilities) for authoritative details.
+
+| Scope/Capability         | Description                                                                                                                                                           | Supported by OpenInt |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| <Tooltip tip="Allows the application to read user information, such as the user's name, email, and profile picture. This is a read-only scope with no write permissions.">user:read</Tooltip>      | Read user profile, name, email, profile picture. **Read only.**                                                                                                  | ✅                   |
+| <Tooltip tip="Allows the application to update user information, such as the user's name or profile picture. This includes the permissions of user:read.">user:write</Tooltip>  | Update user name/profile info, includes `user:read`. **Write access.**                                                                                           | ❌                   |
+| <Tooltip tip="Allows the application to read all content that the user has access to in Notion, including pages, databases, and blocks. This is a read-only scope.">content:read</Tooltip>  | Read pages, databases, and blocks the user can access. **Read only.**                                                                                             | ❌                   |
+| <Tooltip tip="Allows the application to create, update, and delete content in Notion, including pages, databases, and blocks. This includes the permissions of content:read.">content:write</Tooltip> | Create, update, or delete content (pages, blocks, databases). **Write and read.**                                                                                  | ❌                   |
+| <Tooltip tip="Allows the application to read workspace information, such as the workspace name, settings, and members. This is a read-only scope.">workspace:read</Tooltip>  | Read workspace name, settings, or members. **Read only.**                                                                                                         | ❌                   |
+| <Tooltip tip="Allows the application to update workspace information, such as settings and members. This includes the permissions of workspace:read.">workspace:write</Tooltip>  | Update workspace settings and members. **Write and read.**                                                                                                         | ❌                   |
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+- **Redirect URI mismatch:** The redirect URI set in OpenInt *must* exactly match the value set in your Notion app. Typos or mismatches are a top source of errors.
+- **Missing scopes:** Only `user:read` is supported by OpenInt. Requesting other scopes will not grant broader access.
+- **Notion access not granted:** Users _must_ select the Notion pages/databases to share during consent. Your application cannot access pages unless they are explicitly shared.
+- **Misconfigured client credentials:** Double check that your client ID and secret are correct and in the right fields.
+- **Permission errors:** Usually indicate pages were not shared or you're missing required scopes.
+
+---
+
+## References & Resources
+
+- [Create a Notion Integration](https://developers.notion.com/docs/create-a-notion-integration)
+- [Notion Capabilities Reference](https://developers.notion.com/reference/capabilities)
+- [OAuth Authorization Guide](https://developers.notion.com/docs/authorization#public-integration-auth-flow-set-up)
+
+---
+For in-depth API usage, see the [Notion API Reference](https://developers.notion.com/reference/intro).
