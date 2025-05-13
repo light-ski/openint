@@ -1,0 +1,64 @@
+---
+title: Connect Confluence with Your App
+description: Learn how to quickly link your Confluence account and manage permissions.
+---
+
+# Connect Confluence
+
+You can sync your Confluence spaces, pages, and other content with your app in just a few steps. This lets you view and work with your Confluence data directly inside your workspace—no extra logins or copy-pasting required.
+
+## How to Connect
+
+1. **Click "Connect Confluence"** in the integrations or settings section of your app.
+2. You will be redirected to Atlassian (Confluence) to log in, if you aren't already.
+3. Review the list of permissions requested by the app.
+4. Click **Allow** to approve and finish connecting.
+5. You will be returned to your app, where your Confluence data will begin syncing.
+
+<Info>You will not need to enter any API keys or copy technical values. The integration uses secure industry-standard authentication via Atlassian.</Info>
+
+## Permissions
+
+When you connect, you’ll be asked to grant the following permissions:
+
+| Permission | Why it's needed |
+|------------|------------------|
+| **read:confluence-content** | Read-only access to your Confluence content: pages, blog posts, attachments |
+| **write:confluence-content** | Create, update, and delete Confluence pages, blog posts, attachments |
+| **read:confluence-space** | View Confluence space metadata and information |
+| **read:confluence-user** | Read your basic Confluence user profile |
+| **read:confluence-props** | View content properties and metadata |
+| **write:confluence-props** | Set or update content properties and metadata |
+| **read:confluence-groups** | View your Confluence group memberships |
+| **manage:confluence-space** | Manage permissions and settings for spaces you have access to |
+
+<Tip>You can review or change these permissions at any time from your Atlassian account's "Connected apps" settings.</Tip>
+
+## How to Test the Connection
+
+- Return to your app. Look for your Confluence spaces, pages, or connected content.
+- Try creating or editing a Confluence page from your app to confirm the connection.
+
+If you see your Confluence data, the integration is active!
+
+## Troubleshooting & Common Issues
+
+<Warning>
+**Access Denied or Permissions Error**
+
+If you accidentally denied permissions or selected the wrong account, disconnect and try reconnecting:
+- Go to your app’s integration settings and disconnect Confluence.
+- Repeat the connection steps and make sure to accept all requested permissions.
+</Warning>
+
+<Note>
+**Missing Spaces or Pages**
+
+You may only see Confluence spaces or pages that your Confluence login has access to. If you don't see the content you expect, check your permissions in Confluence or contact your Confluence admin.
+</Note>
+
+**To revoke access:**
+- Visit [your Atlassian account](https://id.atlassian.com/manage-profile/apps) and remove the app under "Connected apps" if you want to disconnect permanently.
+
+---
+If you continue to have issues connecting Confluence, reach out to your app’s support team for help.
