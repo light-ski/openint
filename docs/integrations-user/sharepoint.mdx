@@ -1,0 +1,49 @@
+---
+title: Connect your SharePoint account
+---
+
+# Connect your SharePoint account
+
+Integrate your SharePoint account with our app to easily access, sync, and share files directly from your organization's SharePoint. This connection enables smooth document management and collaboration within the app, using your existing SharePoint resources.
+
+## How to connect SharePoint
+
+1. **Navigate to Integrations**
+   - Go to the "Integrations" or "Connected Accounts" section in your app's settings.
+2. **Select SharePoint**
+   - Click **Connect** next to SharePoint.
+3. **Sign in to Microsoft**
+   - You’ll be redirected to Microsoft’s login page. Sign in with your organizational Microsoft account.
+4. **Review permissions**
+   - The app will request access (see permissions below). Review and accept to continue.
+5. **Complete connection**
+   - After granting permissions, you’ll be redirected back and see SharePoint as a connected account.
+
+## Permissions requested
+
+When you connect SharePoint, the app will ask for:
+
+- **Access to your basic account info** (`openid`):
+  - Allows the app to confirm your identity and link your SharePoint account.
+- **Stay connected in the background** (`offline_access`):
+  - Lets the app sync or access SharePoint files even when you’re not actively using the app, for example to keep files up to date.
+
+These permissions are required to reliably access and sync your SharePoint files within the app.
+
+## How to test your connection
+
+After connecting, you can confirm everything works by:
+
+- Viewing your SharePoint files inside the app (in document picker, file management, or project settings).
+- Uploading or downloading a file from SharePoint through the app.
+- Checking for a confirmation message in your app’s Integrations section.
+
+## Troubleshooting common issues
+
+- **Authorization failed or access denied**: Make sure you granted all requested permissions and used your organizational Microsoft account.
+- **Wrong account used**: Repeat the connection process and log in with your work/organization account, not a personal Microsoft account.
+- **Admin approval required**: Some organizations require admin approval for integrations. Contact your IT admin if you see an approval prompt.
+- **Files not appearing or syncing**: Double-check you have access to the folders/libraries in SharePoint and try reconnecting.
+- **Repeated permission prompts**: Clear your browser’s cache or try a private/incognito window to avoid cookie/session issues, then reconnect.
+
+If problems persist, please contact your organization’s support team for further assistance.
