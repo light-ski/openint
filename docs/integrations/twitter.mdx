@@ -1,0 +1,107 @@
+---
+title: Twitter Integration
+---
+
+# Twitter Integration (OAuth 2.0)
+
+Integrate Twitter with your application using OpenInt’s OAuth 2.0 connector. This guide walks developers through setup, supported scopes, best practices, and troubleshooting for the Twitter integration.
+
+## Overview
+
+- **Audience:** Developer / Technical
+- **Vertical:** Social Media
+- **Status:** General Availability (GA)
+- **Auth:** OAuth 2.0 Authorization Code
+
+---
+
+## Prerequisites
+
+- A [Twitter Developer Platform](https://developer.twitter.com/en/portal/dashboard) account and access to the Developer Portal.
+- An OpenInt project configured.
+
+---
+
+## Step 1: Obtain Twitter OAuth 2.0 Credentials
+
+1. **Create a Twitter Developer App:**
+   - Visit the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard).
+   - Click **Create App** and provide required details (App name, description, etc.).
+2. **Configure App Permissions:**
+   - For OAuth 2.0, configure your app under the **User authentication settings**.
+   - Ensure your app enables OAuth 2.0 and supplies a valid callback URL (match this with your OpenInt environment).
+3. **Retrieve Client ID and Client Secret:**
+   - After saving, you will be shown a **Client ID** and **Client Secret** – copy these securely for your OpenInt configuration.
+
+**Official Guide:** See [Twitter: OAuth 2.0 User Access Tokens](https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token)
+
+---
+
+## Step 2: Configure Twitter Integration in OpenInt
+
+Configure OpenInt with the Client ID and Client Secret you obtained.
+
+```ts
+// Example (pseudocode)
+openint.connectors.twitter.configure({
+  clientId: "YOUR_TWITTER_CLIENT_ID",
+  clientSecret: "YOUR_TWITTER_CLIENT_SECRET",
+  redirectUri: "YOUR_CALLBACK_URL",
+  scopes: ["offline.access"], // Only offline.access currently supported
+});
+```
+
+The `redirectUri` should match one of the callback URLs in your Twitter app settings.
+
+---
+
+## Supported OAuth 2.0 Scopes
+
+Below is a comparison of all Twitter OAuth 2.0 user access scopes, indicating which are currently supported by OpenInt. [See Twitter Scope Docs](https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token)
+
+| Scope            | Description                                                                                                                                               | Supported by OpenInt |
+|------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------:|
+| offline.access   | <span title="Allows the application to obtain a refresh token that can be used to request new access tokens without user interaction.">Obtain refresh tokens for long-term access.</span> |       ✅              |
+| tweet.read       | <span title="Read Tweets and Retweets from people you follow and your own.">Read Tweets</span>                                                            |       ❌              |
+| tweet.write      | <span title="Post and delete Tweets for you.">Post/Delete Tweets</span>                                                                                   |       ❌              |
+| users.read       | <span title="Read profile information (including followers, following, etc.) of you and people you follow.">Read Profiles</span>                          |       ❌              |
+| follows.read     | <span title="See who you follow.">View Following</span>                                                                                                   |       ❌              |
+| follows.write    | <span title="Follow and unfollow people for you.">Manage Following</span>                                                                                 |       ❌              |
+| like.read        | <span title="See Tweets you’ve liked and who liked your Tweets.">Read Likes</span>                                                                        |       ❌              |
+| like.write       | <span title="Like and unlike Tweets for you.">Manage Likes</span>                                                                                        |       ❌              |
+
+For a full list and latest descriptions, review [Twitter’s scopes documentation](https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token).
+
+---
+
+## Step 3: Quickstart – Initiating OAuth Flow
+
+Below is a typical flow for integrating Twitter with OpenInt.
+
+```ts
+// Example: Initiate OAuth 2.0 flow
+const url = openint.connectors.twitter.getAuthorizationUrl();
+// Redirect user to `url`, handle redirectUri in your app to complete OAuth2 exchange
+```
+
+On successful completion, you’ll receive access and refresh tokens.
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+> **Callback URL Mismatch**: Ensure your callback (redirect) URL in OpenInt and in the Twitter developer app configuration exactly match. Twitter is strict on this.
+
+> **Missing Permissions**: Twitter will reject scopes in your OAuth request that are not enabled for your app, or not supported by OpenInt.
+
+> **Inactive App or Keys**: Expired, revoked, or misconfigured Twitter credentials will fail authentication. Regenerate keys if you suspect issues.
+
+> **Only `offline.access` Supported**: Attempting to request additional permissions will result in a scope error. OpenInt currently exposes only the `offline.access` scope for Twitter.
+
+---
+
+## Additional Resources
+
+- [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard)
+- [Twitter OAuth 2.0 User Access Doc](https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token)
+- [OpenInt OAuth Integration Guide](/getting-started/quickstart)
