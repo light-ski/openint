@@ -31,6 +31,33 @@ A connector in OpenInt is a bridge that allows you to integrate with various ext
       <img src="/images/connector-form.png" alt="Connector Form" />
     </Frame>
   </Step>
+  <Step title="Google Docs Integration (OAuth Setup)">
+    <Callout type="info">
+      <b>Note:</b> Setting up the Google Docs integration requires configuration in the Google Cloud Console and entering your OAuth credentials into OpenInt.
+    </Callout>
+    <br />
+    <b>1. Register a Google Cloud Project</b><br />
+    Go to <a href="https://console.cloud.google.com/">Google Cloud Console</a>. Create a new project if you don't have one.
+    <br /><br />
+    <b>2. Enable the Google Docs API</b><br />
+    Navigate to <i>APIs & Services &rarr; Library</i>, and search for <b>Google Docs API</b>; enable it for your project.
+    <br /><br />
+    <b>3. Create OAuth Credentials</b><br />
+    Go to <i>APIs & Services &rarr; Credentials</i>. Click <b>Create Credentials</b> → <b>OAuth client ID</b>.
+    Choose <i>Web application</i>, and add your redirect URIs for local development and production (e.g., <code>https://localhost:3000/oauth/callback</code>).
+    Save and note the generated <b>Client ID</b> and <b>Client Secret</b>.
+    <br /><br />
+    <b>4. Set OAuth Scopes</b><br />
+    Refer to the <a href="https://developers.google.com/workspace/docs/api/auth">Google Docs API OAuth Scopes</a> for the list of available scopes.<br />
+    Common scope: <code>https://www.googleapis.com/auth/documents</code><br />
+    Select the minimum necessary scopes for your integration.
+    <br /><br />
+    <b>5. Configure Connector in OpenInt</b><br />
+    In your OpenInt dashboard, go to Connector Configs. Create/select a Google Docs connector.<br />
+    Enter the Client ID, Client Secret, and required OAuth scopes. Save the connector.
+    <br />
+    Now, your OpenInt-powered app can connect with Google Docs and securely use the API on behalf of your users.
+  </Step>
   <Step title="Verify Connector">
     You should see the new connector in the available connectors table.
     <Frame>
