@@ -1,0 +1,72 @@
+---
+title: Connect Slack to Your Account
+description: Learn how to securely connect your Slack account and understand the permissions required.
+---
+
+# Connect Slack to Your Account
+
+Integrate Slack with your account to unlock real-time collaboration, automated messages, and synchronization between your workspace and the app.
+
+---
+
+## Quickstart: How to Connect
+
+1. **Go to Integrations**: In your app, navigate to the integration or settings page.
+2. **Find Slack**: Select the Slack option and click “Connect” or “Add”.
+3. **Authorize Access**: You will be redirected to Slack’s website.
+4. **Sign In (if needed)**: Enter your Slack credentials, if you are not already signed in.
+5. **Choose a Workspace**: Select the Slack workspace you want to connect.
+6. **Review Permissions**: Read and accept the requested permissions.
+7. **Complete Connection**: Approve the integration. You will be redirected back to the app once the connection is established.
+
+---
+
+## What Permissions Are Requested, and Why?
+
+To function properly, the integration requests the following permissions in Slack. Here’s what each permission allows and why it’s needed:
+
+| Permission              | Why it’s Needed |
+|-------------------------|:----------------|
+| View app mentions       | Needed to see when you mention the app, allowing automated responses or workflows. |
+| Access channel info     | To find and display public Slack channels, and let you select where to send or receive information. |
+| View messages in channels | Lets the app read conversations so it can sync or display relevant information. |
+| Manage channels         | Allows creation/renaming/archiving public channels (if the app supports channel management features). |
+| Post messages           | Lets the app send messages, alerts, or updates to your channels and conversations. |
+| Use slash commands      | Enables custom slash commands you can use in Slack. |
+| View direct messages    | Needed if the app supports pulling or syncing messages from private/direct conversations. |
+| Start direct messages   | Allows the app to begin direct message conversations with users (for alerts, notifications, etc). |
+| View user info          | To show Slack user names, emails, or avatars inside the app. |
+| View user emails        | Used for displaying or syncing your Slack email address (never shared outside the app). |
+| View user profile fields| Displays additional profile info (like display name or team role) as relevant in features. |
+| Administer workspace    | (If requested) Needed to manage Slack workspace settings from within the app (admin access required). |
+| View files              | Lets the app read files shared in your Slack, if it supports file sync or previews. |
+| Manage files            | Allows file upload, edit, or deletion as needed by the integration features. |
+
+---
+
+## How to Test Your Slack Connection
+
+After connecting, you can check that Slack and your app are linked:
+
+- Look for a confirmation or success message in your app’s integration page.
+- Test sending a message or using a Slack-related function (like posting to a channel, or running a slash command from Slack). 
+- You should see updates both in your app and the selected Slack workspace.
+
+---
+
+## Troubleshooting & Common Issues
+
+**Issue:** You’re not seeing your expected Slack workspace or channels.  
+**Resolution:** Try disconnecting and reconnecting, ensuring you select the correct Slack workspace.
+
+**Issue:** “Permission denied” error during connection.  
+**Resolution:** Make sure you have sufficient permissions for that Slack workspace, or contact a workspace admin for help.
+
+**Issue:** Messages or actions do not appear in Slack after connecting.
+**Resolution:** Double-check the permissions granted. Re-connect if needed. Sometimes it can take a minute for changes to take effect.
+
+**Note:** Still having trouble? Reach out to customer support for assistance. (They can’t see your Slack messages, files, or data beyond the permissions you approve.)
+
+---
+
+You’re all set! If you ever want to disconnect Slack, head to your integration settings and remove the connection.
