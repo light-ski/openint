@@ -1,0 +1,83 @@
+---
+title: Xero Integration
+---
+
+# Xero Integration (GA)
+
+Integrate Xero, the leading cloud accounting software, into your application using OpenInt's prebuilt OAuth 2.0 connector. This integration enables your users to connect their Xero accounts to your platform securely with just a few clicks.
+
+**Stage:** General Availability (GA)  
+**Vertical:** Accounting
+
+---
+
+## Quickstart
+
+1. **Register an OAuth App in Xero:**
+    - Go to the [Xero Developer Portal](https://developer.xero.com/myapps) and log in with your Xero account.
+    - Click **"New app"**, fill in the required details, and set the **Redirect URI** to your OpenInt deployment's callback URL.
+    - After creation, you will receive a **Client ID** and **Client Secret**—store these securely.
+    - See Xero’s full [OAuth app registration guide](https://developer.xero.com/documentation/guides/oauth2/auth-flow) if you require more detail.
+
+2. **Add the Credentials to OpenInt:**
+    - In your OpenInt configuration (usually as an environment variable or dashboard secret), add the Xero **Client ID** and **Client Secret** under the provider xero.
+    - Example:
+
+```json
+{
+  "providers": {
+    "xero": {
+      "client_id": "YOUR_CLIENT_ID",
+      "client_secret": "YOUR_CLIENT_SECRET",
+      "redirect_uri": "YOUR_CALLBACK_URL"
+    }
+  }
+}
+```
+
+3. **Enable Xero in your OpenInt Connect UI:**
+    - Ensure xero is enabled in your list of integrations when embedding OpenInt Connect.
+
+---
+
+## Xero OAuth2 Scopes
+
+OpenInt’s Xero connector currently supports the following scopes:
+
+| Scope              | Description                                                                                                                           | Supported by OpenInt? |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| `openid`           | <span title="This scope enables authentication and grants access to the user's basic identity. Required for login and SSO.">Authenticate user and retrieve basic profile information (OpenID Connect).</span> | ✅ |
+| `offline_access`   | <span title="Allows the app to request refresh tokens for long-term access when the user is offline.">Obtain refresh tokens for offline/long-lived access.</span> | ❌ |
+
+For a complete list of Xero scopes used for deeper organization data (contacts, accounting, payroll, assets, files, etc.), refer to the [official Xero OAuth2 scopes documentation](https://developer.xero.com/documentation/guides/oauth2/scopes).
+
+> **Note:** If your use case requires access to Xero data beyond identity (such as accounting.transactions or contacts) please contact us. Currently, OpenInt only supports OpenID-based authentication for Xero.
+
+---
+
+## OAuth2 Endpoints
+
+- **Authorization URL:** `https://login.xero.com/identity/connect/authorize`
+- **Token URL:** `https://identity.xero.com/connect/token`
+
+These endpoints are used internally by OpenInt—no manual requests needed unless performing advanced integration.
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+- **Redirect URI Mismatch:** Your redirect URI in Xero’s app portal must _exactly_ match the one configured in OpenInt (including scheme and path).
+- **Scope Errors:** Requesting unsupported scopes (such as `accounting.transactions`) will fail. Only the scopes listed above are supported in the current OpenInt/Xero connector.
+- **Client Secret Security:** The client secret is shown only once in Xero’s app dashboard. Store it securely—reset if disclosed.
+- **Consent Issues:** Users must fully accept the requested scopes at Xero consent prompt; missing consent may result in failed integrations.
+
+For more help, see the [Xero OAuth2 troubleshooting guide](https://developer.xero.com/documentation/guides/oauth2/troubleshooting).
+
+---
+
+## Resources
+
+- [Xero Developer Portal (register/manage apps)](https://developer.xero.com/myapps)
+- [Xero OAuth2 Auth Flow Guide](https://developer.xero.com/documentation/guides/oauth2/auth-flow)
+- [Official Scopes Documentation](https://developer.xero.com/documentation/guides/oauth2/scopes)
+- [OAuth2 Troubleshooting](https://developer.xero.com/documentation/guides/oauth2/troubleshooting)
