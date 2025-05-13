@@ -1,0 +1,60 @@
+---
+title: Connecting Google Docs
+description: Learn how to securely connect your Google Docs account to your Company A account, what permissions are needed, and how to troubleshoot common issues.
+---
+
+# Connect Your Google Docs Account
+
+Connect your Google Docs account to Company A to enable document syncing and advanced collaboration features.
+
+<Steps>
+  <Step title="Start the Connection">
+    Click the <b>Connect Google Docs</b> button in your Company A dashboard. You’ll be redirected to Google’s secure login screen.
+  </Step>
+  <Step title="Choose Your Google Account">
+    Sign in with the Google account you want to link to Company A.
+  </Step>
+  <Step title="Review and Accept Permissions">
+    Google will show a list of permissions requested by Company A. Review them and click <b>Allow</b> to continue.
+  </Step>
+  <Step title="Finish Setup">
+    After accepting, you’ll be returned to Company A. Your accounts are now securely connected.
+  </Step>
+</Steps>
+
+## What Permissions Are Requested?
+
+When you connect your account, Company A requests the following <a href="https://developers.google.com/workspace/docs/api/auth#docs-scopes" target="_blank">Google Docs and Drive permissions</a>:
+
+<Callout type="info">  
+<b>Google Docs Permissions:</b>  
+- <b>See, edit, create, and delete your Google Docs documents:</b> Lets Company A sync your files and allow editing from their platform.  
+- <b>Read-only access to Google Docs:</b> Allows Company A to view content for features like preview or data extraction.  
+- <b>Temporary access to the currently open Google Doc:</b> Required only for specific integrations where edits are made to the document you are viewing.
+
+<b>Google Drive Permissions:</b>  
+- <b>Files created or opened with Company A:</b> Restricts access to only the files that you create or open through Company A features.  
+- <b>View all Google Drive files:</b> For read-only features, like data imports or document previews.  
+- <b>Full Drive access (if requested):</b> Needed if Company A offers features involving editing or organizing large numbers of Drive files. For most users, Company A will request the narrowest permissions needed for your features.
+</Callout>
+
+For more details, see Google’s <a href="https://developers.google.com/workspace/docs/api/auth#docs-scopes" target="_blank">official documentation</a>.
+
+## How to Check Your Connection
+
+- After connecting, try viewing your Google Docs files in Company A.
+- If available, use the <b>Sync</b> button to import or refresh documents.
+- You should see your latest docs appear or be available for integration features.
+
+## Troubleshooting
+
+<Callout type="warning">
+<b>Common Issues:</b>
+
+- <b>Permissions Denied:</b> Make sure you accepted all permissions during setup. If you did not, disconnect and reconnect your account.
+- <b>Wrong Google Account:</b> If you linked the wrong account, disconnect and repeat the process selecting the correct one.
+- <b>Files Not Appearing:</b> Refresh the page, and confirm you have access to the expected files in your Google Drive or Docs. Make sure you’re viewing the Company A features that support Google Docs.
+- <b>Authorization Expired:</b> If Company A can no longer access your docs, reconnect your account.
+</Callout>
+
+If issues persist, contact Company A support or consult Google’s <a href="https://support.google.com/docs/?hl=en" target="_blank">Docs Help Center</a>.
