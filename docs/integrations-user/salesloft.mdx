@@ -1,0 +1,68 @@
+---
+title: Connect Salesloft to Your Account
+---
+
+# Connect Salesloft to Your Account
+
+You can connect your Salesloft account to this application to seamlessly sync your sales data, contacts, emails, and more. This guide will walk you through the secure connection process, explain the permissions requested, and help you troubleshoot any issues.
+
+## How to Connect Salesloft
+
+1. **Start the connection:**
+   - Navigate to the **Integrations** or **Connections** section of your account settings in this application.
+   - Click **Connect** next to Salesloft.
+
+2. **Authorize Salesloft:**
+   - A new window or tab will open, taking you to Salesloft’s secure sign-in page.
+   - Log in to your Salesloft account (if you are not already signed in).
+
+3. **Review permissions:**
+   - You will be asked to approve access for this application. See below for details on each requested permission.
+
+4. **Confirm and finish:**
+   - Click **Allow** to grant access.
+   - You will be redirected back, and the connection will be established.
+
+## Permissions Requested
+
+When you connect your Salesloft account, the following access is requested:
+
+- **View your user profile** (`users:read`):
+  - Lets the app read your name, email, and role—only for displaying your account info within the app.
+- **Read calls** (`calls:read`):
+  - Allows the app to display your call recordings, transcripts, and related info. Cannot make or edit calls.
+- **Read emails** (`emails:read`):
+  - Lets the app show your sent emails and email templates. Cannot send or modify emails.
+- **View contacts/leads** (`people:read`):
+  - Used to read your contact and lead details for better context or syncing. Does not allow editing or creating contacts.
+- **View sales cadences** (`cadences:read`):
+  - Provides access to your sales workflows and sequences for display or planning purposes only.
+- **Manage activities** (`activities:write`):
+  - Lets the app log or update your activities (calls, emails, meetings) automatically in Salesloft, helping keep records up to date.
+- **Manage contacts/leads** (`people:write`):
+  - Allows the app to create, edit, or delete contacts/leads on your behalf. This is only used if you choose to sync records bi-directionally.
+- **Admin access** (`admin`):
+  - Grants full administrative permissions, including user management and settings. This will only be requested if your workflow requires admin-level operations.
+
+You are always in control—only grant permissions you’re comfortable with.
+
+## How to Confirm the Connection Works
+
+Once connected:
+
+- You should see Salesloft listed as “Connected” in the Integrations section.
+- Try viewing or syncing data (such as contacts or activities) from Salesloft within the app.
+- If the integration is successful, your data will appear and update as expected.
+
+## Troubleshooting & Common Issues
+
+- **Authentication failed or timed out:**
+  - Make sure your Salesloft credentials are correct and that you completed all steps in a single session.
+- **Permissions error:**
+  - Some features may not work if you did not grant all required permissions. If needed, disconnect and reconnect, ensuring the app requests all required permissions.
+- **Stale data or information not syncing:**
+  - Try disconnecting and reconnecting Salesloft. Refresh your browser after reconnecting.
+- **Pop-up blockers:**
+  - If the Salesloft sign-in window does not open, disable browser pop-up blockers and try again.
+
+If you need more help, please reach out to support via your application’s help portal.
