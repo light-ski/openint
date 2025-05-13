@@ -1,0 +1,62 @@
+---
+title: Connect Your Gmail Account
+description: Step-by-step guide to securely connecting your Gmail (Google Mail) account to your app for email sync and automation.
+---
+
+# Connect Your Gmail Account
+
+Connect your Gmail (Google Mail) account to this app to sync, view, and send emails seamlessly. Once connected, you can safely perform the actions you need, such as syncing messages or sending mail, all from within this platform—no extra email apps required.
+
+## Prerequisites
+
+- You need a Google account with Gmail enabled.
+- Make sure you are able to sign in to your Google account and have access to your email inbox.
+
+## How to Connect
+
+1. Click the **Connect Gmail** (or similar) button in your app.
+2. A pop-up window will appear prompting you to sign in with your Google account (if you aren't already signed in).
+3. Review the permissions requested. These are required for the app to perform email-related actions securely on your behalf.
+4. Click **Allow** to grant access.
+5. After successful authentication, you will be redirected back to your app and your Gmail account will be connected.
+
+> **Tip:** Make sure pop-ups are not blocked in your browser, as this may prevent the Google login window from appearing.
+
+## Permissions Requested
+
+Depending on how your organization uses Gmail with this app, one or more of the following permissions may be requested:
+
+| Permission | Why it's Requested |
+| --- | --- |
+| **Read-only Gmail access**<br/>(`https://www.googleapis.com/auth/gmail.readonly`) | Allows reading emails and threads to sync messages without making changes. |
+| **Send emails**<br/>(`https://www.googleapis.com/auth/gmail.send`) | Enables the app to send emails on your behalf, but not read or modify your inbox. |
+| **Compose emails**<br/>(`https://www.googleapis.com/auth/gmail.compose`) | Lets the app draft and send new emails, but not access inbox contents. |
+| **Insert emails**<br/>(`https://www.googleapis.com/auth/gmail.insert`) | Allows importing emails into your mailbox without modifying existing ones. |
+| **Manage labels**<br/>(`https://www.googleapis.com/auth/gmail.labels`) | Lets the app organize your messages using labels (folders) only. |
+| **Metadata access**<br/>(`https://www.googleapis.com/auth/gmail.metadata`) | Provides access to email headers and labels only—no message content. |
+| **Full access & modification**<br/>(`https://www.googleapis.com/auth/gmail.modify`) | Allows reading, sending, deleting, and modifying emails for full integration features. |
+| **Full Gmail access**<br/>(`https://mail.google.com/`) | Grants complete read and write access, equivalent to managing your entire mailbox. |
+
+You will only be asked for the permissions required for the features your organization has enabled.
+
+## How to Verify the Connection Works
+
+- After successful connection, you should see your Gmail data appear—such as a synced inbox, recent messages, or status indicators.
+- You may be able to send a test email or refresh your inbox to confirm everything is connected.
+
+## Troubleshooting & Common Issues
+
+- **Pop-up blocked:** Enable pop-ups for this site so the Google authentication window appears.
+- **Wrong Google account:** Make sure you select the correct account if prompted by Google.
+- **Permission denied:** If you accidentally deny permissions, disconnect and try again.
+- **Organization restrictions:** Some Google accounts managed by businesses or schools may restrict 3rd-party integrations. Please contact your administrator if you get an error related to permission or access.
+
+## Disconnecting or Changing Your Gmail Account
+
+- Visit settings in the app and find your connected integrations.
+- Select **Disconnect** next to Gmail to remove access.
+- To change the account, disconnect first and repeat the connection steps above using your preferred Google account.
+
+## Need Help?
+
+If you have trouble connecting Gmail or need further assistance, please contact support through your app’s help or chat function.
