@@ -1,0 +1,82 @@
+---
+title: Jira Integration
+description: How to integrate Jira with your product via OpenInt, using OAuth 2.0 (3LO).
+---
+
+# Jira Integration (OAuth 2.0)
+
+Integrate Atlassian Jira with your platform via OpenInt and enable your users to securely connect their Jira accounts. This guide covers the OAuth 2.0 (3LO) flow, required configuration, supported scopes, and common troubleshooting.
+
+## Quickstart
+
+1. **Register an OAuth 2.0 App (3LO) in Atlassian:**
+    - Visit the [Atlassian Developer Console](https://developer.atlassian.com/console/myapps/) and create a new app.
+    - Under **Authorization**, enable OAuth 2.0 (3LO) and set your app's callback URL. This URL must match the redirect URI used by OpenInt.
+    - Add relevant APIs and required scopes (see Supported Scopes table below).
+    - Obtain your **Client ID** and **Client Secret** from the app's **Settings** section.
+
+2. **Configure Jira in OpenInt:**
+    - Supply your Jira OAuth credentials (Client ID/Secret) and specify the required scopes.
+    - Example configuration (pseudo-code):
+
+```json
+{
+  "provider": "jira",
+  "clientId": "YOUR_CLIENT_ID",
+  "clientSecret": "YOUR_CLIENT_SECRET",
+  "redirectUri": "https://yourapp.com/openint/oauth/callback",
+  "scopes": "read:jira-user"
+}
+```
+
+3. **User Authentication Flow:**
+    - When a user connects Jira, OpenInt initiates the standard Atlassian OAuth 2.0 3LO flow.
+    - On success, OpenInt will be able to access Jira APIs on the user’s behalf (per granted scopes).
+
+## Registering an Atlassian OAuth 2.0 (3LO) App
+
+Follow [Atlassian’s official steps](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#enabling-oauth-2-0--3lo-) to:
+
+1. Log in to the [Developer Console](https://developer.atlassian.com/console/myapps/).
+2. Create or select your app.
+3. Under **Authorization**, enable OAuth 2.0 (3LO).
+4. Set the **Callback URL** to your OpenInt redirect URI (e.g., `https://yourapp.com/openint/oauth/callback`).
+5. Under **Permissions**, add the **Jira API** and select the required scopes.
+6. Save configuration and copy the **Client ID** and **Secret** for use in OpenInt setup.
+
+For a full walkthrough and code samples, see Atlassian's [OAuth 2.0 (3LO) docs](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/).
+
+## Supported and Available Scopes
+
+OpenInt currently exposes the following Jira OAuth scopes. You may need to enable other scopes in your Atlassian app, but OpenInt will only request the supported subset.
+
+For the complete, authoritative list, see:
+👉 [Official Atlassian Jira Scopes Documentation](https://developer.atlassian.com/cloud/jira/software/scopes-for-oauth-2-3LO-and-forge-apps/)
+
+| Scope                | Description                                                                                                                  | Supported by OpenInt? |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| <Tooltip tip="Allows read-only access to user profile information (name, email, avatar, etc.)">read:jira-user</Tooltip> | ✔️ Yes                |
+| <Tooltip tip="Allows read access to Jira issues, projects, boards, and other work items">read:jira-work</Tooltip>     | ✖️ No                 |
+| <Tooltip tip="Allows creating, updating, and transitioning Jira issues and work items">write:jira-work</Tooltip>      | ✖️ No                 |
+| <Tooltip tip="Allows administration of Jira projects and their settings, components, and versions">manage:jira-project</Tooltip> | ✖️ No                 |
+| <Tooltip tip="Allows modifying global Jira configurations and settings">manage:jira-configuration</Tooltip>            | ✖️ No                 |
+| <Tooltip tip="Allows obtaining refresh tokens for long-term access">offline_access</Tooltip>                         | ✖️ No                 |
+
+Additional scopes may be available from Atlassian but are not exposed in OpenInt at this time. See the [full list](https://developer.atlassian.com/cloud/jira/software/scopes-for-oauth-2-3LO-and-forge-apps/) for all possibilities.
+
+## Common Setup Issues & Troubleshooting
+
+- **Mismatched Redirect URI:** The callback URL registered in Atlassian must exactly match the one used by OpenInt.
+- **Invalid/Missing Scopes:** Ensure all required scopes are added in the Atlassian Developer Console and allowed by OpenInt.
+- **Wrong Client Secret:** Client secrets must be kept secure and correctly configured in both Atlassian and your OpenInt settings.
+- **Missing `offline_access`:** For long-lived access, users must consent to `offline_access` and your flow must handle refresh tokens.
+- **Incorrect API URL Usage:** Jira API requests should use `https://api.atlassian.com/ex/jira/{cloudid}/{api}` (not your direct Atlassian site URL).
+
+> For more, see the [Atlassian OAuth 2.0 (3LO) Troubleshooting Guide](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/#known-issues).
+
+## References
+
+- [Atlassian OAuth 2.0 (3LO) – Official Docs](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/)
+- [Jira Software Scopes Documentation](https://developer.atlassian.com/cloud/jira/software/scopes-for-oauth-2-3LO-and-forge-apps/)
+
+If you need advanced scopes or have additional use cases, please [contact OpenInt support].
