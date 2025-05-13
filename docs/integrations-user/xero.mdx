@@ -1,0 +1,52 @@
+---
+title: Connect Your Xero Account
+description: Learn how to securely connect your Xero account to your app for streamlined accounting integration.
+---
+
+# Connect Your Xero Account
+
+Integrating your Xero account allows you to sync accounting data seamlessly with your app. Follow the guide below for secure, step-by-step connection and troubleshooting help.
+
+## How to Connect
+
+1. **Start Integration**: Navigate to the app's integration settings and select **Connect Xero** or **Add Xero Account**.
+2. **Sign In to Xero**: Click the link or button to sign in with your Xero credentials. You’ll be redirected to the secure Xero login page.
+3. **Grant Permissions**: Review the permissions requested, then authorize access. This is required to enable the integration (see [What permissions are requested?](#what-permissions-are-requested)).
+4. **Return to the App**: Once authorization is complete, you'll be automatically redirected back.
+5. **Connection Complete**: Your Xero account is now connected! You should see a confirmation or your Xero data available within the app.
+
+## What permissions are requested?
+
+To deliver a seamless experience, the integration requests the following from Xero:
+
+- **offline_access**: Allows your app to securely refresh its connection to Xero, so you don't have to reauthorize frequently. This means ongoing access to your data without repeated logins.
+- **openid**: Used only to verify your identity—this allows secure authentication and retrieval of your Xero user ID. No other personal or company data is accessed by this permission alone.
+
+## How to Test Your Connection
+
+After connecting, you can verify that Xero data is syncing correctly:
+
+1. Check the integrations dashboard for a status indicator or last sync time next to Xero.
+2. Look for Xero data (such as accounts or transactions) in the relevant section of your app.
+
+If you do not see any data or encounter a message about incomplete setup, you may need to reconnect or repeat authorization.
+
+## Troubleshooting & Common Issues
+
+**1. Authorization denied or canceled**
+   - Ensure you allow the requested permissions during the Xero authorization process.
+   - If you accidentally denied access, restart the connection process from your app’s integrations page.
+
+**2. Incorrect credentials**
+   - Verify you are signing in to Xero with the correct username and password.
+   - If needed, reset your Xero password at the Xero login page.
+
+**3. Data not syncing or missing**
+   - Check that the connection is marked as active in your app’s integration settings.
+   - Try refreshing the integration or reconnecting your Xero account.
+   - There may be a short delay after initial connection—wait a few minutes and try again.
+
+**4. Lost connection/re-authentication required**
+   - For security, Xero may require re-authentication after certain periods. Simply follow the connect steps above to renew access.
+
+If problems persist, contact your support team using the help or support menu in your app.
