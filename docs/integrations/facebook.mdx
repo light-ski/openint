@@ -1,0 +1,117 @@
+---
+title: Facebook Integration (OAuth2)
+---
+
+# Facebook Integration Guide
+
+Integrate Facebook with your application using OpenInt to enable secure, white-labeled social login and data sync for your users. This document walks you through setting up OAuth, configuring scopes, and embedding the integration within your product.
+
+---
+
+## Prerequisites
+
+- A [Facebook Developer Account](https://developers.facebook.com/)
+- Access to the [Facebook App Dashboard](https://developers.facebook.com/apps)
+- Admin access to your OpenInt dashboard/configuration
+
+---
+
+## Step 1: Register a Facebook App and Enable OAuth
+
+1. Go to the [Facebook App Dashboard](https://developers.facebook.com/apps) and click **Create App**.
+2. Follow prompts to select the correct app type (usually "Consumer" or "Business").
+3. After creating your app, select it from the dashboard.
+4. In the left panel, click **Facebook Login > Settings**.
+5. Under **Client OAuth Settings**, set these flags:
+   - **Valid OAuth Redirect URIs**: Add your OpenInt OAuth callback URI (e.g., `https://YOUR_OPENINT_DOMAIN/connect/oauth/callback`). Ensure this URL is correct!
+   - **Login with JavaScript SDK**: Set to "Yes" if embedding in web.
+   - **Allowed Domains for JavaScript SDK**: Add your app's frontend domain if applicable.
+6. Go to **Settings > Basic** to find your `App ID` (Client ID) and `App Secret`.
+
+**Official reference:** [Facebook Login for the Web (OAuth Setup)](https://developers.facebook.com/docs/facebook-login/web/)
+
+---
+
+## Step 2: Configure OpenInt with Facebook Credentials
+
+In your OpenInt configuration, supply the Facebook App ID and App Secret. Typically, you'll do this via environment variables or the OpenInt deployment dashboard:
+
+```json
+{
+  "facebook": {
+    "client_id": "<YOUR_FACEBOOK_APP_ID>",
+    "client_secret": "<YOUR_FACEBOOK_APP_SECRET>"
+  }
+}
+```
+
+Ensure your configuration matches your environment (sandbox vs production) and that secret values are never committed to source control.
+
+---
+
+## Step 3: Scopes and Permissions
+
+When authenticating users, Facebook OAuth allows requesting fine-grained permissions (called "scopes").
+
+**OpenInt supports the following Facebook OAuth scopes:**
+
+| Scope | Supported by OpenInt | Description |
+|-------|---------------------|-------------|
+| <Tooltip tip="Provides access to the user's primary email address.">email</Tooltip> | ✅ | Primary email |
+
+**Other available Facebook OAuth scopes:**
+
+| Scope | Supported by OpenInt | Description |
+|-------|---------------------|-------------|
+| <Tooltip tip="Provides access to basic information available on the user's profile (id, name, first_name, last_name, age_range, link, gender, locale, timezone, updated_time, verified).">public_profile</Tooltip> | ❌ | Basic profile |
+| <Tooltip tip="Provides access to the user's list of friends who also use the app.">user_friends</Tooltip> | ❌ | User's friends |
+| <Tooltip tip="Provides access to the posts on the user's timeline, including their own posts and posts they're tagged in.">user_posts</Tooltip> | ❌ | User's posts |
+| <Tooltip tip="Provides access to the photos the user has uploaded to Facebook.">user_photos</Tooltip> | ❌ | User's photos |
+| <Tooltip tip="Provides access to the list of pages, places, or things the user has liked.">user_likes</Tooltip> | ❌ | User's likes |
+| <Tooltip tip="Provides access to the user's status updates.">user_status</Tooltip> | ❌ | Status updates |
+| <Tooltip tip="Provides access to the events the user is attending or has created.">user_events</Tooltip> | ❌ | Events |
+| <Tooltip tip="Provides access to manage the user's Facebook pages (requires additional permissions).">manage_pages</Tooltip> | ❌ | Manage pages |
+| <Tooltip tip="Allows the app to post content to groups the user belongs to.">publish_to_groups</Tooltip> | ❌ | Post to groups |
+
+- For the full, up-to-date list and details, see [Facebook Permissions Reference](https://developers.facebook.com/docs/permissions/reference).
+- Additional permissions may require [App Review](https://developers.facebook.com/docs/app-review). Only request those you really need.
+
+---
+
+## Step 4: Embedding Facebook OAuth in Your App Flow
+
+OpenInt provides a white-labeled OAuth handshake. Example (pseudo-code):
+
+```js
+// This will vary depending on your framework/integration
+openint.connect('facebook', {
+  clientId: process.env.FACEBOOK_CLIENT_ID,
+  clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  scopes: ['email'], // Only 'email' is supported currently
+  redirectUri: 'https://YOUR_OPENINT_DOMAIN/connect/oauth/callback',
+})
+```
+
+Ensure the redirect URI here matches exactly with the valid OAuth redirect URI set in the Facebook app dashboard.
+
+---
+
+## Common Issues and Troubleshooting
+
+- **Invalid Redirect URI:** Ensure your redirect URI in the Facebook app exactly matches the one used by OpenInt. Even minor differences (trailing slashes, HTTP vs. HTTPS) can cause failures.
+- **Missing or incorrect scopes:** Only `email` is currently supported via OpenInt. Attempting to request unsupported scopes will result in an error or login failure.
+- **App not in Live mode:** Facebook restricts data sharing for apps that are not made "Live". Ensure you've tested your app thoroughly in development before toggling to Live.
+- **App Review required:** Scopes other than `email` and `public_profile` may require Facebook App Review. OpenInt currently exposes only the `email` scope for this integration.
+- **Credentials not configured:** Make sure your App ID and App Secret are present and correct in your OpenInt configuration.
+
+If issues persist, consult the [Facebook Login Documentation](https://developers.facebook.com/docs/facebook-login/web/) and the [Permissions Reference](https://developers.facebook.com/docs/permissions/reference).
+
+---
+
+## Helpful Resources
+
+- [Facebook Login for Web (official docs)](https://developers.facebook.com/docs/facebook-login/web/)
+- [Facebook OAuth Permissions Reference](https://developers.facebook.com/docs/permissions/reference)
+- [Facebook App Review Process](https://developers.facebook.com/docs/app-review)
+
+If you encounter uncommon edge cases, please reach out to OpenInt support or consult the Facebook developer forums.
