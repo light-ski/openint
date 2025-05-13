@@ -1,0 +1,134 @@
+---
+title: HubSpot Integration
+---
+
+# HubSpot Integration (Developer Guide)
+
+Integrate HubSpot seamlessly into your app using OpenInt’s white-label integration engine. This guide walks through every step needed to enable your users to securely connect their HubSpot accounts, set up OAuth, and utilize granular CRM access—minimizing your engineering overhead.
+
+---
+
+## Overview
+
+The OpenInt HubSpot connector is designed for applications in the CRM and ticketing verticals. It uses HubSpot’s public OAuth 2.0 APIs to let your users authenticate and authorize access to their HubSpot data. The integration currently supports read-only access to CRM contact objects; more scopes and features will be enabled in future releases.
+
+---
+
+## Quickstart
+
+These instructions guide you through setting up HubSpot OAuth, configuring OpenInt, and embedding HubSpot account linking within your app.
+
+### 1. Register a HubSpot App
+
+1. **Sign up or log in** to a [HubSpot developer account](https://app.hubspot.com/signup-hubspot/developers).
+2. Navigate to **Apps** in your developer account, then click **Create app**.
+3. Enter your app’s name, description, and other details. These will be visible to users during authentication.
+4. Go to the **Auth** tab. Here you’ll find your **Client ID** and **Client Secret** after saving your app.
+    - More detailed, official instructions: [HubSpot Docs: Public apps](https://developers.hubspot.com/docs/guides/apps/public-apps/overview)
+
+### 2. Configure OAuth Settings
+
+- **Redirect URIs:** Add your production and development redirect URLs under the app's **Auth** tab.
+    - For local testing, you can use `http://localhost`.
+- **Scopes:** Use the scope picker to add the relevant OAuth scopes required for your OpenInt integration (see [Supported Scopes](#supported-scopes) below).
+
+### 3. Input Credentials into OpenInt
+
+In your OpenInt dashboard or secrets/config, copy the **Client ID** and **Client Secret** from HubSpot and set them for the HubSpot connector. Example config:
+
+```json
+{
+  "provider": "hubspot",
+  "client_id": "<YOUR_CLIENT_ID>",
+  "client_secret": "<YOUR_CLIENT_SECRET>",
+  "redirect_uri": "https://yourapp.com/api/openint/callback/hubspot",
+  "scopes": ["crm.objects.contacts.read"]
+}
+```
+
+### 4. Test the Integration
+
+With your app and OpenInt configured, trigger the HubSpot connect flow in your application. Your users will be prompted to log in to HubSpot, review requested scopes, and authorize access.
+
+---
+
+## OAuth & Scopes in HubSpot
+
+HubSpot OAuth 2.0 grants your app secure, delegated access to users' data. All HubSpot integrations **must** request at least the required OAuth scopes. Each scope enables access to a specific set of API capabilities.
+
+You can review the full official list and details at:
+- [HubSpot OAuth scopes documentation](https://developers.hubspot.com/docs/guides/apps/authentication/working-with-oauth#configure-scopes)
+
+### Supported Scopes
+
+The table below lists all major HubSpot OAuth scopes, their descriptions (*hover or tap for details*), and OpenInt’s current support status for each.
+
+| Scope | Description | Supported by OpenInt |
+|-------|-------------|:-------------------:|
+| `crm.objects.contacts.read` | Provides read-only access to contact objects in the CRM. | ✅ |
+| `crm.objects.contacts.write` | Provides write access to contact objects in the CRM. | 🚫 |
+| `crm.objects.companies.read` | Provides read-only access to company objects in the CRM. | 🚫 |
+| `crm.objects.companies.write` | Provides write access to company objects in the CRM. | 🚫 |
+| `crm.objects.deals.read` | Provides read-only access to deal objects in the CRM. | 🚫 |
+| `crm.objects.deals.write` | Provides write access to deal objects in the CRM. | 🚫 |
+| `crm.objects.custom.read` | Provides read-only access to custom objects in the CRM. | 🚫 |
+| `crm.objects.custom.write` | Provides write access to custom objects in the CRM. | 🚫 |
+| `crm.objects.owners.read` | Provides read-only access to owner objects in the CRM. | 🚫 |
+| `crm.objects.users.read` | Provides read-only access to user objects in the CRM. | 🚫 |
+| `crm.objects.users.write` | Provides write access to user objects in the CRM. | 🚫 |
+| `crm.schemas.companies.read` | Provides read-only access to company schemas in the CRM. | 🚫 |
+| `crm.schemas.companies.write` | Provides write access to company schemas in the CRM. | 🚫 |
+| `crm.schemas.contacts.read` | Provides read-only access to contact schemas in the CRM. | 🚫 |
+| `crm.schemas.contacts.write` | Provides write access to contact schemas in the CRM. | 🚫 |
+| `crm.schemas.custom.read` | Provides read-only access to custom schemas in the CRM. | 🚫 |
+| `crm.schemas.custom.write` | Provides write access to custom schemas in the CRM. | 🚫 |
+| `crm.schemas.deals.read` | Provides read-only access to deal schemas in the CRM. | 🚫 |
+| `contacts` | Provides read and write access to all contacts and contact properties in HubSpot. | 🚫 |
+| `contacts-ro` | Provides read-only access to contacts and contact properties in HubSpot. | 🚫 |
+| `content` | Provides read and write access to content, including blog posts, pages, and templates. | 🚫 |
+| `forms` | Provides read and write access to forms and form submissions. | 🚫 |
+| `forms-ro` | Provides read-only access to forms and form submissions. | 🚫 |
+| `oauth` | Allows the app to make OAuth requests to HubSpot's API. **(Required for all OAuth apps.)** | ✅ |
+| `sales-email-read` | Provides read-only access to sales email data. | 🚫 |
+| `settings.users.read` | Provides read-only access to user settings information. | 🚫 |
+| `settings.users.teams.read` | Provides read-only access to user team settings information. | 🚫 |
+| `settings.users.teams.write` | Provides write access to user team settings information. | 🚫 |
+| `settings.users.write` | Provides write access to user settings information. | 🚫 |
+| `timeline` | Provides read and write access to timeline events for objects. | 🚫 |
+| `tickets` | Provides read and write access to tickets in HubSpot. | 🚫 |
+| `tickets-ro` | Provides read-only access to tickets in HubSpot. | 🚫 |
+| `e-commerce` | Provides read and write access to e-commerce data including products, line items, and orders. | 🚫 |
+| `files` | Provides read and write access to files in HubSpot. | 🚫 |
+| `files-ro` | Provides read-only access to files in HubSpot. | 🚫 |
+| `automation` | Provides access to workflow automation features. | 🚫 |
+| `integration-sync` | Allows for syncing data between HubSpot and external systems. | 🚫 |
+
+For a full, continually-updated list, refer to [HubSpot OAuth scopes reference](https://developers.hubspot.com/docs/guides/apps/authentication/working-with-oauth#configure-scopes).
+
+---
+
+## Common Mistakes & Troubleshooting
+
+**1. Invalid redirect URI**
+  - Ensure the redirect URI registered in your HubSpot app **exactly matches** the URI provided to OpenInt. HubSpot is strict; even minor differences (e.g., trailing slash) will cause errors.
+
+**2. Missing or excess scopes**
+  - Only request the scopes you need. Missing required scopes or requesting scopes not yet supported by your OpenInt plan may lead to "invalid scope" errors.
+
+**3. Incorrect client secret**
+  - Verify that you are using the correct, current secret—these can be regenerated in your HubSpot app dashboard if ever leaked or rotated.
+
+**4. Testing with developer accounts**
+  - HubSpot apps cannot be installed on developer accounts. Always create a [HubSpot test account](https://developers.hubspot.com/docs/getting-started/account-types) for test installs.
+
+---
+
+## Additional Resources
+
+- [HubSpot Public Apps Guide](https://developers.hubspot.com/docs/guides/apps/public-apps/overview): Registration, credentials, and app management
+- [Working with OAuth](https://developers.hubspot.com/docs/guides/apps/authentication/working-with-oauth): Deep dive into authorization, scopes, and token lifecycle
+- [OAuth Quickstart](https://developers.hubspot.com/docs/guides/apps/authentication/oauth-quickstart-guide)
+
+---
+
+Need help or see missing capabilities? Contact OpenInt support for more scope enablement or integration help.
