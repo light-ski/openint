@@ -1,0 +1,133 @@
+---
+title: Confluence Integration (Developer Guide)
+sidebar_label: Confluence
+---
+
+## Overview
+
+OpenInt provides a secure, white-label interface for integrating Confluence cloud data into your product, exposing a unified authentication and access pattern for your end users. This guide outlines how to configure the Confluence connector, set up OAuth2 (3LO) via Atlassian, handle scopes, and debug common setup issues.
+
+---
+
+## Prerequisites
+
+Before proceeding:
+
+1. You must have an Atlassian Cloud account with admin access, and access to the [Atlassian Developer Console](https://developer.atlassian.com/console/myapps/).
+2. You must have an OpenInt instance and permissions to configure integrations.
+
+---
+
+## 1. Register a Confluence OAuth2 App
+
+Follow [the official Atlassian documentation](https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/) to create and configure your OAuth 2.0 (3LO) app. These are the essential steps:
+
+1. Go to the [Atlassian Developer Console](https://developer.atlassian.com/console/myapps/) and create a new app or select an existing one.
+2. Under the **Authorization** menu, select **OAuth 2.0 (3LO)** and click **Configure**.
+3. Add your OpenInt callback/redirect URI. The URI must match *exactly* as configured in OpenInt.
+4. Save changes.
+5. Select **Permissions**, then add the **Confluence API**. Add needed scopes to your app (see the table below).
+6. Under **Settings**, copy the Client ID and Client Secret for use in OpenInt.
+
+> **Tip:** Ensure your developer app is set to "Sharing" if you need to authorize the connector from multiple user accounts.
+
+---
+
+## 2. Configure Confluence in OpenInt
+
+In your OpenInt connectors configuration, add your Confluence OAuth client ID and client secret. Example (TypeScript):
+
+```ts
+openint.connectors.add({
+  type: 'confluence',
+  clientId: '<YOUR_CLIENT_ID>',
+  clientSecret: '<YOUR_CLIENT_SECRET>',
+  // Optionally, specify scopes or adjust defaults if your account needs more than the default.
+  scopes: ['read:confluence-user'], // See table below for details.
+});
+```
+
+> **Note:** As of now, OpenInt supports the `read:confluence-user` scope. See below for support roadmap and how to request additional scopes.
+
+---
+
+## 3. OAuth2 Flow (user experience)
+
+OpenInt handles the full OAuth 2.0 code flow for your users:
+
+1. User clicks "Connect Confluence" within your application UI.
+2. OpenInt redirects the user to Atlassian's authorization screen.
+3. User consents to the requested scopes.
+4. OpenInt exchanges the authorization code for an access token.
+5. User is redirected back to your product (via OpenInt), and API token access is managed by OpenInt.
+
+**Example Authorization URL Structure:**
+
+```
+https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=<CLIENT_ID>&scope=<SCOPES>&redirect_uri=<REDIRECT_URI>&state=<STATE>&response_type=code&prompt=consent
+```
+
+---
+
+## 4. Supported OAuth2 Scopes
+
+Here are the available Confluence scopes, their official descriptions, and OpenInt's current support status:
+
+| Scope                       | Description                                                                                                 | Supported in OpenInt? |
+|------------------------------|----------------------------------------------------------------------------------------------------------|:---------------------:|
+| <Tooltip tip="Allows read-only access to Confluence content including pages, blog posts, and attachments">read:confluence-content</Tooltip> | Read-only access to content                  |        ⛔        |
+| <Tooltip tip="Provides read and write access to Confluence content including creating, updating, and deleting pages, blog posts, and attachments">write:confluence-content</Tooltip> | Read & write access to content               |        ⛔        |
+| <Tooltip tip="Grants read-only access to space information and metadata">read:confluence-space</Tooltip>         | Read-only access to spaces                   |        ⛔        |
+| <Tooltip tip="Provides read-only access to basic user profile information">read:confluence-user</Tooltip>       | Read-only user profile info                  |        ✅        |
+| <Tooltip tip="Allows reading content properties and metadata">read:confluence-props</Tooltip>                  | Read content properties                      |        ⛔        |
+| <Tooltip tip="Allows reading and writing content properties and metadata">write:confluence-props</Tooltip>      | Read & write content properties              |        ⛔        |
+| <Tooltip tip="Provides read-only access to group membership information">read:confluence-groups</Tooltip>       | Read-only access to group membership         |        ⛔        |
+| <Tooltip tip="Grants full control over spaces including permissions and settings">manage:confluence-space</Tooltip> | Manage space permissions/settings            |        ⛔        |
+
+To request additional scope support, please [contact OpenInt support](mailto:support@openint.com) and tell us your use case.
+
+See the [official list of Confluence OAuth scopes](https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/#scopes).
+
+---
+
+## 5. Quickstart Example
+
+The following is a minimal configuration for a Confluence connector in OpenInt:
+
+```ts
+openint.connectors.add({
+  type: 'confluence',
+  clientId: 'YOUR_CLIENT_ID',
+  clientSecret: 'YOUR_CLIENT_SECRET',
+  scopes: ['read:confluence-user'], // Add more as they become available
+})
+```
+
+Once configured, users can start authenticating to Confluence using your product’s UI. Tokens/credentials will be managed automatically by OpenInt.
+
+---
+
+## Troubleshooting & Common Mistakes
+
+- **Redirect URI mismatch:**
+  - The URI in your Atlassian developer console *must* exactly match the one configured in OpenInt (case, protocol, and trailing slash).
+- **"Consent screen does not appear":**
+  - `prompt=consent` parameter is required in the authorization URL.
+- **Missing or unsupported scopes:**
+  - Ensure you only request `read:confluence-user` (or additional supported scopes). Adding unsupported scopes may cause authentication to fail.
+- **Invalid client ID/secret:**
+  - Double-check these values in both Atlassian Console and OpenInt config.
+- **User gets permissions error after consenting:**
+  - The user’s Confluence account lacks required privileges for the selected API calls. Verify user permissions in Confluence.
+- **Token expiration:**
+  - OpenInt automatically handles refreshing tokens. If long-lived sessions fail, check for revoked app authorization in user’s Atlassian account.
+
+For detailed Atlassian error handling, see [official troubleshooting](https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/#known-issues).
+
+---
+
+## Resources
+
+- [Atlassian OAuth 2.0 (3LO) documentation](https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/)
+- [Official list of Confluence OAuth scopes](https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/#scopes)
+- [Confluence Cloud REST API docs](https://developer.atlassian.com/cloud/confluence/rest/)
