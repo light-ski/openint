@@ -1,0 +1,91 @@
+---
+title: Pipedrive Integration
+description: Developer guide for integrating Pipedrive via OAuth2 with OpenInt
+---
+
+# Pipedrive Integration
+
+> This guide describes how to set up and embed the Pipedrive integration in your app using OpenInt. It explains how to register a Pipedrive OAuth2 application, configure OpenInt, manage required scopes, and address common implementation issues.
+
+## Quickstart: Embedding Pipedrive with OpenInt
+
+1. **Create a Pipedrive Developer Account**  
+   If you don't already have a [Pipedrive developer sandbox account](https://developers.pipedrive.com/), sign up.
+2. **Register Your OAuth App in Pipedrive**  
+   In your Pipedrive sandbox account, access **Developer Hub** (Settings → Company Name → Developer Hub).
+   Click "Create an app" → "Create public app".
+   Fill in **App Name** and your desired **OAuth Callback URL** (e.g., `https://yourapp.com/callback`).
+   Save to proceed to the "OAuth & access scopes" tab, where you can copy your `client_id` and `client_secret`.
+   [Step-by-step instructions](https://pipedrive.readme.io/docs/marketplace-registering-the-app)
+3. **Select the Required OAuth Scopes**  
+   Choose only the scopes your application requires. See the [full scopes list and descriptions](https://pipedrive.readme.io/docs/marketplace-scopes-and-permissions-explanations) for guidance.  
+   OpenInt currently supports a subset of Pipedrive scopes—see table below.
+4. **Configure OAuth Credentials in OpenInt**  
+   In your OpenInt admin/configuration, add the obtained `client_id` and `client_secret`.
+   Set the authorization and token endpoints as follows:
+     - Authorization URL: `https://oauth.pipedrive.com/oauth/authorize`
+     - Token URL: `https://oauth.pipedrive.com/oauth/token`
+5. **Configure the API Domain**  
+   Pipedrive requires specifying the API domain. Example config in OpenInt:
+
+   ```json
+   {
+     "api_domain": "https://yourcompany.pipedrive.com"
+   }
+   ```
+   The value must match your Pipedrive subdomain.
+6. **Test and Complete the OAuth Flow**  
+   Initiate a connection from your app—OpenInt will redirect users to Pipedrive for consent.  
+   After approval, OpenInt will obtain access tokens.
+
+---
+
+## Supported and Available Pipedrive OAuth Scopes
+
+OpenInt supports the following Pipedrive OAuth scopes. For each scope, hover for a description. For the full upstream reference, visit the [official scopes documentation](https://pipedrive.readme.io/docs/marketplace-scopes-and-permissions-explanations).
+
+| Scope           | Description                                                                                                    | Supported by OpenInt? |
+|-----------------|----------------------------------------------------------------------------------------------------------------|:---------------------:|
+| base            | <Tooltip tip="Provides access to basic user information such as name, email, and company details. Does not include access to any deal, person, or organization data.">Basic user info</Tooltip>                                | ✅                  |
+| contacts:read   | <Tooltip tip="Allows read-only access to contacts (persons and organizations) including their details, but doesn't permit any modifications.">Contacts read</Tooltip>                 | ❌                  |
+| contacts:write  | <Tooltip tip="Provides read and write access to contacts (persons and organizations), allowing creation, modification, and deletion of contact information.">Contacts write</Tooltip>       | ❌                  |
+| deals:read      | <Tooltip tip="Grants read-only access to deals including their stages, values, and associated data, but doesn't allow any changes.">Deals read</Tooltip>                              | ❌                  |
+| deals:write     | <Tooltip tip="Provides full access to deals including creating, modifying, and deleting deals, as well as changing deal stages.">Deals write</Tooltip>                                | ❌                  |
+| users:read      | <Tooltip tip="Allows reading user information across the organization, including team members' details, but no modifications.">Read users data</Tooltip>                              | ❌                  |
+| admin           | <Tooltip tip="Provides full administrative access including organization settings, user management, and all data. This is the most privileged scope.">Admin</Tooltip>                   | ❌                  |
+
+> ℹ️ Only the `base` scope is currently supported by OpenInt. Additional scopes will be enabled in future releases.
+
+---
+
+## Connection Settings
+
+Pipedrive requires specifying your account's API domain. For most organizations, this will be in the format:
+
+```json
+{
+  "api_domain": "https://yourcompany.pipedrive.com"
+}
+```
+
+**Common issues:**
+- Ensure the protocol is included (`https://`).
+- The value must match your actual Pipedrive company subdomain.
+
+## Common Issues and Troubleshooting
+
+- **Invalid client ID or secret:** Double-check credentials in Pipedrive Developer Hub.
+- **Incorrect or missing scopes:** Only request `base` for now; others are not yet supported in OpenInt.
+- **Mismatched redirect URI:** The callback URL you configure in Pipedrive *must* match exactly what is used in your OAuth flow (including protocol, trailing slash, etc).
+- **api_domain errors:** Ensure your API domain matches the actual subdomain of your Pipedrive instance.
+- **Authorization failed or returns error 400/401:** Check that your `client_id`, `client_secret`, and scopes are correct. Verify your app is published (or in test mode for sandbox).
+- **Rate limiting or quota errors:** Reference the [Pipedrive API rate limits](https://pipedrive.readme.io/docs/api-rates-limits).
+
+---
+
+## Further Reading and Resources
+
+- [Registering a Pipedrive OAuth app](https://pipedrive.readme.io/docs/marketplace-registering-the-app)
+- [Client ID and secret management](https://pipedrive.readme.io/docs/client-id-and-client-secret)
+- [Scopes and permissions](https://pipedrive.readme.io/docs/marketplace-scopes-and-permissions-explanations)
+- [OAuth2 implementation details](https://pipedrive.readme.io/docs/marketplace-oauth-authorization)
