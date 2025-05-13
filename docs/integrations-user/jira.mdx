@@ -1,0 +1,84 @@
+---
+title: Connect your Jira account
+description: How to connect your Jira account with this app, the permissions required, and how to resolve common issues.
+---
+
+# Connect your Jira account
+
+Easily link your Jira account to this app so you can view, create, and manage your Jira issues and projects directly. Connecting your account is secure and only takes a minute.
+
+## Prerequisites
+
+- You have an active Jira account (Atlassian account)
+- You have permission to access the relevant projects in Jira
+
+## How to connect
+
+Follow these steps to connect your Jira account:
+
+1. Inside the app, go to the Integrations or Connections page.
+2. Find the **Jira** integration and click **Connect**.
+3. You will be redirected to Atlassian’s secure login page. Log in with your Jira (Atlassian) credentials if prompted.
+4. Review the permissions requested. Click **Allow** to grant access.
+5. You’ll be automatically redirected back to the app. You should see a success message or your Jira data appear.
+
+---
+
+## Permissions requested
+
+When connecting your Jira account, the following permissions are requested. These are needed to let the app function correctly:
+
+- **Read user profile information** (`read:jira-user`):
+  - Access your name, email, and avatar to personalize your app experience.
+- **Read Jira issues and projects** (`read:jira-work`):
+  - Import and show your Jira tickets, projects, and boards inside the app.
+- **Create and update Jira issues** (`write:jira-work`):
+  - Let you create or make changes to Jira issues directly from this app.
+- **Manage Jira project settings** (`manage:jira-project`):
+  - Control project-level features where needed (like app integrations or workflows).
+- **Modify global Jira configurations** (`manage:jira-configuration`):
+  - Required for some advanced workspace-wide setup and integrations.
+- **Offline access** (`offline_access`):
+  - Let the connection stay active, syncing your Jira data in the background even if you aren't signed in to the app.
+
+---
+
+## How to confirm your connection works
+
+- After connecting, you should see some Jira data inside this app (e.g., a list of issues, projects, or boards).
+- Try creating or updating a Jira issue from within the app to verify.
+
+If you see any error notice, see the troubleshooting section below.
+
+---
+
+## Troubleshooting & common issues
+
+**I can’t log in to Jira**
+
+- Double-check your Jira (Atlassian) credentials.
+- Make sure your Jira account is active and has the necessary access.
+
+**Access denied / Consent refused**
+
+- If you click "Deny" on the permission screen, the connection won't be established. Restart the connection process and click "Allow." 
+- Your Jira admin may have restricted permissions. Contact your Jira administrator if you are unable to grant access.
+
+**I don’t see my projects or issues after connecting**
+
+- You might not have the required permissions in Jira for those projects.
+- Refresh the page.
+- Try disconnecting and reconnecting the integration.
+
+**Authorization expired or revoked**
+
+- If you disconnect Jira from your Atlassian security settings or change your password, you may need to re-connect here.
+- Go through the connection process again to restore access.
+
+**Other issues?**
+
+- If the problem persists, please contact your workspace admin or reach out to customer support for your app.
+
+---
+
+Your Jira integration is now ready! If you have any questions, consult your workspace admin or the support team for your app.
