@@ -1,0 +1,81 @@
+---
+title: Connect Google Docs
+description: Learn how to connect your Google Docs account to Company A, review permissions, and troubleshoot common issues.
+---
+
+# Connect your Google Docs account to Company A
+
+Connect your Google Docs account to Company A to enable features like document synchronization, automated workflows, and more. The connection process is secure and uses your Google account’s built-in sign-in for fast setup.
+
+<Steps>
+**1. Start the connection**
+Click the <strong>Connect Google Docs</strong> button in your Company A dashboard. This will launch a secure Google sign-in window.
+
+**2. Sign in to Google**
+Select the Google account you want to connect. If prompted, log in with your credentials.
+
+**3. Review and grant permissions**
+You’ll be asked to grant Company A specific permissions to your Google Docs and Drive account. Review the permissions, then click <strong>Allow</strong> to continue.
+
+**4. Complete and confirm**
+Once you grant access, you’ll be redirected back to Company A. You should see a confirmation message that your Google Docs integration is connected.
+</Steps>
+
+## What permissions are requested?
+
+When connecting, Company A requests the minimum permissions needed to enable features such as viewing, creating, or editing your documents. The following permissions (also known as “scopes”) may be requested:
+
+<Callout type="info" title="About Permissions">
+
+- **View and manage your Google Docs documents** (`https://www.googleapis.com/auth/documents`):
+  Allows Company A to view, create, modify, and delete your Google Docs as needed to power integrations.
+- **View your Google Docs documents only** (`https://www.googleapis.com/auth/documents.readonly`):
+  Lets Company A read your Docs and document details, but not edit them.
+- **Access specific Google Drive files** (`https://www.googleapis.com/auth/drive.file`):
+  Lets Company A read and write only the files you select or create through Company A—no other files are accessed.
+- **Read-only access to all Google Drive files** (`https://www.googleapis.com/auth/drive.readonly`):
+  Lets Company A view all files in your Drive, for features that need to read document content, but not make changes.
+- **Full access to all Google Drive files** (`https://www.googleapis.com/auth/drive`):
+  Grants Company A the broadest access, used only if necessary to support all integration features.
+- **Access your current document only (temporary)** (`https://www.googleapis.com/auth/documents.currentonly`):
+  Provides the most limited, temporary access to just the currently open document (used only in some features).
+
+Most users will only be asked for minimal, temporary permissions unless broader access is essential for requested features.
+</Callout>
+
+## How to test your connection
+
+After connecting, you can verify the integration is working:
+
+- Look for a confirmation message in your dashboard.
+- Try syncing or sending a test document from Company A to your Google Docs account.
+- Confirm you can see and manage documents as expected.
+
+If you encounter any problems, see Troubleshooting below.
+
+## Troubleshooting
+
+<Callout type="warning" title="Having trouble connecting?">
+
+**Common issues:**
+
+- Accidentally declined permissions: Disconnect and repeat the steps above, making sure to accept all requested permissions.
+- Chose the wrong Google account: Disconnect and reconnect using the desired account.
+- Pop-ups blocked: Ensure your browser allows pop-ups for Company A when connecting.
+- Connection expired: Sometimes, connections expire for security. Just reconnect by following the steps again.
+
+If you continue to have issues, please contact Company A support for help.
+</Callout>
+
+<Accordion title="Frequently Asked Questions">
+
+**Q: What does Company A do with my documents?**
+A: Only the actions needed for the features you use. Company A will never share or use your data without your intent.
+
+**Q: Can I revoke access?**
+A: Yes, you can disconnect your Google Docs integration anytime from your Company A dashboard. You can also revoke access from your Google Account’s Security settings.
+
+**Q: Is this secure?**
+A: Yes. The connection uses Google’s secure authentication process, so your login details are never shared with Company A.
+
+</Accordion>
