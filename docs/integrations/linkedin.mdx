@@ -1,0 +1,98 @@
+---
+title: Integrating LinkedIn
+sidebar_position: 20
+---
+
+# LinkedIn Integration (Developer Guide)
+
+> This guide shows engineers how to use OpenInt to embed LinkedIn login and data sync—enabling ATS/social-media, business analytics, and social features—into your app.
+
+## Overview
+
+OpenInt's LinkedIn integration lets you connect users' LinkedIn accounts, fetch their identity and profile data, and leverage organization or social capabilities (where permitted). Integration is OAuth 2.0-based and supports enterprise-ready flows for robust, auditable authentication.
+
+**OpenInt currently supports the following LinkedIn capabilities:**
+- Basic user profile (via OpenID Connect / `profile` scope)
+- Email address (`email` scope)
+- OpenID identity (`openid` scope)
+
+Additional scopes for organization management or marketing are not yet supported and may be added on the roadmap.
+
+---
+
+## Prerequisites
+1. Access to [LinkedIn Developer Portal](https://www.linkedin.com/developers/).
+2. An OpenInt project set up in your product/app.
+3. Your platform URL(s) for use as redirect URIs (must be HTTPS).
+
+---
+
+## Setting up Your LinkedIn App (OAuth2)
+
+1. Go to the [LinkedIn Developer Portal](https://www.linkedin.com/developers/apps/new) and create a new application.
+2. Save your **Client ID** and **Client Secret** (available under the **Auth** tab for your app).
+3. **Set Redirect URI**: Under the **Auth** tab, add your callback URL. E.g., `https://yourdomain.com/oauth/callback/linkedin`.
+   - Must be an HTTPS, fully qualified URL matching your backend’s OAuth handling endpoint (no fragments, parameters ignored).
+4. Configure your OpenInt integration as shown below.
+
+**LinkedIn OAuth2 endpoints:**
+- Authorization: `https://www.linkedin.com/oauth/v2/authorization`
+- Token: `https://www.linkedin.com/oauth/v2/accessToken`
+
+Refer to [LinkedIn's Authorization Code Flow documentation](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow) for more details.
+
+---
+
+## Supported and Available Scopes
+
+See the [official LinkedIn scopes list](https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access?view=li-lms-2022-06) for full details. OpenInt currently only supports the most common OpenID scopes for standard auth; others may require partner approval or roadmap work.
+
+| Scope                | Supported by OpenInt | Description |
+|----------------------|:-------------------:|:----------------------------------------------------------------------------|
+| `profile`            |       ✅             | <Tooltip text="Basic profile: name, photo, headline, position. Subset of full profile data.">Provides access to the member's basic profile information.</Tooltip> |
+| `openid`             |       ✅             | <Tooltip text="Enables OpenID Connect flows, returns user identity in ID token.">Enables authentication and profile info via OIDC.</Tooltip> |
+| `email`              |       ✅             | <Tooltip text="Primary email address (requires explicit consent).">Access to member's primary email.</Tooltip> |
+| `r_basicprofile`     |        ❌            | <Tooltip text="Full basic profile: experience, education, skills, recommendations.">Full member profile access. (Partner required, deprecated for new apps.)</Tooltip> |
+| `w_member_social`    |        ❌            | <Tooltip text="Post/comment/like as member.">Create, comment, and like posts for the member.</Tooltip> |
+| `rw_organization_admin` |     ❌            | <Tooltip text="Read/write admin for company pages.">Manage and update organization/company pages.</Tooltip> |
+| `r_organization_social` |   ❌             | <Tooltip text="Read organization social feeds and analytics.">Read posts and engagement stats for organizations.</Tooltip> |
+| `r_ads`              |        ❌            | <Tooltip text="Read LinkedIn Advertising API analytics, ad accounts, etc.">Advertising data access.</Tooltip> |
+| `w_organization_social` |   ❌             | <Tooltip text="Post/comment/like as organization administered by user.">Post and interact as company.</Tooltip> |
+
+---
+
+## OpenInt LinkedIn Configuration Example
+
+```ts
+// openint/connectors/cnext/json-defs/linkedin.ts
+import linkedinConnector from 'openint/connectors/cnext/json-defs/linkedin'
+
+openint.addConnector(linkedinConnector)
+
+// Example: How to use in an OpenInt integration config
+const linkedin = {
+  clientId: '<YOUR_LINKEDIN_CLIENT_ID>',
+  clientSecret: '<YOUR_LINKEDIN_CLIENT_SECRET>',
+  redirectUri: 'https://yourdomain.com/oauth/callback/linkedin',
+  scopes: ['profile', 'email', 'openid'], // Only these currently supported
+}
+```
+
+---
+
+## Common Mistakes and Pitfalls
+
+- **Redirect URI Mismatch:** The redirect URI in your LinkedIn app must exactly match what is sent in your authorization request (including protocol and path).
+- **Scope Misconfiguration:** Requesting LinkedIn scopes your app or OpenInt does not support will result in `invalid_scope` errors. Only request `profile`, `email`, and `openid` unless OpenInt adds others.
+- **App Not in Production:** Some LinkedIn features or APIs require your app to be approved or published; if you see permission or 403 errors, check your app status in the LinkedIn Developer Portal.
+- **Secret Safety:** Never expose your client secret in frontend code or repositories.
+
+---
+
+## References & Further Reading
+
+- [LinkedIn Developer Portal](https://www.linkedin.com/developers/apps)
+- [LinkedIn Authorization Code Flow - Microsoft Docs](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow)
+- [LinkedIn OAuth Scopes & Permissions](https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access?view=li-lms-2022-06)
+
+---
