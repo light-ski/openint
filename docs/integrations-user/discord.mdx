@@ -1,0 +1,55 @@
+---
+title: Connect Discord
+---
+
+# Connect Your Discord Account
+
+You can securely connect your Discord account to this app to enable new features and integrations with your Discord identity and servers. The connection process is quick—you'll just need to authorize your Discord account and grant a set of permissions.
+
+## Quickstart: How to Connect
+
+1. **Start the Connection:**
+   - Click the **Connect Discord** button in the app's Integrations or Connections section.
+2. **Authorize Access:**
+   - A new window will open, asking you to log into your Discord account (if you are not already logged in).
+   - Discord will ask you to review and approve the permissions listed. Read and confirm the requested access.
+3. **Grant Permissions:**
+   - Click **Authorize** to complete the process.
+4. **Done!**
+   - You should be redirected back to the app and see Discord as a connected integration.
+
+## What Permissions Are Requested?
+
+To make the integration work, the app requests the following Discord permissions (sometimes called "scopes"):
+
+| Permission        | Why It's Needed                                                                                                              |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `identify`        | Lets the app read your Discord basic profile (user ID, username, and avatar).                                               |
+| `email`           | (Optional) Lets the app see your Discord email address if needed by your use case.                                          |
+| `connections`     | See what third-party accounts you've linked to Discord (like Steam or GitHub).                                              |
+| `guilds`          | Allows the app to see which servers you’re a member of.                                                                     |
+| `guilds.join`     | Allows the app to help you join new servers if required for integration features.                                           |
+| `gdm.join`        | Lets the app join group DMs on your behalf if certain messaging features are enabled.                                       |
+| `messages.read`   | (Rare) Lets the app read your private Discord messages—only enabled if strictly needed.                                     |
+| `bot`             | Grants access typical for Discord bots, which may enable automated features in servers you select.                          |
+| `webhook.incoming`| Lets the app create webhooks to post messages into Discord channels as part of automation or notifications.                  |
+
+The app will **only request permissions necessary for the features you choose to use**.
+
+> **Tip**: You can always review or revoke permissions at any time in your Discord settings under Authorized Apps.
+
+## How to Verify Your Connection
+
+- After connecting, Discord should appear as "Connected" in your integrations dashboard.
+- Try a basic action that requires Discord (e.g., sync your profile, send a test message, or view your server list).
+- If you see an error, check the troubleshooting section below.
+
+## Troubleshooting & Common Issues
+
+- **Accidentally denied permissions:** Just start the connection process again and be sure to grant all requested permissions.
+- **Already authorized, but integration not working:** Try disconnecting and reconnecting your Discord account.
+- **"Permission missing" errors:** The app may not have all the required Discord scopes enabled. Disconnect, then reconnect and approve all requested permissions.
+- **Discord window didn't open:** Disable popup/ad blockers or try a different browser.
+- **Revoked access in Discord:** If you revoked access via your Discord settings, repeat the connection steps above to reauthorize.
+
+If you still have trouble, consult your app’s support team for further assistance.
