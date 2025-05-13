@@ -1,0 +1,125 @@
+---
+title: QuickBooks Integration (Developer Guide)
+---
+
+# QuickBooks Integration with OpenInt
+
+Integrate QuickBooks Online with your application using OpenInt’s prebuilt connector. This guide walks you through registering your app with Intuit, configuring the connector in your environment, handling OAuth 2.0 authentication, and understanding scope coverage.
+
+## Prerequisites
+
+- An Intuit Developer account ([sign up or log in](https://developer.intuit.com)).
+- Access to your OpenInt deployment/project.
+
+---
+
+## Quickstart
+
+### 1. Register your App with Intuit
+
+OpenInt’s QuickBooks integration uses OAuth 2.0. You must create an application in the Intuit Developer Portal to obtain OAuth credentials.
+
+**How to obtain Client ID and Secret:**
+
+1. Log in to the [Intuit Developer Portal](https://developer.intuit.com).
+2. Go to your **Dashboard**, select **+ Create an app**.
+3. Select **QuickBooks Online and Payments** as the platform.
+4. Enter your application information and select the required scopes based on your use case (see [Scopes](#oauth-20-scopes)).
+5. Specify your Redirect URIs (must use HTTPS in production). E.g., `https://yourdomain.com/oauth/callback`.
+6. Once the app is created, click on the app name in your dashboard.
+7. Navigate to the **Keys & OAuth** tab under your environment (**Development** or **Production**).
+8. Copy your **Client ID** and **Client Secret**.
+
+For screenshots and official step-by-step instructions, refer to Intuit’s documentation: [Get the Client ID and Client Secret for your app](https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret)
+
+:::tip
+**Environment**: Use Intuit’s sandbox environment for development. Switch to production credentials only in live environments.
+:::
+
+### 2. Configure the OpenInt Connector
+
+In your OpenInt deployment, configure the `quickbooks` connector. Example configuration:
+
+```js
+{
+  "type": "quickbooks",
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET",
+  "redirect_uri": "YOUR_REDIRECT_URI",
+  "envName": "sandbox", // or "production"
+  "scopes": [
+    "com.intuit.quickbooks.accounting"
+  ],
+  "realmId": "9341453474484455" // Your company's 16-digit realm ID (see below)
+}
+```
+
+#### Required Connection Fields
+- **realmId**: The unique 16-digit company identifier in QuickBooks. You can find this in the URL when logged into your QuickBooks company dashboard.
+- **envName**: `sandbox` for testing or `production` for live access.
+
+---
+
+## OAuth 2.0 Scopes
+
+QuickBooks APIs are protected by OAuth 2.0 scopes. Only request the scopes your application needs.
+
+You must select the relevant scopes during app creation in the Intuit Developer Portal and specify them in your OpenInt connector config. See the [official list of QuickBooks scopes](https://developer.intuit.com/app/developer/qbo/docs/learn/scopes) for more info.
+
+Below are the main scopes relevant to QuickBooks integrations:
+
+| Scope | Description | Supported by OpenInt |
+|-------|-------------|:-------------------:|
+| <Tooltip tip="Full access to accounting data including customers, vendors, invoices, payments, expenses, and all other accounting entities. Allows read and write operations.">`com.intuit.quickbooks.accounting`</Tooltip> | Full access to accounting entities (RW) | ✓ |
+| <Tooltip tip="Read-only access to accounting data including customers, vendors, invoices, payments, expenses, and other accounting entities. No write operations allowed.">`com.intuit.quickbooks.accounting.readonly`</Tooltip> | Read-only accounting data | ✓ |
+| <Tooltip tip="Access to payment operations including processing payments and viewing payment information. Required for integrating with QuickBooks Payments.">`com.intuit.quickbooks.payment`</Tooltip> | Read/write payment operations | ✓ |
+| <Tooltip tip="Access to payroll data including employee information, pay runs, and payroll items. Allows read and write operations.">`com.intuit.quickbooks.payroll`</Tooltip> | Payroll data (RW) | ✓ |
+| <Tooltip tip="Read-only access to payroll data including employee information, pay runs, and payroll items. No write operations allowed.">`com.intuit.quickbooks.payroll.readonly`</Tooltip> | Payroll data (read-only) | ✓ |
+| <Tooltip tip="Access to sales receipt operations including creating, updating, and viewing sales receipts.">`com.intuit.quickbooks.salesreceipt`</Tooltip> | Manage sales receipts | ✓ |
+| <Tooltip tip="Basic authentication and user profile information (name, email). Does not provide access to any QuickBooks company data.">`openid`</Tooltip> | User profile authentication | ✓ |
+| <Tooltip tip="Access to the user's email address only. Minimal scope that doesn't provide access to any QuickBooks company data.">`email`</Tooltip> | User email profile | ✓ |
+| <Tooltip tip="Access to basic user profile information (name, address, phone). Doesn't provide access to any QuickBooks company data.">`profile`</Tooltip> | User profile info | ✓ |
+| <Tooltip tip="Access to the user's phone number only. Minimal scope that doesn't provide access to any QuickBooks company data.">`phone`</Tooltip> | User phone | ✓ |
+| <Tooltip tip="Access to the user's address information only. Doesn't provide access to any QuickBooks company data.">`address`</Tooltip> | User address | ✓ |
+
+For additional, future, or unreleased scopes, see the [upstream list from Intuit](https://developer.intuit.com/app/developer/qbo/docs/learn/scopes).
+
+---
+
+## Configuration Reference
+
+**realmId** (string, required)
+- Your QuickBooks company’s 16-digit identifier. E.g., `9341453474484455`
+
+**envName** (enum: `sandbox` | `production`)
+- Specifies which QuickBooks environment you’re connecting to.
+
+**Example:**
+
+```js
+{
+  "realmId": "9341453474484455",
+  "envName": "sandbox"
+}
+```
+
+---
+
+## Common Pitfalls & Troubleshooting
+
+- **Invalid realmId:** Ensure it is a 16-digit numeric string. Double-check for copy/paste errors.
+- **Redirect URI Mismatch:** Make sure your redirect URI in Intuit’s console matches exactly your OpenInt/connector configuration (including https:// if in production).
+- **Missing or Incorrect Scopes:** If you receive 403 errors, check that your app requests all necessary scopes.
+- **Sandbox vs Production:** Use the correct credentials and redirect URIs for each environment. Intuit does not allow use of sandbox credentials against production data and vice versa.
+- **Consent Refresh Needed:** If you change requested scopes after users have authorized, users must re-authorize your application.
+
+---
+
+## Resources
+
+- [Intuit Developer Portal](https://developer.intuit.com)
+- [Registering Apps (Official Guide)](https://developer.intuit.com/app/developer/qbo/docs/get-started/get-client-id-and-client-secret)
+- [OAuth 2.0 Scopes List (Official Doc)](https://developer.intuit.com/app/developer/qbo/docs/learn/scopes)
+- [OAuth 2.0 Overview](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0)
+
+---
