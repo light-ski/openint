@@ -1,0 +1,104 @@
+---
+title: Reddit Integration
+description: Developer guide to integrating Reddit with your app via OpenInt. Includes OAuth app registration, supported scopes, and troubleshooting.
+---
+
+# Reddit Integration
+
+Integrate Reddit seamlessly into your platform using OpenInt. This guide walks you through configuring the Reddit connector, setting up OAuth2 credentials, understanding available scopes, and resolving common issues during setup. **Currently, OpenInt supports only the `wikiread` scope for Reddit.**
+
+<Info>
+This documentation is for engineers integrating Reddit with their application via OpenInt. For user-facing instructions, see your platform’s user guide.
+</Info>
+
+## Prerequisites
+
+- Reddit account with sufficient permissions
+- Access to your OpenInt configuration
+- Admin access to your company’s Reddit OAuth application settings
+
+## 1. Register Your Reddit OAuth Application
+
+You’ll need to create a Reddit app to obtain a Client ID and Client Secret, which OpenInt uses for OAuth flows.
+
+### Steps to Register:
+
+1. Log in to [Reddit Apps](https://www.reddit.com/prefs/apps) with your Reddit account.
+2. Scroll down to “Developed Applications” and click **“Create App”** or **“Create Another App”**.
+3. Fill out the form:
+   - **name**: A meaningful name for your app (e.g., your company’s name).
+   - **description**: Short description for your integration.
+   - **redirect uri**: Must match what you configure in OpenInt (e.g., `https://YOUR-DOMAIN/oauth/callback/reddit`). 
+     <Tip>Reddit requires the exact redirect URI to be provided—wildcards are not accepted. Any mismatch will cause authorization to fail.</Tip>
+   - **application type**: Select **web app**.
+4. Save the application.
+5. Copy the **Client ID** (listed under your app’s name) and **Secret** (in the app details).
+
+For official steps, see [Reddit OAuth2 Docs](https://github.com/reddit-archive/reddit/wiki/OAuth2).
+
+## 2. Configure Reddit with OpenInt
+
+Provide your Client ID, Client Secret, and any relevant configuration (scopes, redirect URI) in your OpenInt connector setup. Here is a sample snippet:
+
+```json
+{
+  "provider": "reddit",
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET",
+  "redirect_uri": "https://YOUR-DOMAIN/oauth/callback/reddit",
+  "scopes": ["wikiread"]
+}
+```
+<Info>
+Currently, OpenInt only supports the `wikiread` scope (read wiki pages in public subreddits). Other scopes will be supported in future updates.
+</Info>
+
+## 3. Reddit OAuth Scopes
+
+Reddit OAuth2 allows fine-grained permission control via scopes. Below is a list of all Reddit OAuth2 scopes, with descriptions shown in tooltips. Only `wikiread` is currently supported by OpenInt.
+
+<Info>
+See the [official Reddit OAuth2 scope documentation](https://github.com/reddit-archive/reddit/wiki/OAuth2-Scopes) for the complete and most current list.
+</Info>
+
+| Scope                         | Description                                                                                               | Supported by OpenInt? |
+|-------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------|
+| <Tooltip tip="Access your Reddit username and signup date, karma, trophies, and other public info shown on your profile">identity</Tooltip> | -                                                                                                | No                    |
+| <Tooltip tip="Edit and delete your comments and submissions">edit</Tooltip>                              | -                                                                                                | No                    |
+| <Tooltip tip="Select and edit your user flair in subreddits">flair</Tooltip>                            | -                                                                                                | No                    |
+| <Tooltip tip="Access your voting history and comments/submissions you've hidden/saved">history</Tooltip>     | -                                                                                                | No                    |
+| <Tooltip tip="Manage moderator configuration for subreddits you moderate (flair, settings, etc.)">modconfig</Tooltip> | -                                                                                                | No                    |
+| <Tooltip tip="Manage user flair in subreddits you moderate">modflair</Tooltip>                            | -                                                                                                | No                    |
+| <Tooltip tip="Access moderation logs for subreddits you moderate">modlog</Tooltip>                        | -                                                                                                | No                    |
+| <Tooltip tip="Approve, remove, mark NSFW, and distinguish content in subreddits you moderate">modposts</Tooltip> | -                                                                                                | No                    |
+| <Tooltip tip="Modify wiki pages in subreddits you moderate">modwiki</Tooltip>                            | -                                                                                                | No                    |
+| <Tooltip tip="Access the list of subreddits you moderate, contribute to, and subscribe to">mysubreddits</Tooltip>  | -                                                                                                | No                    |
+| <Tooltip tip="Read and send private messages">privatemessages</Tooltip>                                    | -                                                                                                | No                    |
+| <Tooltip tip="Access posts and comments through your account (required for most read operations)">read</Tooltip>     | -                                                                                                | No                    |
+| <Tooltip tip="Report content for rules violations">report</Tooltip>                                       | -                                                                                                | No                    |
+| <Tooltip tip="Save and unsave comments and submissions">save</Tooltip>                                    | -                                                                                                | No                    |
+| <Tooltip tip="Submit links and comments from your account">submit</Tooltip>                              | -                                                                                                | No                    |
+| <Tooltip tip="Manage your subreddit subscriptions">subscribe</Tooltip>                                   | -                                                                                                | No                    |
+| <Tooltip tip="Submit and change votes on comments and submissions">vote</Tooltip>                        | -                                                                                                | No                    |
+| <Tooltip tip="Edit wiki pages in subreddits you have access to">wikiedit</Tooltip>                       | -                                                                                                | No                    |
+| <Tooltip tip="Read wiki pages in public subreddits">wikiread</Tooltip>                                   | Allows the app to read wiki pages in public subreddits.                                          | Yes                   |
+
+## 4. Common Pitfalls and Troubleshooting
+
+<Warning>
+The **redirect URI** you enter on Reddit’s app site <strong>must exactly match</strong> what you set in OpenInt, or authentication will fail.
+</Warning>
+
+- **Missing or incorrect scopes:** OpenInt currently only supports `wikiread`; other scopes will be ignored until supported.
+- **Wrong Reddit app type:** For OAuth login, use “web app” (not “script”) when registering your Reddit app.
+- **App not set to “permanent” duration:** OpenInt expects `duration=permanent` for persistent tokens.
+
+<Tip>
+If authentication fails, double-check that your client ID, client secret, and redirect URI are all correct and that your Reddit app is properly configured.
+</Tip>
+
+## 5. Further Resources
+
+- [Reddit OAuth2 Docs](https://github.com/reddit-archive/reddit/wiki/OAuth2)
+- [Reddit OAuth2 Scopes](https://github.com/reddit-archive/reddit/wiki/OAuth2-Scopes)
+- [Reddit App Registration](https://www.reddit.com/prefs/apps)
