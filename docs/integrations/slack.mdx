@@ -1,0 +1,107 @@
+---
+title: Slack Integration
+description: Developer documentation on integrating Slack with your product via OpenInt
+---
+
+# Slack Integration
+
+Leverage OpenInt to embed Slack integrations into your application, allowing your users to securely connect Slack workspaces for data and automation scenarios. This document guides you through setup, authorization, scope configuration, and common pitfalls encountered in Slack integrations.
+
+> For Slack’s upstream documentation, see [Slack OAuth Scopes](https://api.slack.com/scopes) and [Slack App Management](https://api.slack.com/apps).
+
+## Prerequisites
+
+- An active OpenInt account
+- A Slack App ([create/manage here](https://api.slack.com/apps))
+- Access to your Slack App’s OAuth credentials (Client ID and Client Secret)
+- Admin rights (or permissions) in your OpenInt dashboard and in your Slack workspace
+
+## Quickstart: Connecting Slack via OpenInt
+
+1. **Create or Configure a Slack App:**
+    - Go to the [Slack App page](https://api.slack.com/apps).
+    - Create a new app or select an existing one.
+    - In the "OAuth & Permissions" section:
+        - Note your `Client ID` and `Client Secret`.
+        - Set your **Redirect URL(s):** Add OpenInt’s redirect URL or your custom redirect endpoint (format: `https://<YOUR_DOMAIN>/api/callback/slack`, per your OpenInt config).
+        - Under **Scopes**, configure the required scopes (see Supported Scopes below). Only scopes requested by OpenInt will be prompted to the user at consent.
+
+2. **Configure OpenInt with Slack Credentials:**
+    - In your OpenInt connector dashboard or backend configuration, input your Slack OAuth credentials:
+
+      ```json
+      // Example configuration
+      {
+        "provider": "slack",
+        "client_id": "<your-slack-client-id>",
+        "client_secret": "<your-slack-client-secret>",
+        "scopes": ["users:read"]
+      }
+      ```
+    - Only scopes implemented by OpenInt, such as `users:read`, will be requested by default. Contact OpenInt support if your use case needs broader scopes.
+
+3. **Embed and Initiate the Connection Flow:**
+    - Use OpenInt’s Connect Portal component or API to allow users to authenticate and authorize Slack from your app’s UI. See [Connect Portal documentation](/docs/connect/embed) for UI/API integration steps.
+
+4. **Handle the Callback:**
+    - OpenInt will exchange the authorization code for an access token, completing the auth setup for each connected workspace.
+
+## Supported and Available Slack Scopes
+
+The table below summarizes the most relevant Slack OAuth scopes and highlights the ones currently available with OpenInt’s Slack connector.
+
+**Legend:**
+> ✅ Supported by OpenInt
+> ⬜ Not yet supported
+
+| Scope | Supported by OpenInt? | Description |
+| ----- |:--------------------:| ----------- |
+| <Tooltip tip="Allows the app to view messages that directly mention the app in channels it has access to.">app_mentions:read</Tooltip> | ⬜ | View direct app mentions |
+| <Tooltip tip="Allows the app to view basic information about public channels in the workspace, including channel names, topics, and purposes.">channels:read</Tooltip> | ⬜ | View public channels |
+| <Tooltip tip="Allows the app to view messages and other content in public channels.">channels:history</Tooltip> | ⬜ | View messages in public channels |
+| <Tooltip tip="Allows the app to create, rename, and archive public channels, as well as set their purpose and topic.">channels:write</Tooltip> | ⬜ | Manage public channels |
+| <Tooltip tip="Allows the app to post messages in channels and conversations it has access to.">chat:write</Tooltip> | ⬜ | Post messages |
+| <Tooltip tip="Allows the app to add custom slash commands that users can invoke in Slack.">commands</Tooltip> | ⬜ | Create slash commands |
+| <Tooltip tip="Allows the app to view messages and other content in direct messages.">im:history</Tooltip> | ⬜ | View DMs |
+| <Tooltip tip="Allows the app to start direct message conversations with users.">im:write</Tooltip> | ⬜ | Start DMs |
+| <Tooltip tip="Allows the app to view basic information about users in the workspace, including names, emails, and avatars.">users:read</Tooltip> | ✅ | View users |
+| <Tooltip tip="Allows the app to view email addresses of users in the workspace (in addition to basic user information).">users:read.email</Tooltip> | ⬜ | View user emails |
+| <Tooltip tip="Allows the app to view users' profile details, including custom profile fields.">users.profile:read</Tooltip> | ⬜ | View user profile fields |
+| <Tooltip tip="Allows the app to perform administrative actions, including managing users, channels, and workspace settings.">admin</Tooltip> | ⬜ | Admin workspace |
+| <Tooltip tip="Allows the app to view files shared in channels and conversations it has access to.">files:read</Tooltip> | ⬜ | View shared files |
+| <Tooltip tip="Allows the app to upload, edit, and delete files in channels and conversations it has access to.">files:write</Tooltip> | ⬜ | Upload/edit files |
+
+> For the full list of Slack OAuth scopes and latest details, visit [Slack OAuth Scopes](https://api.slack.com/scopes).
+
+## Common Issues & Troubleshooting
+
+**1. Invalid Redirect URI:**
+   - Ensure the redirect URI in your Slack App settings _exactly_ matches that used in your OpenInt configuration. This is a leading cause of failed OAuth handoffs.
+
+**2. Insufficient Scope or Permission Errors:**
+   - Slack will only issue tokens for the scopes requested by your app _and_ approved by the workspace admin. Make sure all required scopes are listed in both your Slack App and OpenInt connector configuration.
+
+**3. Invalid Credentials:**
+   - Double check Client ID and Secret values in your OpenInt dashboard/API config.
+
+**4. User Cancelled Authorization:**
+   - If a user cancels, OpenInt will handle the callback error, but your frontend should display a friendly error prompt.
+
+**5. Consent Screen Not Showing Scopes:**
+   - Only enabled and requested scopes will be displayed for approval; confirm both Slack and OpenInt settings are aligned for your integration use case.
+
+**6. Token Expiry and Re-authentication:**
+   - Slack OAuth tokens may expire; ensure your integration uses OpenInt's token refresh logic if required (see OpenInt docs for details).
+
+For further details, refer to [Slack’s authentication troubleshooting guide](https://api.slack.com/authentication/oauth-v2) or contact OpenInt support.
+
+## Additional Resources
+
+- [Slack OAuth Scopes](https://api.slack.com/scopes)
+- [Slack App Creation & Management](https://api.slack.com/apps)
+- [Slack OAuth V2 Overview](https://api.slack.com/authentication/oauth-v2)
+- [Slack Token Types](https://api.slack.com/authentication/token-types)
+- [OpenInt Connect Embed Documentation](/docs/connect/embed)
+
+---
+For help, contact your OpenInt support channel or see more OpenInt docs.
