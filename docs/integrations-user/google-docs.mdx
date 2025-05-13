@@ -1,0 +1,72 @@
+---
+title: Connect Google Docs
+description: Learn how to connect your Google Docs account to your Company A profile so you can sync, import, or export documents seamlessly.
+---
+
+# Connect your Google Docs account
+
+Integrate your Google Docs account with Company A to sync documents, automate tasks, and enhance your workflow—all in a secure, user-friendly way. This page walks you through connecting your account, the permissions required, and how to resolve common issues.
+
+<Info>
+You’ll be redirected to Google and asked to grant Company A access to your Google Docs. You may revoke access at any time from your Google Account settings.
+</Info>
+
+## How to connect Google Docs
+
+1. In your Company A dashboard, navigate to **Integrations** or **Connected Apps**.
+2. Find **Google Docs** and click **Connect**.
+3. A Google authorization window will appear. Choose the Google account you want to connect.
+4. Review the requested permissions and click **Allow** to authorize access.
+5. You’ll be redirected back to Company A and the integration will be activated.
+
+<Tip>
+If you have trouble connecting, make sure pop-up windows are allowed in your browser.
+</Tip>
+
+## Google Docs permissions explained
+
+When you connect your Google Docs account, Company A requests the following permissions. These allow us to sync and manage your documents as described.
+
+| Permission | Why it’s needed |
+|---|---|
+| **See and manage your Google Docs documents** (`https://www.googleapis.com/auth/documents`) | Required to create, edit, and sync documents with your account. |
+| **View your Google Docs documents** (`https://www.googleapis.com/auth/documents.readonly`) | Allows Company A to read your documents for importing or viewing. |
+| **Access files created or used by Company A** (`https://www.googleapis.com/auth/drive.file`) | Lets Company A manage only the files it creates or you choose to use with Company A—no access to all your Drive content. |
+| **See your Google Drive files** (`https://www.googleapis.com/auth/drive.readonly`) | Enables viewing of Docs or files you select for use in Company A, without editing. |
+| **Manage all files in your Google Drive** (`https://www.googleapis.com/auth/drive`) | Required for full document management—including creating, editing, or deleting—if you enable additional features. |
+| **Access the currently open Google Docs document** (`https://www.googleapis.com/auth/documents.currentonly`) | Used only when working with a single open doc in real time (most limited; for specific live features only). |
+
+<Info>
+Company A will only request the minimum permissions required for your selected features. You can view the exact list on the Google authorization screen before approving.
+</Info>
+
+## Test your connection
+
+After connecting, try one of these steps to confirm the Google Docs integration is active:
+
+- Import or view a Google Doc in Company A.
+- Use any feature requiring Google Docs access—such as document sync or exporting a report.
+- Visit your integrations page to check the status.
+
+If you experience errors, follow the troubleshooting steps below.
+
+## Troubleshooting & FAQ
+
+<AccordionGroup>
+  <Accordion title="Google says I denied permissions or cancelled the request">
+    Please complete the process and make sure you grant all requested permissions. If cancelled, try connecting again.
+  </Accordion>
+  <Accordion title="I keep seeing a pop-up blocker warning">
+    Enable pop-ups for Company A in your browser settings, then retry.
+  </Accordion>
+  <Accordion title="How do I disconnect my Google Docs account?">
+    Go to your Google Account’s [Third-party apps with account access](https://myaccount.google.com/permissions) page. Find Company A, click, and select **Remove Access**.
+  </Accordion>
+  <Accordion title="Is my data secure?">
+    Yes. Company A uses Google’s secure OAuth system. Your password is never shared, and you can revoke access anytime.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+If you need additional help or see an error not covered here, contact Company A support.
+</Tip>
