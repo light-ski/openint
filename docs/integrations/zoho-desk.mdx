@@ -1,0 +1,76 @@
+---
+title: Zoho Desk Integration
+description: Developer guide for integrating Zoho Desk using OpenInt
+---
+
+# Zoho Desk Integration Guide
+
+> This guide helps developers integrate the Zoho Desk ticketing system into your application via OpenInt. Zoho Desk is a leading cloud-based helpdesk solution; OpenInt enables seamless OAuth2 authentication and data sync for your users, abstracting away the complexities of OAuth and scope selection.
+
+## Quickstart: Setting Up Zoho Desk with OpenInt
+
+1. **Register Your App in the Zoho API Console**  
+   - Visit the [Zoho API Console](https://api-console.zoho.com/).
+   - Click **Add Client** and select `Server-based Applications` (for backend) or another flow as appropriate.
+   - Enter your application details:  
+     - *Client Name*: Display name your users will see
+     - *Homepage URL*: Your product's URL
+     - *Authorized Redirect URIs*: Use the redirect URI supplied by your OpenInt deployment (e.g., `https://YOUR_OPENINT_DOMAIN/api/oauth/callback`)
+   - Click **Create**. Upon creation, save the **Client ID** and **Client Secret** values — you'll need them for OpenInt.
+
+2. **Determine Your Zoho Region**  
+   Zoho operates in multiple data centers. Select the region that matches your organization's Zoho account. Use the correct extension when configuring OpenInt:
+   - `.com` (US): `accounts.zoho.com`
+   - `.eu` (Europe): `accounts.zoho.eu`
+   - `.in` (India): `accounts.zoho.in`
+   - `.com.au` (Australia): `accounts.zoho.com.au`
+   - `.jp` (Japan): `accounts.zoho.jp`
+   [See full list of Zoho regions in the Zoho docs](https://www.zoho.com/subscriptions/api/v1/oauth/).
+
+3. **Configure OAuth Credentials in OpenInt**
+   - In your OpenInt deployment, input the obtained **Client ID**, **Client Secret**, and **domain extension** (e.g., `com`, `eu`, etc.) into the Zoho Desk connector settings.
+   - Ensure your redirect URI in the Zoho Console exactly matches the one provided by OpenInt.
+   - OpenInt will handle the authorization and token request URLs automatically based on your region extension.
+
+4. **Testing the Connection**
+   - Initiate the OAuth connection via your app's UI where OpenInt Connect is embedded.
+   - Approve requested permissions; connection is authorized if setup is correct.
+
+## Supported OAuth Scopes
+
+Zoho Desk supports a broad set of OAuth scopes. OpenInt currently supports a subset, focused on basic account and ticket data. For a full list and descriptions, see [Zoho Desk OAuth Scopes](https://desk.zoho.com/DeskAPIDocument#OAuthScopes).
+
+Below is a comparison of all major Zoho Desk OAuth scopes and their support in OpenInt:
+
+| Scope | Description | OpenInt Supported? |
+|---|---|---|
+| <Tooltip tip="Allows read-only access to tickets in Zoho Desk">ZohoDesk.tickets.READ</Tooltip> | Allows read-only access to tickets in Zoho Desk | ❌ |
+| <Tooltip tip="Allows creating new tickets in Zoho Desk">ZohoDesk.tickets.CREATE</Tooltip> | Allows creating new tickets in Zoho Desk | ❌ |
+| <Tooltip tip="Allows updating existing tickets in Zoho Desk">ZohoDesk.tickets.UPDATE</Tooltip> | Allows updating existing tickets in Zoho Desk | ❌ |
+| <Tooltip tip="Allows deleting tickets in Zoho Desk">ZohoDesk.tickets.DELETE</Tooltip> | Allows deleting tickets in Zoho Desk | ❌ |
+| <Tooltip tip="Allows read-only access to contacts in Zoho Desk">ZohoDesk.contacts.READ</Tooltip> | Allows read-only access to contacts in Zoho Desk | ❌ |
+| <Tooltip tip="Allows read-only access to basic account information in Zoho Desk">ZohoDesk.basic.READ</Tooltip> | Allows read-only access to basic account information in Zoho Desk | ✅ |
+| <Tooltip tip="Allows read-only access to account settings in Zoho Desk">ZohoDesk.settings.READ</Tooltip> | Allows read-only access to account settings in Zoho Desk | ❌ |
+| <Tooltip tip="Provides full access (create, read, update, delete) to tickets in Zoho Desk">ZohoDesk.tickets.ALL</Tooltip> | Provides full access (create, read, update, delete) to tickets in Zoho Desk | ❌ |
+| <Tooltip tip="Allows read-only access to account information in Zoho Desk">ZohoDesk.accounts.READ</Tooltip> | Allows read-only access to account information in Zoho Desk | ❌ |
+
+> **Note:** Current OpenInt Zoho Desk integration supports only the `ZohoDesk.basic.READ` scope. Requests for additional scopes will be ignored until support is expanded.
+
+For the most up-to-date list of Zoho Desk scopes and details, visit [Zoho's scope documentation](https://desk.zoho.com/DeskAPIDocument#OAuthScopes).
+
+## Common Issues and Troubleshooting
+
+- **Incorrect Domain Extension:** The extension must match your Zoho region (e.g., `eu`, `in`). If you see `invalid_client` or region mismatch errors, double-check your domain setting.
+- **Mismatched Redirect URI:** Exact string match is required between the redirect URI you provide OpenInt and what you registered in the Zoho Console.
+- **Missing Required Scopes:** Only `ZohoDesk.basic.READ` is currently supported; attempting to request others may cause authorization errors.
+- **Client ID/Secret Issues:** Ensure the credentials are copied correctly from Zoho’s API Console. Reset if you suspect exposure or corruption.
+
+## References
+
+- [Zoho API Console](https://api-console.zoho.com/)
+- [OAuth 2.0 Setup Guide](https://www.zoho.com/accounts/protocol/oauth-setup.html)
+- [Zoho Desk OAuth Scopes](https://desk.zoho.com/DeskAPIDocument#OAuthScopes)
+- [Zoho Data Center/Domain List](https://www.zoho.com/subscriptions/api/v1/oauth/)
+
+---
+**For advanced use-cases (additional scopes, ticket write support), contact OpenInt support for roadmap details.**
