@@ -1,0 +1,140 @@
+---
+title: Aircall Integration (OAuth2)
+description: Developer guide for OpenInt Aircall integration – OAuth2 setup, configuration, and scope support.
+---
+
+# Aircall Integration
+
+> Integrate your SaaS product with Aircall using OpenInt's white-labeled connector. This guide walks you through configuring the Aircall OAuth 2.0 flow, scopes, and OpenInt settings, with practical advice for a smooth implementation.
+
+## Overview
+
+**Aircall** is a cloud-based business phone platform for collaboration and contact center operations. The OpenInt Aircall connector enables you to securely sync contact data between your app and Aircall, and retrieve or manage users, numbers, and calls (depending on scopes).
+
+- **Audience:** business SaaS, ticketing, and CRM developers
+- **OpenInt integration stage:** GA
+- **Supported OAuth grant:** Authorization Code
+- **Main supported vertical:** Ticketing
+
+## Prerequisites
+
+1. You must be (or work with) an Aircall Admin user on an Aircall account.
+2. Your application will need a **public HTTPS redirect URI** for OAuth.
+3. There is no self-serve app registration—Aircall manually issues client credentials.
+4. Have a deployment-ready OpenInt instance.
+
+## Step 1: Obtain OAuth Credentials from Aircall
+
+Aircall requires all partners to initiate their OAuth2 app registration via email:
+
+1. Email [marketplace@aircall.io](mailto:marketplace@aircall.io) with the following info:
+   - Your company/app name
+   - Intended `install_uri` (where Aircall will start your install flow)
+   - Intended `redirect_uri` (must be public HTTPS)
+
+2. Await reply (~1 business day typical for test keys). You will receive:
+   - `client_id`
+   - `client_secret`
+
+> **Note:** To modify your `redirect_uri` in the future (e.g., switching domains), you must re-contact Aircall support.
+
+**Official Aircall OAuth doc:** [Aircall OAuth – Technology Partners](https://developer.aircall.io/api-references/#oauth-technology-partners)
+
+## Step 2: Configure Aircall in OpenInt
+
+Add your credentials to OpenInt:
+
+```json
+{
+  "provider": "aircall",
+  "client_id": "<from Aircall>",
+  "client_secret": "<from Aircall>",
+  "redirect_uri": "https://yourdomain.com/openint/oauth/callback/aircall",
+  "scopes": "public_api"
+}
+```
+
+**OAuth2 endpoints used by OpenInt:**
+
+- **Authorization URL:** `https://dashboard.aircall.io/oauth/authorize`
+- **Token URL:** `https://api.aircall.io/v1/oauth/token`
+- **Scope syntax:** scopes are space-separated (only `public_api` is mandatory)
+
+**Default OpenInt parameter values:**
+- `response_type: code`
+- `grant_type: authorization_code`
+- `scope: public_api`
+
+**Minimum working config:**
+```js
+{
+  client_id: '<from Aircall>',
+  client_secret: '<from Aircall>',
+  redirect_uri: 'https://YOURDOMAIN.COM/openint/oauth/callback/aircall',
+  scope: 'public_api'
+}
+```
+
+> **Admin-only install:** Only Aircall Admins can add integrations via OAuth2.
+
+## Step 3: Supported OAuth Scopes
+
+Aircall exposes a set of OAuth scopes but as of May 2025 **all API access is gated by a single `public_api` scope** (granular scopes are planned but not available). OpenInt currently only requires and supports the `contacts.read` sub-scope (for sync) but you must always request `public_api` to pass Aircall's OAuth.
+
+**Scopes available upstream:** ([see official list](https://developer.aircall.io/api-references/#oauth-technology-partners))
+
+| Scope | Supported by OpenInt | Description |
+|-------|---------------------|-------------|
+|`public_api`|Yes|<Tooltip tip="Provides access to all Aircall public API endpoints, typically limited to non-sensitive data. Required for all 3rd-party apps.">public_api</Tooltip> |
+|`contacts.read`|Yes|<Tooltip tip="Read-only access to the contact directory (see /v1/contacts endpoint)">contacts.read</Tooltip> |
+|`users.read`|No|<Tooltip tip="Read user profile data (name, email, roles)">users.read</Tooltip> |
+|`calls.read`|No|<Tooltip tip="Read call logs and metadata (calls, participants, durations)">calls.read</Tooltip> |
+|`numbers.read`|No|<Tooltip tip="Read list of phone numbers provisioned to account">numbers.read</Tooltip> |
+|`calls.write`|No|<Tooltip tip="Create or update call status (initiate or edit calls)">calls.write</Tooltip> |
+|`users.write`|No|<Tooltip tip="Create, update, or delete account users">users.write</Tooltip> |
+|`admin`|No|<Tooltip tip="Full admin access to all account settings and resources. Avoid unless strictly required.">admin</Tooltip> |
+
+
+## Step 4: OAuth2 Flow – End-to-End Example
+
+1. **User Initiates Connect**
+2. OpenInt sends user to Aircall auth:
+   ```
+   https://dashboard.aircall.io/oauth/authorize?client_id=YOUR_CLIENT_ID
+     &redirect_uri=YOUR_REDIRECT_URI
+     &response_type=code
+     &scope=public_api
+     &state=RANDOM_CSRF_STRING
+   ```
+3. After Aircall admin approves, user is redirected to your `redirect_uri` with `?code=...`.
+4. OpenInt exchanges code for permanent access_token:
+   ```
+   POST https://api.aircall.io/v1/oauth/token
+   Content-Type: application/json
+   {
+      "client_id": "...",
+      "client_secret": "...",
+      "code": "...",
+      "redirect_uri": "...",
+      "grant_type": "authorization_code"
+   }
+   ```
+   Access token never expires (a unique Aircall quirk—treat with care!).
+
+## Common Developer Pitfalls
+
+- **HTTPS required**: Both `install_uri` and `redirect_uri` must be public HTTPS URLs. Use [ngrok](https://ngrok.com/) for local dev.
+- **Exact redirect URI match**: Aircall strictly matches `redirect_uri`. Any mismatch will break the flow—you must notify Aircall to change it if your URI changes.
+- **Admin approval only**: Only company Admins in Aircall can install an integration or grant consent.
+- **CSRF protection**: Always set and check `state` param in the OAuth flow.
+- **Token does not expire**: Aircall’s `access_token` will not expire; treat tokens as long-lived secrets.
+
+## Further Reference
+
+- [Aircall OAuth Docs](https://developer.aircall.io/api-references/#oauth-technology-partners)
+- [OAuth Tutorial with Example](https://developer.aircall.io/tutorials/how-aircall-oauth-flow-works)
+- [Aircall Public API reference](https://developer.aircall.io/api-references/)
+- [Aircall Partner Example App (GitHub)](https://github.com/aircall/partner-example-app)
+
+---
+_If you encounter issues with OpenInt or the Aircall OAuth flow, please consult the OpenInt [Connect troubleshooting guide](/docs/connect/faq)._ 
