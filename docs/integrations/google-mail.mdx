@@ -1,0 +1,112 @@
+# Gmail Integration (Google Mail)
+
+**Stage:** General Availability (GA)  
+**Audience:** Business/enterprise product teams integrating Gmail sync and messaging features for their users via OpenInt.
+
+---
+
+## Overview
+
+OpenInt enables your application to connect, sync, and interact with user Gmail accounts in a white-labeled experience. By leveraging the Gmail API through OpenInt, you can provide your users with secure access to select Gmail metadata, messages, and labels (based on configured scopes), abstracting away OAuth flows, consent, and token management.
+
+---
+
+## Prerequisites
+
+- Access to [Google Cloud Console](https://console.cloud.google.com/)
+- Permissions to create/update a Google Cloud Project
+- Your application is registered with OpenInt
+
+---
+
+## 1. Set Up Gmail OAuth2 Credentials
+
+Google uses OAuth 2.0 for third-party access to Gmail APIs. You will need to create OAuth2 credentials and configure your consent screen.
+
+### a. Create a Google Cloud Project & Enable Gmail API
+1. Visit [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one.
+3. In the left menu, navigate to **APIs & Services > Library**.
+4. Search for **Gmail API** and click **Enable**.
+
+### b. Configure the OAuth Consent Screen
+See [Google's official guide](https://developers.google.com/workspace/guides/configure-oauth-consent) for full details.
+1. Go to **APIs & Services > OAuth consent screen** in the console.
+2. Choose the appropriate user type (Internal/External).
+3. Fill out app information, support email, and add test users if necessary.
+4. Under **Scopes**, add the minimal set required (see guide below).
+5. Save and continue with branding details.
+
+### c. Create OAuth Credentials (Client ID and Secret)
+1. In the left menu, go to **APIs & Services > Credentials**.
+2. Click **Create Credentials** > **OAuth client ID**.
+3. Select an application type (most apps integrating via OpenInt use **Web Application**).
+4. Fill in the authorized redirect URI. This URI must match the OpenInt endpoint for OAuth callbacks. (Obtain this from your OpenInt setup; it often formats as `https://<your-app-domain>/api/openint/oauth/callback`.)
+5. Click **Create**. Copy the **Client ID** and **Client Secret** for use in OpenInt configuration.
+
+Refer to [Google OAuth2 Docs](https://developers.google.com/identity/protocols/oauth2) for additional scenarios or troubleshooting.
+
+---
+
+## 2. Configure Gmail Integration in OpenInt
+
+Supply your OAuth2 client credentials and desired scopes to OpenInt. By default, OpenInt requests minimal metadata-only access.
+
+```json
+{
+  "provider": "google-mail",
+  "client_id": "<your-google-client-id>",
+  "client_secret": "<your-google-client-secret>",
+  "redirect_uri": "<your-redirect-uri>" ,
+  "scopes": [
+    "https://www.googleapis.com/auth/gmail.metadata"
+  ]
+}
+```
+You may override `scopes` for broader access (see supported list below). Omitting the `scopes` property defaults to metadata only.
+
+---
+
+## 3. Supported Gmail API Scopes
+
+Below are the major Gmail scopes relevant for most integrations. **OpenInt currently supports only** <Tooltip tip="Allows access to Gmail message metadata (headers, labels) without the message body or attachments. This is the most limited and privacy-preserving read permission. Useful for syncing message threads without content.">https://www.googleapis.com/auth/gmail.metadata</Tooltip>. Additional scopes will be exposed as needed.
+
+| Scope | Supported by OpenInt | Description |
+|---|:---:|---|
+| <Tooltip tip="Allows read-only access to all Gmail resources, including messages and threads, but not modifications.">https://www.googleapis.com/auth/gmail.readonly</Tooltip> |  | Read-only Gmail access |
+| <Tooltip tip="Allows sending email messages only, with no read or modify permissions.">https://www.googleapis.com/auth/gmail.send</Tooltip> |  | Send messages only |
+| <Tooltip tip="Allows creating, reading, and sending messages via compose, not inbox access.">https://www.googleapis.com/auth/gmail.compose</Tooltip> |  | Compose and send |
+| <Tooltip tip="Allows inserting/importing messages but not reading existing ones.">https://www.googleapis.com/auth/gmail.insert</Tooltip> |  | Import messages |
+| <Tooltip tip="Allows creating, reading, and modifying labels, but not reading message content.">https://www.googleapis.com/auth/gmail.labels</Tooltip> |  | Label management |
+| <Tooltip tip="Allows access to Gmail message metadata (headers, labels) without the message body or attachments.">https://www.googleapis.com/auth/gmail.metadata</Tooltip> | ✓ | Metadata only |
+| <Tooltip tip="Enables reading, sending, deleting, and modifying messages and threads—includes all actions of readonly, send, and compose.">https://www.googleapis.com/auth/gmail.modify</Tooltip> |  | Full mail management (except delete forever) |
+| <Tooltip tip="Full unrestricted access, including permanent deletion.">https://mail.google.com/</Tooltip> |  | Full mailbox access |
+
+- For the complete, up-to-date list and definitions, see [Gmail API Scopes official documentation](https://developers.google.com/gmail/api/auth/scopes).
+
+---
+
+## 4. Common Pitfalls
+
+> **Note:** Many Gmail OAuth issues are due to consent screen or scope configuration errors. 
+
+- **OAuth Consent Screen Not Verified:** If your consent screen isn't fully configured or verified, end users may see warnings or be blocked. Follow [consent screen setup docs](https://developers.google.com/workspace/guides/configure-oauth-consent).
+- **Redirect URI Mismatch:** The redirect URI in your Google Cloud credentials **must exactly** match what OpenInt uses. Obtain this endpoint from your OpenInt dashboard or deployment.
+- **Overly Broad Scopes:** Only request the minimum Gmail scopes that your product truly needs. Google will require extra security verification for sensitive/restricted scopes.
+- **Refresh Token Expiration:** Tokens can expire if unused for 6+ months, or if the user revokes access. See [Google's guidance](https://developers.google.com/identity/protocols/oauth2#expiration) for more details.
+- **Not Adding Test Users:** For "External" apps not published/verified by Google, only listed test users will be able to complete OAuth flows until Google reviews the app.
+
+---
+
+## 5. Additional Resources
+
+- [Gmail API Authentication Overview](https://developers.google.com/gmail/api/auth/about-auth)
+- [Official list of Gmail API scopes](https://developers.google.com/gmail/api/auth/scopes)
+- [Configure OAuth consent screen](https://developers.google.com/workspace/guides/configure-oauth-consent)
+- [Google Identity Platform OAuth2 guide](https://developers.google.com/identity/protocols/oauth2)
+- [OAuth Consent Screen Verification FAQ](https://support.google.com/cloud/answer/9110914)
+- [OpenInt documentation](../getting-started/quickstart)
+
+---
+
+For further questions, contact your OpenInt representative or consult the above resources.
