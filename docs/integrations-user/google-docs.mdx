@@ -1,0 +1,59 @@
+---
+title: Connect Google Docs to Your App
+---
+
+# Connect Google Docs with Your Account
+
+You can securely connect your Google Docs account to this app to enable automated document syncing and management. The process is quick and secure, and you stay in control of what the app can access.
+
+## How to Connect Google Docs
+
+Follow these steps to connect your Google Docs account:
+
+<Steps>
+<Step title="Open Google Docs Integration">
+In the app, navigate to **Settings** or **Integrations** and select **Connect Google Docs**. (The exact menu name may vary depending on your app.)
+</Step>
+<Step title="Start Google Sign-In">
+Click the button to connect your Google account. A new window will open prompting you to log in (if you’re not already signed in).
+</Step>
+<Step title="Grant Permissions">
+Review the list of permissions requested. These allow the app to sync and manage your documents as described below. Click **Allow** to approve access.
+</Step>
+<Step title="Finish Setup">
+You’ll be redirected back to the app. The connection should now be active and ready for use.
+</Step>
+</Steps>
+
+## Permissions Required
+
+When you connect, you’ll be asked to authorize access to Google Docs and Google Drive. The app only requests the minimum permissions needed to work with your documents. Here are the possible permissions requested and what they mean:
+
+| Permission | Why It's Needed |
+| --- | --- |
+| **Read and write all Google Docs**<br/>(https://www.googleapis.com/auth/documents) | Allows the app to view, create, edit, and delete Docs as needed for full document syncing. |
+| **Read-only access to Google Docs**<br/>(https://www.googleapis.com/auth/documents.readonly) | Lets the app read your Docs without making any changes. |
+| **Access Google Docs files the app created**<br/>(https://www.googleapis.com/auth/drive.file) | Permits the app to handle Docs you create within the app itself, but not all your files. |
+| **Read all Drive files**<br/>(https://www.googleapis.com/auth/drive.readonly) | Lets the app view (but not change) your Google Drive and Docs files. |
+| **Full access to all Drive files**<br/>(https://www.googleapis.com/auth/drive) | Enables full document syncing and management of Docs and other Drive files. Used only if required for app features. |
+| **Access the currently open document**<br/>(https://www.googleapis.com/auth/documents.currentonly) | Restricts access to just the Docs document you’re actively working on, for specific features. |
+
+Depending on your app’s configuration, you may only see some of these permissions.
+
+## How to Test the Connection
+
+After connecting, return to the app:
+- You should see a status indicator or your list of Google Docs.
+- Try syncing, viewing, or editing a document using the app to confirm the connection is working.
+- If you see an error, try refreshing the page or reconnecting.
+
+## Troubleshooting
+
+**Common issues and solutions:**
+- **Didn’t finish Google sign-in or accidentally closed the window:** Try again from the start.
+- **Denied permissions:** The app needs permission to access your Google Docs as described above. To enable, restart the connection process and click **Allow** when prompted.
+- **Wrong Google account selected:** The window lets you choose the correct account. If you picked the wrong one, disconnect and reconnect using the correct Google account.
+- **Browser blocks pop-ups:** The connection flow opens a new window for Google sign-in. If nothing happens, enable pop-ups for this site and try again.
+- **Connection says failed:** Try disconnecting and reconnecting. If the problem persists, check your internet connection or contact support.
+
+Still having trouble? Contact support using the help feature in the app.
