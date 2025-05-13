@@ -1,0 +1,87 @@
+---
+title: Linear Integration
+---
+
+# Linear Integration for Developers
+
+Integrate Linear's project management platform into your app using OpenInt. This guide walks you through setting up OAuth authorization, required configuration, and best practices for connecting Linear as an integration through OpenInt.
+
+## What This Integration Enables
+
+By connecting Linear via OpenInt, your app can securely access users' Linear data (read-only access supported as of now). This integration enables your users to sync Linear issues, projects, and other ticketing data with your product.
+
+## Prerequisites
+
+- You must have admin access to your organization's Linear workspace
+- An OpenInt dashboard account with appropriate permissions
+- A configured redirect (callback) URL for OAuth
+
+## Registering an OAuth App with Linear
+
+To integrate Linear, you need to create an OAuth application in your Linear workspace to obtain a Client ID and Client Secret:
+
+1. Log in as an admin to your Linear account and open your workspace settings.
+2. Navigate to **Settings → API → Applications**, or go directly to [Linear OAuth Applications](https://linear.app/settings/api/applications/new).
+3. Click "New Application" and fill out:
+    - **Application Name**
+    - **Redirect URI** (use the URI provided by OpenInt, usually `https://yourdomain.com/openint/oauth/callback`)
+4. After saving, copy your **Client ID** and **Client Secret**.
+5. Reference Linear's full guide: [Linear OAuth2 Authentication](https://developers.linear.app/docs/oauth/authentication).
+
+## Configuring OpenInt for Linear
+
+Use your Client ID and Client Secret from Linear in OpenInt:
+
+```json
+{
+  "provider": "linear",
+  "clientId": "YOUR_LINEAR_CLIENT_ID",
+  "clientSecret": "YOUR_LINEAR_CLIENT_SECRET",
+  "scopes": ["read"]
+}
+```
+*Note:* Only `read` scope is currently supported by OpenInt for Linear.
+
+### Authorization URLs
+- **Authorize:** `https://linear.app/oauth/authorize`
+- **Token:** `https://api.linear.app/oauth/token`
+
+## Supported OAuth Scopes
+
+Below is a comparison of all scopes offered by Linear and which are currently supported by OpenInt:
+
+| Scope                | Supported by OpenInt? | Description |
+|----------------------|:---------------------:|-------------|
+| <Tooltip tip="(Default) Read access for the user's account. This scope will always be present.">read</Tooltip> | ✅ | Read access |
+| <Tooltip tip="Write access for the user's account. If your application only needs to create comments, use a more targeted scope.">write</Tooltip> | ❌ | Write access |
+| <Tooltip tip="Allows creating new issues and their attachments.">issues:create</Tooltip> | ❌ | Create issues |
+| <Tooltip tip="Allows creating new issue comments.">comments:create</Tooltip> | ❌ | Create comments |
+| <Tooltip tip="Allows creating and modifying time schedules.">timeSchedule:write</Tooltip> | ❌ | Manage schedules |
+| <Tooltip tip="Full access to admin level endpoints. You should never ask for this permission unless it's absolutely needed.">admin</Tooltip> | ❌ | Admin-level access |
+
+See [Linear's official scope documentation](https://developers.linear.app/docs/oauth/authentication#2.-redirect-user-access-requests-to-linear) for latest details.
+
+## Example: OAuth Flow
+
+To connect a user's Linear workspace, direct them to an authorization URL like:
+
+```http
+GET https://linear.app/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URL&scope=read&state=RANDOM_STATE
+```
+OpenInt will handle the token exchange using the client's credentials and complete the connection.
+
+## Common Pitfalls
+
+- **Incorrect Redirect URI:** The URI in your Linear OAuth app _must exactly match_ what you configure in OpenInt.
+- **Insufficient Permissions:** Only `read` scope is supported. Requesting other scopes will cause errors.
+- **Missing Client Secret:** Make sure to securely store and input the secret in OpenInt, never expose in client-side code.
+- **CSRF Vulnerability:** Always supply a random `state` parameter, and verify it upon callback. See [state parameter best practices](https://auth0.com/docs/protocols/state-parameters).
+
+## More Resources
+
+- [Register an OAuth Application on Linear](https://linear.app/settings/api/applications/new)
+- [Linear OAuth2 Authentication Guide](https://developers.linear.app/docs/oauth/authentication)
+- [Official API and Webhooks Docs](https://linear.app/docs/api-and-webhooks)
+
+---
+For questions or advanced use cases, reach out to OpenInt support.
