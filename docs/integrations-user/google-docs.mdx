@@ -1,0 +1,68 @@
+---
+title: Connecting Google Docs
+---
+
+# Connecting Your Google Docs Account
+
+Connect your Google Docs account to {{CUSTOMER_APP_NAME}} to enable features such as viewing, creating, and managing your documents directly from within the app. This connection is secure and uses Google's standard authorization process—your login credentials are never shared with {{CUSTOMER_APP_NAME}}.
+
+## How to Connect Google Docs
+
+Follow these steps to securely link your Google Docs account:
+
+1. **Start the connection:**
+    - Navigate to the Integrations or Connections page within your {{CUSTOMER_APP_NAME}} dashboard.
+    - Locate "Google Docs" and select "Connect" or "Add Account".
+
+2. **Sign in to Google:**
+    - A Google sign-in window will appear. Log in with the Google account you want to use, if prompted.
+
+3. **Review requested permissions:**
+    - Review the list of permissions requested by {{CUSTOMER_APP_NAME}} (see below for details on each permission and why it's needed).
+    - Click **Allow** to grant access and complete the connection.
+
+4. **Connection complete:**
+    - You'll be redirected back to {{CUSTOMER_APP_NAME}}. You should see Google Docs listed as a connected integration.
+
+## Permissions & Why They Are Needed
+
+Depending on how {{CUSTOMER_APP_NAME}} is set up, one or more of the following permissions could be requested:
+
+| Permission | Why is this needed? |
+|---|---|
+| **View and manage your Google Docs documents**<br>(`https://www.googleapis.com/auth/documents`) | Lets {{CUSTOMER_APP_NAME}} view, create, edit, or delete Google Docs on your behalf. Required for full document integration features. |
+| **View your Google Docs documents**<br>(`https://www.googleapis.com/auth/documents.readonly`) | Allows {{CUSTOMER_APP_NAME}} to view your Docs content but not edit or create new documents. Used if you only need to import or view documents. |
+| **Access specific files you open or create with {{CUSTOMER_APP_NAME}}**<br>(`https://www.googleapis.com/auth/drive.file`) | Restricts file access so {{CUSTOMER_APP_NAME}} can only see or manage Docs you’ve explicitly created or opened with this app. Does not grant access to all Drive files. |
+| **View files in your Google Drive**<br>(`https://www.googleapis.com/auth/drive.readonly`) | Used to let {{CUSTOMER_APP_NAME}} show documents you already have in Google Drive, without editing or deleting them. |
+| **View and manage all files in your Google Drive**<br>(`https://www.googleapis.com/auth/drive`) | Full integration—enables the most advanced features for managing Docs and related files, including organizing, creating, or deleting files in Drive. |
+| **Access only the document you currently have open**<br>(`https://www.googleapis.com/auth/documents.currentonly`) | The most limited: lets {{CUSTOMER_APP_NAME}} interact only with the single document you’re using. |
+
+Only the minimum necessary permissions will be requested for the integration features.
+
+## How to Confirm Your Connection
+
+- After connecting, open {{CUSTOMER_APP_NAME}} and go to the Integrations panel. You should see Google Docs listed as "Connected".
+- Try to view, create, or sync a document as a final check.
+- If you don’t see your documents, try refreshing the page or re-connecting your account.
+
+## Common Issues & Troubleshooting
+
+**Google login window doesn't appear?**
+- Make sure pop-ups are allowed for this site in your browser settings.
+- Disable any browser extensions that could block pop-ups.
+
+**Access denied or permission declined?**
+- Ensure you are using the correct Google account.
+- All required permissions must be accepted for the sync to work. If you denied a permission, disconnect and try again.
+
+**Documents or features missing after connecting?**
+- Check you granted all requested permissions (see above).
+- Only documents you have access to with your Google account will appear.
+- If you only allowed limited access (such as `drive.file`), only a subset of your documents may be visible to {{CUSTOMER_APP_NAME}}.
+
+**Still having problems?**
+- Disconnect Google Docs from within {{CUSTOMER_APP_NAME}} and try connecting again.
+- If the issue remains, contact support via the Help or Support section in {{CUSTOMER_APP_NAME}}.
+
+---
+_This integration is powered by secure Google authorization. {{CUSTOMER_APP_NAME}} will only access your Google Docs and Drive in the manner described above, and you can revoke access at any time from your Google account settings._
