@@ -82,7 +82,9 @@ Once you have your OAuth credentials, configure the Google Docs connector in Ope
 
 ## Supported & Upstream OAuth Scopes
 
-The table below list all relevant Google Docs OAuth 2.0 scopes, with descriptions and OpenInt's support status. Choose the most restrictive necessary for your use-case.
+OpenInt currently only enables the most restrictive scope ([`documents.currentonly`](https://developers.google.com/workspace/docs/api/auth#docs-scopes)) to reduce onboarding friction and compliance burden. If your application requires broader access, please [contact support](mailto:support@openint.com) or follow your organization's process to request enablement of additional scopes through OpenInt. Note that using broader scopes may require Google app verification and trigger additional compliance requirements.
+
+The table below lists all relevant Google Docs OAuth 2.0 scopes, with descriptions and OpenInt's support status. Choose the most restrictive necessary for your use-case.
 
 | Scope | Description | Usage | Supported by OpenInt |
 |-------|-------------|-------|:-------------------:|
