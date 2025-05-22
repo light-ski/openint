@@ -10,12 +10,60 @@ When building integrations for your application you have three options:
 
 Let's explore the key considerations.
 
+
 ## Comparison Table
 
-| Key Considerations       | OpenInt                                                                                                                     | Do it yourself (DIY)                       | Single iPaaS Platform                                                                             |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| **Integrations Offered** | Most integrations in the market, plus no-code custom integration support. [See full list](https://openint.dev/integrations) | Build and maintain each integration.       | Limited to platform-supported integrations, often missing apps outside of main vertical of focus. |
-| **Time to Market**       | Pre-approved apps enable instant launch. [Watch demo](/getting-started/intro)                                               | Weeks of work per integration.             | Faster than DIY.                                                                                  |
-| **Data Sync**            | Reliable data sync with Webhooks, Workflows and Schedules.                                                                  | Complex and error-prone custom sync logic. | Still requires you to build sync on top of the iPaaS but limited by their unified APIs.           |
-| **Cost**                 | Most cost-effective with flexible platform mixing.                                                                          | High engineering costs per integration.    | Recurring fees per integration/connection/user.                                                   |
-| **Ownership**            | Open Source (ELv2), self-hostable with full credential export.                                                              | Full code ownership.                       | Vendor lock-in with limited code ownership.                                                       |
+| Key Considerations       | OpenInt                                                                                                                      | Merge.dev                                                                       | Do it yourself (DIY)                       | Single iPaaS Platform                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| **Integrations Offered** | 50+ connectors, custom code adapters, supports <br/>Google Docs, Notion, Stripe, Salesforce, Postgres, etc. <br/>[See full list](https://openint.dev/integrations) | 300+ prebuilt SaaS APIs across verticals: HRIS, ATS, CRM, Ticketing, Accounting, File Storage, more.<br/>[See verticals](https://docs.merge.dev/get-started/unified-api/) | Build and maintain each integration.       | Limited to platform-supported integrations, often missing apps outside of main vertical of focus. |
+| **Time to Market**       | Pre-approved apps enable instant launch. White-labeled React/web components. <br/> [Watch demo](/getting-started/intro)     | "Merge Link" for instant embed, requires minimal backend code. Appearance partially customizable.<br/>No full rebrand. | Weeks of work per integration.             | Faster than DIY.                                                                                  |
+| **Data Sync**            | Reliable data sync: webhooks, workflows, schedules; customer-hosted data flows.                                             | Unified schemas, normalized sync. All data flows through Merge-managed infra.    | Complex and error-prone custom sync logic. | Still requires you to build sync on top of the iPaaS but limited by their unified APIs.           |
+| **Cost**                 | Open-source (ELv2) core; flexible platform use; paid support/extra add-ons.                                                 | Commercial SaaS, usage-based pricing. No open source.                            | High engineering costs per integration.    | Recurring fees per integration/connection/user.                                                   |
+| **Ownership**            | Self-host or BYO cloud; open source codebase; own data & tokens.                                                            | SaaS only, all token/data pass through Merge infra; vendor lock-in.               | Full code ownership.                       | Vendor lock-in with limited code ownership.                                                       |
+| **Branding**             | 100% white-label; your CSS/UX; no external branding.                                                                        | Some logo/color tweaks, but always "Powered by Merge"—not fully white-labeled.  | Full control.                              | Varies; most iPaaS do not support white-label.                                                    |
+| **Extensibility**        | Add/modify connectors in TypeScript; plug in new providers or adaptors; PRs accepted.                                       | You cannot add new connectors. Only Merge can update or add providers.            | Full, but at high engineering cost.        | Only via iPaaS vendor request, if at all.                                                         |
+| **API/SDK Experience**   | TypeScript SDK, REST APIs, orchestration primitives, dev-friendly docs and local development.                               | RESTful Unified API (+Python/TS/Ruby/Java SDKs), normalized schema per vertical. | Whatever you build.                        | Platform-specific constraints.                                                                   |
+| **Hosting Model**        | Self-host, your VPC, Cloudflare, Docker, or managed by trusted party.                                                       | Merge-hosted only (AWS/GCP), no on-prem support.                                 | Self-hosted or bespoke.                     | SaaS only.                                                                                       |
+| **Auth & Credentials**   | You own/host all credentials (OAuth tokens, secrets); can use your own vault. Pluggable flows.                             | Merge owns/manages all OAuth apps/credentials; tokens live in Merge's cloud.      | You own.                                   | iPaaS vendor often owns credentials.                                                              |
+| **Security/Compliance**  | Compliance inherited from your infra. No external data flow unless you choose.                                              | SOC2, HIPAA, GDPR, ISO27001 - compliant SaaS.                                    | As you build it.                            | Vendor-provided.                                                                                 |
+
+
+## OpenInt vs Merge.dev: Technical Comparison
+
+While both OpenInt and Merge.dev allow SaaS platforms to integrate quickly with third-party applications, they serve different technical goals and deployment models.
+
+### Key Technical Differences
+
+- **Embedding & White-Label Experience:**
+  - **OpenInt:** Provides fully white-labeled React components and SDKs for native embedding in your product. Complete control over branding, UI, and customer flows—no external branding or "powered by" overlays. Fully open source (ELv2).
+  - **Merge.dev:** Uses "Merge Link," an embeddable widget (iframe/JS). Allows for some customization, but always shows Merge branding and is hosted in Merge’s SaaS environment.
+
+- **Hosting & Data Control:**
+  - **OpenInt:** Self-hostable; deploy on your own infrastructure (VPC, Docker, Cloudflare Workers, etc.), with full control over data residency, credential management, and compliance. All customer data and OAuth tokens remain under your control by default.
+  - **Merge.dev:** Fully managed SaaS only—no option to self-host or deploy on-prem. All end-user credentials and sync data processed and stored via Merge’s infrastructure. 
+
+- **Credential Management & Auth:**
+  - **OpenInt:** Flexible credential storage—bring your own secrets manager, use your own OAuth client IDs, and plug in custom onboarding/consent flows.
+  - **Merge.dev:** Merge provisions/manages all OAuth clients and handles credential rotation/storage. Credential storage cannot be moved to your own infrastructure.
+
+- **Integrations & Extensibility:**
+  - **OpenInt:** Add or update integrations by contributing new adapters in TypeScript; you are not limited by the vendor’s roadmap. OpenInt can wrap existing aggregation platforms, including Merge.
+  - **Merge.dev:** Vendor-lock; only Merge team can add/maintain connectors, focused on 300+ enterprise SaaS verticals. No pathway for user-submitted connectors.
+
+- **Developer Experience:**
+  - **OpenInt:** TypeScript SDK, open API, and orchestration features ideal for composability and local development. Mintlify-powered docs, code samples, and dev tooling aids.
+  - **Merge.dev:** RESTful API with unified schemas, standard SDKs for backend languages, mature developer docs, and sandbox environment for testing.
+
+- **Security/Compliance:**
+  - **OpenInt:** Security and compliance are determined by your hosting; run inside your own SOC2 perimeter. Useful for platforms needing strict control over sensitive data or requiring specific regional deployments.
+  - **Merge.dev:** Out-of-the-box compliance (SOC2, HIPAA, ISO27001, GDPR) at the SaaS level, but all data must pass through Merge's cloud.
+
+### Developer Tradeoffs
+
+- Choose **Merge.dev** for simplicity, broad SaaS coverage (300+ providers), and strong compliance needs, if managed service and external branding are acceptable.
+- Choose **OpenInt** for white-label, embedded UX, full control of the data plane, ability to add your own connectors, and open-source extensibility.
+
+For more information, see:
+- [OpenInt Integrations List](https://openint.dev/integrations)
+- [Merge Supported Verticals](https://docs.merge.dev/get-started/unified-api/)
+- [Merge Link Docs](https://docs.merge.dev/get-started/link/)
